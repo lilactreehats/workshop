@@ -32,32 +32,40 @@
 
         .object {
             position: absolute;
-            z-index: 2;
             object-fit: contain;
+            pointer-events: auto;
         }
 
+        /* floor objects */
+
         .tree {
-            left: 7%;
+            left: 8%;
             bottom: 19%;
-            width: 10%;
+            width: 9%;
+            z-index: 3;
         }
 
         .chair {
-            left: 28%;
-            top: 25%;
+            left: 29%;
+            bottom: 31%;
             width: 12%;
+            z-index: 3;
         }
 
         .desk {
-            left: 42%;
-            bottom: 16%;
-            width: 30%;
+            left: 41%;
+            bottom: 15%;
+            width: 29%;
+            z-index: 4;
         }
 
+        /* wall object */
+
         .corkboard {
-            right: 13%;
-            top: 18%;
-            width: 16%;
+            left: 72%;
+            top: 21%;
+            width: 13%;
+            z-index: 3;
         }
     </style>
 </head>
