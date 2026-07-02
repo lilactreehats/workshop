@@ -71,58 +71,58 @@
             z-index: 3;
         }
 
-        /* Temporary plant sticker — code version for placement testing */
-
         .plant-sticker {
             position: absolute;
-            left: 9.5%;
-            bottom: 35%;
+            left: 14.4%;
+            bottom: 31.5%;
             z-index: 6;
+
+            width: 5.2%;
+            min-width: 46px;
 
             background: #fffdf7;
             border: 1px solid rgba(0, 0, 0, 0.35);
-            border-radius: 4px;
-            padding: 4px 9px;
-
-            font-family: "Courier New", monospace;
-            font-size: clamp(8px, 0.65vw, 12px);
-            line-height: 1.1;
-            color: #111;
-            white-space: nowrap;
-
-            transform: rotate(-6deg);
-            box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.12);
-        }
-
-        /* Smaller white post-it with live counter */
-
-        .growth-postit {
-            position: absolute;
-            left: 60%;
-            top: 30%;
-            z-index: 6;
-
-            width: 7.5%;
-            min-width: 72px;
-            aspect-ratio: 1 / 0.72;
-
-            background: #fffdf7;
-            border: 1px solid rgba(0, 0, 0, 0.22);
-            padding: 5px 6px;
+            border-radius: 3px;
+            padding: 2px 3px;
             box-sizing: border-box;
 
             font-family: "Courier New", monospace;
-            font-size: clamp(6px, 0.48vw, 9px);
-            line-height: 1.2;
+            font-size: clamp(4px, 0.32vw, 7px);
+            line-height: 1.05;
+            color: #111;
+            text-align: center;
+
+            transform: rotate(-7deg);
+            box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.12);
+        }
+
+        .growth-postit {
+            position: absolute;
+            left: 60.6%;
+            top: 29.4%;
+            z-index: 6;
+
+            width: 4.6%;
+            min-width: 42px;
+            aspect-ratio: 1 / 0.78;
+
+            background: #fffdf7;
+            border: 1px solid rgba(0, 0, 0, 0.22);
+            padding: 3px 3px;
+            box-sizing: border-box;
+
+            font-family: "Courier New", monospace;
+            font-size: clamp(4px, 0.3vw, 6px);
+            line-height: 1.1;
             color: #111;
 
             transform: rotate(2deg);
-            box-shadow: 2px 3px 0 rgba(0, 0, 0, 0.10);
+            box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.10);
         }
 
         .growth-postit .label {
             display: block;
-            margin-bottom: 3px;
+            margin-bottom: 1px;
             font-weight: bold;
         }
 
@@ -142,12 +142,14 @@
         <img class="object corkboard" src="corkboard.png" alt="A corkboard with one note">
 
         <div class="plant-sticker">
-            growing since June 30, 2026 · 3:33 PM
+            growing since<br>
+            Jun 30 2026<br>
+            3:33 PM
         </div>
 
         <div class="growth-postit">
             <span class="label">age:</span>
-            <span class="counter" id="growth-counter">counting...</span>
+            <span class="counter" id="growth-counter">...</span>
         </div>
     </main>
 
@@ -164,7 +166,7 @@
             const minutes = totalMinutes % 60;
 
             document.getElementById("growth-counter").textContent =
-                `${days}d · ${hours}h · ${minutes}m`;
+                `${days}d ${hours}h ${minutes}m`;
         }
 
         updateGrowthCounter();
