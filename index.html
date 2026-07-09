@@ -54,7 +54,7 @@
             left: 29%;
             bottom: 13%;
             width: 12%;
-            z-index: 3;
+            z-index: 5;
         }
 
         .desk {
@@ -83,6 +83,31 @@
             bottom: 30%;
             width: 3.5%;
             z-index: 5;
+        }
+
+        .plant-sticker {
+            position: absolute;
+            left: 16.1%;
+            bottom: 26%;
+            z-index: 6;
+
+            width: 5.2%;
+            min-width: 46px;
+
+            background: #fffdf7;
+            border: 1px solid rgba(0, 0, 0, 0.35);
+            border-radius: 3px;
+            padding: 2px 3px;
+            box-sizing: border-box;
+
+            font-family: "Courier New", monospace;
+            font-size: clamp(4px, 0.32vw, 7px);
+            line-height: 1.05;
+            color: #111;
+            text-align: center;
+
+            transform: rotate(-7deg);
+            box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.12);
         }
 
         .growth-postit {
@@ -129,9 +154,14 @@
         <img class="object chair" src="chair.png" alt="A wooden chair">
         <img class="object desk" src="desk.png" alt="A desk with a laptop">
         <img class="object corkboard" src="corkboard.png" alt="A corkboard with one note">
-
         <img class="object door" src="door.png" alt="The workshop door">
         <img class="object outlet" src="outlet.png" alt="A small wall outlet">
+
+        <div class="plant-sticker">
+            growing since<br>
+            Jun 30 2026<br>
+            3:33 PM
+        </div>
 
         <div class="growth-postit">
             <span class="label">age:</span>
