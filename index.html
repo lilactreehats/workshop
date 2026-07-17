@@ -166,13 +166,13 @@
 
         .sticker-window {
             position: relative;
-            width: min(72vw, 420px);
-            padding: 18px;
+            width: min(62vw, 360px);
+            padding: 0;
 
-            background: #f4ead7;
-            border: 3px solid #2b2238;
-            border-radius: 22px;
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+            background: transparent;
+            border: none;
+            border-radius: 0;
+            box-shadow: none;
         }
 
         .sticker-window img {
@@ -183,11 +183,11 @@
 
         .close-sticker {
             position: absolute;
-            top: -14px;
-            right: -14px;
+            top: -10px;
+            right: -10px;
 
-            width: 34px;
-            height: 34px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             border: 2px solid #2b2238;
 
@@ -196,6 +196,7 @@
             font-size: 20px;
             line-height: 1;
             cursor: pointer;
+            z-index: 101;
         }
     </style>
 </head>
