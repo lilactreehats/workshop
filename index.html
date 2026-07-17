@@ -95,6 +95,25 @@
             cursor: pointer;
         }
 
+        .plant-hotspot {
+            position: absolute;
+            left: 14%;
+            bottom: 19%;
+            width: 12%;
+            height: 22%;
+            z-index: 10;
+
+            background: transparent;
+            border: 0;
+            padding: 0;
+            cursor: pointer;
+        }
+
+        .plant-hotspot:focus-visible {
+            outline: 2px dashed #7e6aa8;
+            outline-offset: 4px;
+        }
+
         .growth-postit {
             position: absolute;
             left: 59%;
@@ -128,6 +147,56 @@
         .growth-postit .counter {
             display: block;
         }
+
+        .sticker-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+
+            display: none;
+            justify-content: center;
+            align-items: center;
+
+            background: rgba(43, 34, 56, 0.45);
+        }
+
+        .sticker-modal.open {
+            display: flex;
+        }
+
+        .sticker-window {
+            position: relative;
+            width: min(72vw, 420px);
+            padding: 18px;
+
+            background: #f4ead7;
+            border: 3px solid #2b2238;
+            border-radius: 22px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+        }
+
+        .sticker-window img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .close-sticker {
+            position: absolute;
+            top: -14px;
+            right: -14px;
+
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            border: 2px solid #2b2238;
+
+            background: #fffdf7;
+            color: #2b2238;
+            font-size: 20px;
+            line-height: 1;
+            cursor: pointer;
+        }
     </style>
 </head>
 
@@ -141,6 +210,13 @@
         <img class="object corkboard" src="corkboard.png" alt="A corkboard with one note">
         <img class="object door" src="door.png" alt="The workshop door">
         <img class="object outlet" src="outlet.png" alt="A small wall outlet">
+
+        <button
+            class="plant-hotspot"
+            type="button"
+            aria-label="Open the growing since sticker"
+            title="growing since"
+        ></button>
 
         <a
             class="cara-link"
@@ -156,6 +232,13 @@
             <span class="counter" id="growth-counter">...</span>
         </div>
     </main>
+
+    <div class="sticker-modal" id="sticker-modal" aria-hidden="true">
+        <div class="sticker-window" role="dialog" aria-label="Growing since sticker">
+            <button class="close-sticker" type="button" aria-label="Close sticker">×</button>
+            <img src="growth-sticker.png" alt="Growing since June 30, 2026 at 3:33 PM sticker">
+        </div>
+    </div>
 
     <script>
         const projectStart = new Date("2026-06-30T15:33:00-04:00");
@@ -175,6 +258,35 @@
 
         updateGrowthCounter();
         setInterval(updateGrowthCounter, 60 * 1000);
+
+        const plantHotspot = document.querySelector(".plant-hotspot");
+        const stickerModal = document.getElementById("sticker-modal");
+        const closeSticker = document.querySelector(".close-sticker");
+
+        function openSticker() {
+            stickerModal.classList.add("open");
+            stickerModal.setAttribute("aria-hidden", "false");
+        }
+
+        function closeStickerModal() {
+            stickerModal.classList.remove("open");
+            stickerModal.setAttribute("aria-hidden", "true");
+        }
+
+        plantHotspot.addEventListener("click", openSticker);
+        closeSticker.addEventListener("click", closeStickerModal);
+
+        stickerModal.addEventListener("click", function(event) {
+            if (event.target === stickerModal) {
+                closeStickerModal();
+            }
+        });
+
+        document.addEventListener("keydown", function(event) {
+            if (event.key === "Escape") {
+                closeStickerModal();
+            }
+        });
     </script>
 </body>
 </html>
