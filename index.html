@@ -37,6 +37,23 @@
             z-index: 1;
         }
 
+        .lights-off-overlay {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: fill;
+            z-index: 20;
+
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+        }
+
+        .stage.lights-off .lights-off-overlay {
+            opacity: 1;
+        }
+
         .object {
             position: absolute;
             object-fit: contain;
@@ -97,10 +114,10 @@
 
         .plant-hotspot {
             position: absolute;
-            left: 14%;
-            bottom: 19%;
-            width: 12%;
-            height: 22%;
+            left: 20.2%;
+            bottom: 21.5%;
+            width: 2.8%;
+            height: 5%;
             z-index: 10;
 
             background: transparent;
@@ -111,6 +128,25 @@
 
         .plant-hotspot:focus-visible {
             outline: 2px dashed #7e6aa8;
+            outline-offset: 4px;
+        }
+
+        .light-switch-hotspot {
+            position: absolute;
+            left: 68.4%;
+            bottom: 46%;
+            width: 2%;
+            height: 7%;
+            z-index: 30;
+
+            background: transparent;
+            border: 0;
+            padding: 0;
+            cursor: pointer;
+        }
+
+        .light-switch-hotspot:focus-visible {
+            outline: 2px dashed #f4ead7;
             outline-offset: 4px;
         }
 
@@ -212,11 +248,20 @@
         <img class="object door" src="door.png" alt="The workshop door">
         <img class="object outlet" src="outlet.png" alt="A small wall outlet">
 
+        <img class="lights-off-overlay" src="room-dark.png" alt="The workshop with the lights turned off">
+
         <button
             class="plant-hotspot"
             type="button"
             aria-label="Open the growing since sticker"
             title="growing since"
+        ></button>
+
+        <button
+            class="light-switch-hotspot"
+            type="button"
+            aria-label="Turn the workshop lights off"
+            title="light switch"
         ></button>
 
         <a
@@ -286,6 +331,19 @@
         document.addEventListener("keydown", function(event) {
             if (event.key === "Escape") {
                 closeStickerModal();
+            }
+        });
+
+        const stage = document.querySelector(".stage");
+        const lightSwitch = document.querySelector(".light-switch-hotspot");
+
+        lightSwitch.addEventListener("click", function() {
+            stage.classList.toggle("lights-off");
+
+            if (stage.classList.contains("lights-off")) {
+                lightSwitch.setAttribute("aria-label", "Turn the workshop lights on");
+            } else {
+                lightSwitch.setAttribute("aria-label", "Turn the workshop lights off");
             }
         });
     </script>
