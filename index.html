@@ -37,23 +37,6 @@
             z-index: 1;
         }
 
-        .lights-off-overlay {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: fill;
-            z-index: 20;
-
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.25s ease;
-        }
-
-        .stage.lights-off .lights-off-overlay {
-            opacity: 1;
-        }
-
         .object {
             position: absolute;
             object-fit: contain;
@@ -118,7 +101,7 @@
             bottom: 21.5%;
             width: 2.8%;
             height: 5%;
-            z-index: 10;
+            z-index: 60;
 
             background: transparent;
             border: 0;
@@ -137,7 +120,7 @@
             bottom: 46%;
             width: 2%;
             height: 7%;
-            z-index: 30;
+            z-index: 60;
 
             background: transparent;
             border: 0;
@@ -182,6 +165,23 @@
 
         .growth-postit .counter {
             display: block;
+        }
+
+        .lights-off-overlay {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: fill;
+            z-index: 20;
+
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+        }
+
+        .stage.lights-off .lights-off-overlay {
+            opacity: 1;
         }
 
         .sticker-modal {
@@ -290,6 +290,10 @@
         const projectStart = new Date("2026-06-30T15:33:00-04:00");
 
         function updateGrowthCounter() {
+            const growthCounter = document.getElementById("growth-counter");
+
+            if (!growthCounter) return;
+
             const now = new Date();
             const difference = now - projectStart;
 
@@ -298,8 +302,7 @@
             const hours = Math.floor((totalMinutes % (60 * 24)) / 60);
             const minutes = totalMinutes % 60;
 
-            document.getElementById("growth-counter").textContent =
-                `${days}d ${hours}h ${minutes}m`;
+            growthCounter.textContent = `${days}d ${hours}h ${minutes}m`;
         }
 
         updateGrowthCounter();
@@ -310,23 +313,34 @@
         const closeSticker = document.querySelector(".close-sticker");
 
         function openSticker() {
+            if (!stickerModal) return;
+
             stickerModal.classList.add("open");
             stickerModal.setAttribute("aria-hidden", "false");
         }
 
         function closeStickerModal() {
+            if (!stickerModal) return;
+
             stickerModal.classList.remove("open");
             stickerModal.setAttribute("aria-hidden", "true");
         }
 
-        plantHotspot.addEventListener("click", openSticker);
-        closeSticker.addEventListener("click", closeStickerModal);
+        if (plantHotspot) {
+            plantHotspot.addEventListener("click", openSticker);
+        }
 
-        stickerModal.addEventListener("click", function(event) {
-            if (event.target === stickerModal) {
-                closeStickerModal();
-            }
-        });
+        if (closeSticker) {
+            closeSticker.addEventListener("click", closeStickerModal);
+        }
+
+        if (stickerModal) {
+            stickerModal.addEventListener("click", function(event) {
+                if (event.target === stickerModal) {
+                    closeStickerModal();
+                }
+            });
+        }
 
         document.addEventListener("keydown", function(event) {
             if (event.key === "Escape") {
@@ -337,15 +351,17 @@
         const stage = document.querySelector(".stage");
         const lightSwitch = document.querySelector(".light-switch-hotspot");
 
-        lightSwitch.addEventListener("click", function() {
-            stage.classList.toggle("lights-off");
+        if (stage && lightSwitch) {
+            lightSwitch.addEventListener("click", function() {
+                stage.classList.toggle("lights-off");
 
-            if (stage.classList.contains("lights-off")) {
-                lightSwitch.setAttribute("aria-label", "Turn the workshop lights on");
-            } else {
-                lightSwitch.setAttribute("aria-label", "Turn the workshop lights off");
-            }
-        });
+                if (stage.classList.contains("lights-off")) {
+                    lightSwitch.setAttribute("aria-label", "Turn the workshop lights on");
+                } else {
+                    lightSwitch.setAttribute("aria-label", "Turn the workshop lights off");
+                }
+            });
+        }
     </script>
 </body>
 </html>
