@@ -37,23 +37,6 @@
             z-index: 1;
         }
 
-        .room-dark {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: fill;
-            z-index: 20;
-
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.25s ease;
-        }
-
-        .stage.lights-off .room-dark {
-            opacity: 1;
-        }
-
         .object {
             position: absolute;
             object-fit: contain;
@@ -102,6 +85,28 @@
             z-index: 5;
         }
 
+        .dark-overlay {
+            position: absolute;
+            inset: 0;
+            z-index: 20;
+
+            background:
+                radial-gradient(
+                    ellipse at 48% 38%,
+                    rgba(0, 0, 0, 0.45) 0%,
+                    rgba(0, 0, 0, 0.68) 45%,
+                    rgba(0, 0, 0, 0.86) 100%
+                );
+
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+        }
+
+        .stage.lights-off .dark-overlay {
+            opacity: 1;
+        }
+
         .cara-link {
             position: absolute;
             left: 50.2%;
@@ -114,10 +119,10 @@
 
         .plant-hotspot {
             position: absolute;
-            left: 14%;
-            bottom: 19%;
-            width: 12%;
-            height: 22%;
+            left: 15.3%;
+            bottom: 19.6%;
+            width: 8.5%;
+            height: 17%;
             z-index: 60;
 
             background: transparent;
@@ -131,13 +136,13 @@
             outline-offset: 4px;
         }
 
-        .light-switch-hotspot {
+        .outlet-hotspot {
             position: absolute;
-            left: 68.6%;
-            bottom: 47%;
-            width: 2.4%;
-            height: 7%;
-            z-index: 70;
+            left: 68.1%;
+            bottom: 29.8%;
+            width: 3.2%;
+            height: 7.2%;
+            z-index: 60;
 
             background: transparent;
             border: 0;
@@ -145,7 +150,7 @@
             cursor: pointer;
         }
 
-        .light-switch-hotspot:focus-visible {
+        .outlet-hotspot:focus-visible {
             outline: 2px dashed #f4ead7;
             outline-offset: 4px;
         }
@@ -240,7 +245,6 @@
 <body>
     <main class="stage" id="stage">
         <img class="room" src="room.jpg" alt="The empty Lilac Workshop">
-        <img class="room-dark" src="room-dark.png" alt="The workshop with the lights turned off">
 
         <img class="object tree" src="tree.png" alt="A small lilac tree">
         <img class="object chair" src="chair.png" alt="A wooden chair">
@@ -248,6 +252,8 @@
         <img class="object corkboard" src="corkboard.png" alt="A corkboard with one note">
         <img class="object door" src="door.png" alt="The workshop door">
         <img class="object outlet" src="outlet.png" alt="A small wall outlet">
+
+        <div class="dark-overlay" aria-hidden="true"></div>
 
         <button
             class="plant-hotspot"
@@ -257,10 +263,10 @@
         ></button>
 
         <button
-            class="light-switch-hotspot"
+            class="outlet-hotspot"
             type="button"
             aria-label="Turn the workshop lights off"
-            title="light switch"
+            title="outlet"
         ></button>
 
         <a
@@ -336,15 +342,15 @@
         });
 
         const stage = document.getElementById("stage");
-        const lightSwitchHotspot = document.querySelector(".light-switch-hotspot");
+        const outletHotspot = document.querySelector(".outlet-hotspot");
 
-        lightSwitchHotspot.addEventListener("click", function() {
+        outletHotspot.addEventListener("click", function() {
             stage.classList.toggle("lights-off");
 
             if (stage.classList.contains("lights-off")) {
-                lightSwitchHotspot.setAttribute("aria-label", "Turn the workshop lights on");
+                outletHotspot.setAttribute("aria-label", "Turn the workshop lights on");
             } else {
-                lightSwitchHotspot.setAttribute("aria-label", "Turn the workshop lights off");
+                outletHotspot.setAttribute("aria-label", "Turn the workshop lights off");
             }
         });
     </script>
