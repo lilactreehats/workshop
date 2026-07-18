@@ -91,18 +91,18 @@
             top: 50.5%;
             width: 6%;
             height: 4%;
-            z-index: 8;
+            z-index: 12;
             cursor: pointer;
         }
 
-        /* smaller tree / sticker hitbox */
+        /* tree / sticker hotspot */
         .plant-hotspot {
             position: absolute;
-            left: 18.9%;
-            bottom: 21.2%;
-            width: 2.3%;
-            height: 4.2%;
-            z-index: 30;
+            left: 16.6%;
+            bottom: 20.1%;
+            width: 5.2%;
+            height: 9%;
+            z-index: 20;
 
             background: transparent;
             border: 0;
@@ -115,14 +115,14 @@
             outline-offset: 4px;
         }
 
-        /* moved much higher */
+        /* light switch hotspot */
         .light-switch-hotspot {
             position: absolute;
-            left: 68.45%;
-            bottom: 54.6%;
-            width: 2.1%;
+            left: 68.15%;
+            top: 42.6%;
+            width: 2.15%;
             height: 6.8%;
-            z-index: 30;
+            z-index: 20;
 
             background: transparent;
             border: 0;
@@ -169,18 +169,23 @@
             display: block;
         }
 
-        /* simple dark overlay, no spotlight */
-        .dark-overlay {
+        /* darker, slightly more natural lights-out overlay */
+        .lights-overlay {
             position: absolute;
             inset: 0;
-            z-index: 20;
-            background: rgba(0, 0, 0, 0.90);
-            opacity: 0;
+            z-index: 10;
             pointer-events: none;
+            opacity: 0;
             transition: opacity 0.25s ease;
+
+            background:
+                radial-gradient(circle at 52% 42%, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.025) 18%, rgba(255,255,255,0) 42%),
+                radial-gradient(circle at 78% 48%, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.015) 14%, rgba(255,255,255,0) 32%),
+                linear-gradient(to bottom, rgba(0,0,0,0.72), rgba(0,0,0,0.84)),
+                rgba(0,0,0,0.68);
         }
 
-        .stage.lights-off .dark-overlay {
+        .stage.lights-off .lights-overlay {
             opacity: 1;
         }
 
@@ -248,7 +253,7 @@
         <img class="object door" src="door.png" alt="The workshop door">
         <img class="object outlet" src="outlet.png" alt="A small wall outlet">
 
-        <div class="dark-overlay" aria-hidden="true"></div>
+        <div class="lights-overlay" aria-hidden="true"></div>
 
         <button
             class="plant-hotspot"
@@ -344,16 +349,18 @@
         });
 
         const stage = document.getElementById("stage");
-        const lightSwitchHotspot = document.querySelector(".light-switch-hotspot");
+        const lightSwitch = document.querySelector(".light-switch-hotspot");
 
-        if (lightSwitchHotspot && stage) {
-            lightSwitchHotspot.addEventListener("click", function() {
+        if (stage && lightSwitch) {
+            lightSwitch.addEventListener("click", function() {
                 stage.classList.toggle("lights-off");
 
                 if (stage.classList.contains("lights-off")) {
-                    lightSwitchHotspot.setAttribute("aria-label", "Turn the workshop lights on");
+                    lightSwitch.setAttribute("aria-label", "Turn the workshop lights on");
+                    lightSwitch.setAttribute("title", "turn lights on");
                 } else {
-                    lightSwitchHotspot.setAttribute("aria-label", "Turn the workshop lights off");
+                    lightSwitch.setAttribute("aria-label", "Turn the workshop lights off");
+                    lightSwitch.setAttribute("title", "turn lights off");
                 }
             });
         }
