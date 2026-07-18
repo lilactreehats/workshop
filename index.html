@@ -85,22 +85,6 @@
             z-index: 5;
         }
 
-        .dark-overlay {
-            position: absolute;
-            inset: 0;
-            z-index: 20;
-
-            background: rgba(0, 0, 0, 0.88);
-
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.2s ease;
-        }
-
-        .stage.lights-off .dark-overlay {
-            opacity: 1;
-        }
-
         .cara-link {
             position: absolute;
             left: 50.2%;
@@ -111,12 +95,13 @@
             cursor: pointer;
         }
 
+        /* smaller plant hitbox */
         .plant-hotspot {
             position: absolute;
-            left: 16.6%;
-            bottom: 20.1%;
-            width: 5.2%;
-            height: 9%;
+            left: 18.9%;
+            bottom: 21.1%;
+            width: 2.4%;
+            height: 4.5%;
             z-index: 60;
 
             background: transparent;
@@ -130,12 +115,13 @@
             outline-offset: 4px;
         }
 
+        /* moved higher */
         .light-switch-hotspot {
             position: absolute;
-            left: 68.55%;
-            bottom: 50.7%;
+            left: 68.45%;
+            bottom: 47.8%;
             width: 2.2%;
-            height: 5.8%;
+            height: 6.8%;
             z-index: 60;
 
             background: transparent;
@@ -181,6 +167,31 @@
 
         .growth-postit .counter {
             display: block;
+        }
+
+        /* darker overlay with a subtle little glow near the switch */
+        .dark-overlay {
+            position: absolute;
+            inset: 0;
+            z-index: 20;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease;
+
+            background:
+                radial-gradient(
+                    circle at 69% 45%,
+                    rgba(255, 244, 214, 0.12) 0%,
+                    rgba(255, 244, 214, 0.07) 5%,
+                    rgba(255, 244, 214, 0.03) 10%,
+                    rgba(255, 244, 214, 0.00) 18%
+                ),
+                rgba(0, 0, 0, 0.92);
+        }
+
+        .stage.lights-off .dark-overlay {
+            opacity: 1;
+            pointer-events: none;
         }
 
         .sticker-modal {
@@ -320,14 +331,21 @@
             stickerModal.setAttribute("aria-hidden", "true");
         }
 
-        plantHotspot.addEventListener("click", openSticker);
-        closeSticker.addEventListener("click", closeStickerModal);
+        if (plantHotspot) {
+            plantHotspot.addEventListener("click", openSticker);
+        }
 
-        stickerModal.addEventListener("click", function(event) {
-            if (event.target === stickerModal) {
-                closeStickerModal();
-            }
-        });
+        if (closeSticker) {
+            closeSticker.addEventListener("click", closeStickerModal);
+        }
+
+        if (stickerModal) {
+            stickerModal.addEventListener("click", function(event) {
+                if (event.target === stickerModal) {
+                    closeStickerModal();
+                }
+            });
+        }
 
         document.addEventListener("keydown", function(event) {
             if (event.key === "Escape") {
@@ -338,15 +356,17 @@
         const stage = document.getElementById("stage");
         const lightSwitchHotspot = document.querySelector(".light-switch-hotspot");
 
-        lightSwitchHotspot.addEventListener("click", function() {
-            stage.classList.toggle("lights-off");
+        if (lightSwitchHotspot && stage) {
+            lightSwitchHotspot.addEventListener("click", function() {
+                stage.classList.toggle("lights-off");
 
-            if (stage.classList.contains("lights-off")) {
-                lightSwitchHotspot.setAttribute("aria-label", "Turn the workshop lights on");
-            } else {
-                lightSwitchHotspot.setAttribute("aria-label", "Turn the workshop lights off");
-            }
-        });
+                if (stage.classList.contains("lights-off")) {
+                    lightSwitchHotspot.setAttribute("aria-label", "Turn the workshop lights on");
+                } else {
+                    lightSwitchHotspot.setAttribute("aria-label", "Turn the workshop lights off");
+                }
+            });
+        }
     </script>
 </body>
 </html>
