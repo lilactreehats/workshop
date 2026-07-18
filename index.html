@@ -95,14 +95,14 @@
             cursor: pointer;
         }
 
-        /* smaller plant hitbox */
+        /* smaller tree / sticker hitbox */
         .plant-hotspot {
             position: absolute;
             left: 18.9%;
-            bottom: 21.1%;
-            width: 2.4%;
-            height: 4.5%;
-            z-index: 60;
+            bottom: 21.2%;
+            width: 2.3%;
+            height: 4.2%;
+            z-index: 30;
 
             background: transparent;
             border: 0;
@@ -115,14 +115,14 @@
             outline-offset: 4px;
         }
 
-        /* moved higher */
+        /* moved much higher */
         .light-switch-hotspot {
             position: absolute;
             left: 68.45%;
-            bottom: 47.8%;
-            width: 2.2%;
+            bottom: 54.6%;
+            width: 2.1%;
             height: 6.8%;
-            z-index: 60;
+            z-index: 30;
 
             background: transparent;
             border: 0;
@@ -169,29 +169,19 @@
             display: block;
         }
 
-        /* darker overlay with a subtle little glow near the switch */
+        /* simple dark overlay, no spotlight */
         .dark-overlay {
             position: absolute;
             inset: 0;
             z-index: 20;
+            background: rgba(0, 0, 0, 0.90);
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.25s ease;
-
-            background:
-                radial-gradient(
-                    circle at 69% 45%,
-                    rgba(255, 244, 214, 0.12) 0%,
-                    rgba(255, 244, 214, 0.07) 5%,
-                    rgba(255, 244, 214, 0.03) 10%,
-                    rgba(255, 244, 214, 0.00) 18%
-                ),
-                rgba(0, 0, 0, 0.92);
         }
 
         .stage.lights-off .dark-overlay {
             opacity: 1;
-            pointer-events: none;
         }
 
         .sticker-modal {
