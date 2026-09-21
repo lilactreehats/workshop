@@ -1,0 +1,910 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lilac Computer</title>
+<style>
+:root {
+  --desktop:#8f87c4;
+  --gray:#c0c4c8;
+  --gray2:#808080;
+  --gray3:#404040;
+  --white:#ffffff;
+  --black:#000000;
+  --blue:#0000a8;
+  --inactive:#8c9094;
+}
+* { box-sizing:border-box; }
+html,body {
+  margin:0;
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  background:#000;
+  font-family:"Microsoft Sans Serif","MS Sans Serif",Tahoma,Arial,sans-serif;
+}
+button,input { font:inherit; }
+
+#screen {
+  position:fixed;
+  width:640px;
+  height:480px;
+  left:50%;
+  top:50%;
+  transform-origin:center;
+  overflow:hidden;
+  background:var(--desktop);
+  image-rendering:pixelated;
+  image-rendering:crisp-edges;
+  color:#000;
+}
+
+/* desktop */
+#desktop {
+  position:absolute;
+  inset:0;
+  background:var(--desktop);
+}
+.desktop-icons {
+  position:absolute;
+  left:7px;
+  top:3px;
+  width:62px;
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+  z-index:2;
+}
+.desktop-icon {
+  width:62px;
+  color:white;
+  text-align:center;
+  font-size:12px;
+  line-height:13px;
+  text-shadow:1px 1px #000;
+  user-select:none;
+  cursor:default;
+}
+.desktop-icon img {
+  width:32px;
+  height:32px;
+  display:block;
+  margin:0 auto 1px;
+  image-rendering:pixelated;
+}
+.desktop-icon .label {
+  display:inline;
+  padding:0 2px;
+}
+.desktop-icon.selected .label {
+  background:#0000a8;
+  outline:1px dotted #fff;
+}
+
+/* windows */
+.window {
+  position:absolute;
+  display:none;
+  background:var(--gray);
+  border-top:1px solid #fff;
+  border-left:1px solid #fff;
+  border-right:1px solid #000;
+  border-bottom:1px solid #000;
+  box-shadow:
+    inset 1px 1px #dfdfdf,
+    inset -1px -1px #808080;
+  z-index:10;
+}
+.window.show { display:block; }
+.titlebar {
+  height:18px;
+  margin:2px;
+  padding:2px 2px 2px 4px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background:var(--blue);
+  color:white;
+  font-weight:bold;
+  font-size:12px;
+  line-height:12px;
+  user-select:none;
+  cursor:default;
+}
+.window.inactive .titlebar {
+  background:var(--inactive);
+  color:#dcdcdc;
+}
+.title-buttons {
+  display:flex;
+  gap:2px;
+}
+.win-btn {
+  width:16px;
+  height:14px;
+  padding:0;
+  background:var(--gray);
+  color:#000;
+  border-top:1px solid #fff;
+  border-left:1px solid #fff;
+  border-right:1px solid #000;
+  border-bottom:1px solid #000;
+  box-shadow:
+    inset 1px 1px #dfdfdf,
+    inset -1px -1px #808080;
+  font-size:11px;
+  font-weight:bold;
+  line-height:10px;
+}
+.win-btn:active {
+  border-top-color:#000;
+  border-left-color:#000;
+  border-right-color:#fff;
+  border-bottom-color:#fff;
+}
+.menu {
+  height:19px;
+  padding:2px 6px;
+  font-size:12px;
+}
+.menu span { margin-right:13px; }
+.client {
+  margin:0 3px 3px;
+  background:white;
+  border-top:1px solid #808080;
+  border-left:1px solid #808080;
+  border-right:1px solid #fff;
+  border-bottom:1px solid #fff;
+  box-shadow:inset 1px 1px #000;
+}
+.statusbar {
+  height:20px;
+  margin:0 3px 3px;
+  display:flex;
+  gap:2px;
+}
+.statusbox {
+  flex:1;
+  padding:2px 4px;
+  border-top:1px solid #808080;
+  border-left:1px solid #808080;
+  border-right:1px solid #fff;
+  border-bottom:1px solid #fff;
+  font-size:12px;
+}
+
+/* My Computer */
+#computer-window {
+  left:186px;
+  top:38px;
+  width:430px;
+  height:290px;
+}
+#computer-window .client { height:222px; padding:12px 10px; }
+.icon-grid {
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:19px 8px;
+}
+.file-item {
+  text-align:center;
+  font-size:12px;
+}
+.file-item img {
+  width:32px;
+  height:32px;
+  display:block;
+  margin:0 auto 3px;
+  image-rendering:pixelated;
+}
+.file-item .file-label {
+  display:inline-block;
+  line-height:14px;
+}
+
+/* C drive */
+#drive-window {
+  left:260px;
+  top:30px;
+  width:380px;
+  height:315px;
+}
+#drive-window .client { height:247px; padding:12px 8px; }
+.drive-grid {
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:18px 7px;
+}
+
+/* Inbox wizard */
+#inbox-window {
+  left:83px;
+  top:50px;
+  width:480px;
+  height:342px;
+}
+.wizard {
+  height:319px;
+  padding:18px 15px 12px;
+  background:var(--gray);
+  font-size:12px;
+}
+.wizard h1 {
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:28px;
+  font-weight:normal;
+  line-height:30px;
+  margin:0 0 8px;
+}
+.wizard p {
+  margin:0 0 14px;
+  line-height:15px;
+}
+.service {
+  display:grid;
+  grid-template-columns:36px 16px 130px 1fr 44px;
+  gap:7px;
+  align-items:center;
+  margin:10px 0;
+}
+.service img {
+  width:32px;
+  height:32px;
+  image-rendering:pixelated;
+}
+.fake-check {
+  width:13px;
+  height:13px;
+  background:white;
+  border-top:1px solid #808080;
+  border-left:1px solid #808080;
+  border-right:1px solid #fff;
+  border-bottom:1px solid #fff;
+  box-shadow:inset 1px 1px #000;
+}
+.service-desc { line-height:14px; }
+.wizard hr {
+  border:0;
+  height:2px;
+  background:#808080;
+  border-bottom:1px solid #fff;
+  margin:10px 0 10px;
+}
+.wizard-actions {
+  display:flex;
+  justify-content:flex-end;
+  gap:10px;
+}
+.button {
+  min-width:78px;
+  height:23px;
+  padding:1px 8px;
+  background:var(--gray);
+  color:#000;
+  border-top:1px solid #fff;
+  border-left:1px solid #fff;
+  border-right:1px solid #000;
+  border-bottom:1px solid #000;
+  box-shadow:
+    inset 1px 1px #dfdfdf,
+    inset -1px -1px #808080;
+  font-size:12px;
+}
+.button:active {
+  border-top-color:#000;
+  border-left-color:#000;
+  border-right-color:#fff;
+  border-bottom-color:#fff;
+}
+.button:disabled {
+  color:#808080;
+  text-shadow:1px 1px #fff;
+}
+
+/* Diary */
+#diary-window {
+  left:190px;
+  top:145px;
+  width:270px;
+}
+.diary-body {
+  padding:13px 12px 11px;
+  font-size:12px;
+}
+.diary-top {
+  display:flex;
+  gap:9px;
+  align-items:flex-start;
+}
+.diary-top img {
+  width:32px;
+  height:32px;
+  image-rendering:pixelated;
+}
+.password-row {
+  display:grid;
+  grid-template-columns:58px 1fr;
+  gap:7px;
+  align-items:center;
+  margin:12px 0 0;
+}
+.password-row input {
+  width:100%;
+  height:21px;
+  padding:1px 3px;
+  border-top:1px solid #808080;
+  border-left:1px solid #808080;
+  border-right:1px solid #fff;
+  border-bottom:1px solid #fff;
+  box-shadow:inset 1px 1px #000;
+  background:#fff;
+  outline:none;
+  font-size:12px;
+}
+#password-status {
+  min-height:16px;
+  margin:5px 0 0 65px;
+  font-size:11px;
+}
+.diary-actions {
+  display:flex;
+  justify-content:flex-end;
+  gap:8px;
+  margin-top:8px;
+}
+
+/* Internet */
+#internet-window {
+  left:95px;
+  top:58px;
+  width:500px;
+  height:340px;
+}
+.browser-toolbar {
+  height:27px;
+  padding:2px 4px;
+  border-top:1px solid #fff;
+  border-bottom:1px solid #808080;
+}
+.browser-toolbar .button {
+  min-width:24px;
+  width:24px;
+  height:21px;
+  padding:0;
+}
+.addressbar {
+  height:27px;
+  display:flex;
+  gap:5px;
+  align-items:center;
+  padding:2px 4px;
+  border-bottom:1px solid #808080;
+  font-size:11px;
+}
+.addressbar input {
+  height:20px;
+  flex:1;
+  padding:1px 3px;
+  background:#fff;
+  border-top:1px solid #808080;
+  border-left:1px solid #808080;
+  border-right:1px solid #fff;
+  border-bottom:1px solid #fff;
+  box-shadow:inset 1px 1px #000;
+  font-size:11px;
+}
+#internet-window .client {
+  height:232px;
+}
+
+/* taskbar */
+.taskbar {
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  height:24px;
+  padding:2px;
+  display:flex;
+  align-items:center;
+  gap:3px;
+  background:var(--gray);
+  border-top:1px solid #fff;
+  box-shadow:inset 0 1px #dfdfdf;
+  z-index:100;
+}
+.start-button {
+  height:20px;
+  min-width:52px;
+  padding:0 5px;
+  display:flex;
+  align-items:center;
+  gap:3px;
+  font-size:12px;
+  font-weight:bold;
+}
+.start-glyph {
+  width:14px;
+  height:14px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  grid-template-rows:1fr 1fr;
+  gap:1px;
+  transform:skew(-8deg);
+}
+.start-glyph i:nth-child(1){background:#e33}
+.start-glyph i:nth-child(2){background:#2a3}
+.start-glyph i:nth-child(3){background:#26c}
+.start-glyph i:nth-child(4){background:#ec3}
+.task-buttons {
+  display:flex;
+  gap:3px;
+  min-width:0;
+  overflow:hidden;
+}
+.task-button {
+  width:150px;
+  height:20px;
+  padding:0 6px;
+  text-align:left;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  background:var(--gray);
+  border-top:1px solid #fff;
+  border-left:1px solid #fff;
+  border-right:1px solid #000;
+  border-bottom:1px solid #000;
+  box-shadow:inset 1px 1px #dfdfdf,inset -1px -1px #808080;
+  font-size:11px;
+}
+.task-button.active {
+  border-top-color:#000;
+  border-left-color:#000;
+  border-right-color:#fff;
+  border-bottom-color:#fff;
+  box-shadow:inset 1px 1px #808080;
+  background:repeating-linear-gradient(45deg,#d8d8d8 0 1px,#c0c0c0 1px 2px);
+  font-weight:bold;
+}
+.task-spacer { flex:1; }
+.clock {
+  flex:0 0 62px;
+  height:20px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-top:1px solid #808080;
+  border-left:1px solid #808080;
+  border-right:1px solid #fff;
+  border-bottom:1px solid #fff;
+  font-size:11px;
+}
+
+/* Start menu */
+#start-menu {
+  position:absolute;
+  left:2px;
+  bottom:24px;
+  width:180px;
+  display:none;
+  background:var(--gray);
+  border-top:1px solid #fff;
+  border-left:1px solid #fff;
+  border-right:1px solid #000;
+  border-bottom:1px solid #000;
+  box-shadow:inset 1px 1px #dfdfdf,inset -1px -1px #808080;
+  z-index:200;
+}
+#start-menu.show { display:flex; }
+.start-side {
+  width:25px;
+  background:#808080;
+  color:#d8d8d8;
+  writing-mode:vertical-rl;
+  transform:rotate(180deg);
+  font-size:16px;
+  font-weight:bold;
+  padding:5px 3px;
+}
+.start-list { flex:1; padding:3px 2px; }
+.start-item {
+  height:28px;
+  display:flex;
+  align-items:center;
+  padding:0 6px;
+  gap:7px;
+  font-size:12px;
+}
+.start-item:hover { background:#000080;color:#fff; }
+.mini {
+  width:18px;height:18px;
+  display:grid;place-items:center;
+  border:1px solid #808080;
+  background:#fff;
+}
+.separator {
+  height:2px;
+  background:#808080;
+  border-bottom:1px solid #fff;
+  margin:2px 3px;
+}
+</style>
+</head>
+<body>
+
+<div id="screen">
+  <div id="desktop">
+
+    <div class="desktop-icons">
+      <div class="desktop-icon" id="computer-icon">
+        <img src="assets/computer.png" alt="">
+        <span class="label">My Computer</span>
+      </div>
+
+      <div class="desktop-icon" id="inbox-icon">
+        <img src="assets/inbox.png" alt="">
+        <span class="label">Inbox</span>
+      </div>
+
+      <div class="desktop-icon" id="diary-icon">
+        <img src="assets/diary.png" alt="">
+        <span class="label">my diary</span>
+      </div>
+
+      <div class="desktop-icon" id="internet-icon">
+        <img src="assets/internet.png" alt="">
+        <span class="label">Internet</span>
+      </div>
+
+      <div class="desktop-icon" id="recycle-icon">
+        <img src="assets/recycle.png" alt="">
+        <span class="label">Recycle Bin</span>
+      </div>
+    </div>
+
+    <!-- My Computer -->
+    <div class="window" id="computer-window" data-task="My Computer">
+      <div class="titlebar">
+        <span>My Computer</span>
+        <div class="title-buttons">
+          <button class="win-btn minimize">_</button>
+          <button class="win-btn">□</button>
+          <button class="win-btn close">×</button>
+        </div>
+      </div>
+      <div class="menu"><span>File</span><span>Edit</span><span>View</span><span>Help</span></div>
+      <div class="client">
+        <div class="icon-grid">
+          <div class="file-item">
+            <img src="assets/drive.png" alt="">
+            <span class="file-label">3½ Floppy (A:)</span>
+          </div>
+          <div class="file-item" id="c-drive">
+            <img src="assets/drive.png" alt="">
+            <span class="file-label">Ms-dos_5 (C:)</span>
+          </div>
+          <div class="file-item">
+            <img src="assets/computer.png" alt="">
+            <span class="file-label">Control Panel</span>
+          </div>
+          <div class="file-item">
+            <img src="assets/recycle.png" alt="">
+            <span class="file-label">Printers</span>
+          </div>
+        </div>
+      </div>
+      <div class="statusbar">
+        <div class="statusbox">4 object(s)</div>
+        <div class="statusbox" style="max-width:120px">My Computer</div>
+      </div>
+    </div>
+
+    <!-- C drive -->
+    <div class="window" id="drive-window" data-task="Ms-dos_5 (C:)">
+      <div class="titlebar">
+        <span>Ms-dos_5 (C:)</span>
+        <div class="title-buttons">
+          <button class="win-btn minimize">_</button>
+          <button class="win-btn">□</button>
+          <button class="win-btn close">×</button>
+        </div>
+      </div>
+      <div class="menu"><span>File</span><span>Edit</span><span>View</span><span>Help</span></div>
+      <div class="client">
+        <div class="drive-grid">
+          <div class="file-item"><img src="assets/folder.png"><span>Dos</span></div>
+          <div class="file-item"><img src="assets/folder.png"><span>Program Files</span></div>
+          <div class="file-item"><img src="assets/folder.png"><span>Windows</span></div>
+          <div class="file-item"><img src="assets/app.png"><span>Autoexec</span></div>
+
+          <div class="file-item"><img src="assets/doc.png"><span>Autoexec.dos</span></div>
+          <div class="file-item"><img src="assets/app.png"><span>Command</span></div>
+          <div class="file-item"><img src="assets/doc.png"><span>Command.dos</span></div>
+          <div class="file-item"><img src="assets/doc.png"><span>Config.dos</span></div>
+
+          <div class="file-item"><img src="assets/app.png"><span>Dbg</span></div>
+          <div class="file-item"><img src="assets/doc.png"><span>Netlog</span></div>
+          <div class="file-item"><img src="assets/app.png"><span>Wdeb386</span></div>
+        </div>
+      </div>
+      <div class="statusbar">
+        <div class="statusbox">11 object(s) (plus 13 hidden)</div>
+        <div class="statusbox" style="max-width:105px">953KB</div>
+      </div>
+    </div>
+
+    <!-- Inbox Setup -->
+    <div class="window" id="inbox-window" data-task="Inbox Setup Wizard">
+      <div class="titlebar">
+        <span>Inbox Setup Wizard</span>
+        <div class="title-buttons">
+          <button class="win-btn close">×</button>
+        </div>
+      </div>
+      <div class="wizard">
+        <h1>Get Connected</h1>
+        <p><strong>No mail service has been configured.</strong></p>
+        <p>Windows comes with E-mail, fax tools, and access to online information services. Select a service below to continue.</p>
+
+        <div class="service">
+          <img src="assets/internet.png">
+          <div class="fake-check"></div>
+          <div>Internet Mail</div>
+          <div class="service-desc">Offers access to E-mail and Internet mail.</div>
+          <div>1.3 MB</div>
+        </div>
+
+        <div class="service">
+          <img src="assets/inbox.png">
+          <div class="fake-check"></div>
+          <div>Microsoft Mail</div>
+          <div class="service-desc">Connects to mail servers and post offices.</div>
+          <div>0.1 MB</div>
+        </div>
+
+        <div class="service">
+          <img src="assets/fax.png">
+          <div class="fake-check"></div>
+          <div>Microsoft Fax</div>
+          <div class="service-desc">Allows your computer to send and receive faxes.</div>
+          <div>1.3 MB</div>
+        </div>
+
+        <hr>
+        <div class="wizard-actions">
+          <button class="button" disabled>OK</button>
+          <button class="button close">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Diary -->
+    <div class="window" id="diary-window" data-task="my diary">
+      <div class="titlebar">
+        <span>Password Required</span>
+        <div class="title-buttons">
+          <button class="win-btn close">×</button>
+        </div>
+      </div>
+      <div class="diary-body">
+        <div class="diary-top">
+          <img src="assets/diary.png" alt="">
+          <div><strong>my diary</strong><br><br>Enter password to open this folder.</div>
+        </div>
+        <div class="password-row">
+          <label>Password:</label>
+          <input id="password" type="password" autocomplete="off">
+        </div>
+        <div id="password-status"></div>
+        <div class="diary-actions">
+          <button class="button" id="unlock">OK</button>
+          <button class="button close">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Internet -->
+    <div class="window" id="internet-window" data-task="Internet">
+      <div class="titlebar">
+        <span>about:blank - Internet</span>
+        <div class="title-buttons">
+          <button class="win-btn minimize">_</button>
+          <button class="win-btn">□</button>
+          <button class="win-btn close">×</button>
+        </div>
+      </div>
+      <div class="menu"><span>File</span><span>Edit</span><span>View</span><span>Favorites</span><span>Help</span></div>
+      <div class="browser-toolbar">
+        <button class="button">←</button>
+        <button class="button">→</button>
+        <button class="button">×</button>
+        <button class="button">⌂</button>
+      </div>
+      <div class="addressbar">
+        <span>Address</span>
+        <input value="about:blank" readonly>
+        <button class="button">Go</button>
+      </div>
+      <div class="client"></div>
+    </div>
+
+    <!-- Start menu -->
+    <div id="start-menu">
+      <div class="start-side">Windows 95</div>
+      <div class="start-list">
+        <div class="start-item"><div class="mini">▦</div>Programs <span style="margin-left:auto">▶</span></div>
+        <div class="start-item"><div class="mini">▤</div>Documents <span style="margin-left:auto">▶</span></div>
+        <div class="start-item"><div class="mini">⚙</div>Settings <span style="margin-left:auto">▶</span></div>
+        <div class="start-item"><div class="mini">⌕</div>Find <span style="margin-left:auto">▶</span></div>
+        <div class="start-item"><div class="mini">?</div>Help</div>
+        <div class="start-item"><div class="mini">▣</div>Run...</div>
+        <div class="separator"></div>
+        <div class="start-item"><div class="mini">▤</div>Shut Down...</div>
+      </div>
+    </div>
+
+    <div class="taskbar">
+      <button class="button start-button" id="start-button">
+        <span class="start-glyph"><i></i><i></i><i></i><i></i></span>
+        Start
+      </button>
+      <div class="task-buttons" id="task-buttons"></div>
+      <div class="task-spacer"></div>
+      <div class="clock" id="clock">8:45 PM</div>
+    </div>
+  </div>
+</div>
+
+<script>
+const screen = document.getElementById("screen");
+let topZ = 20;
+
+function fitScreen(){
+  const scale = Math.min(window.innerWidth/640, window.innerHeight/480);
+  screen.style.transform = `translate(-50%,-50%) scale(${scale})`;
+}
+fitScreen();
+window.addEventListener("resize", fitScreen);
+
+function activate(win){
+  document.querySelectorAll(".window").forEach(w=>w.classList.add("inactive"));
+  win.classList.remove("inactive");
+  win.style.zIndex = ++topZ;
+  syncTaskbar();
+}
+
+function openWindow(id){
+  const win = document.getElementById(id);
+  win.classList.add("show");
+  win.style.display = "";
+  activate(win);
+}
+
+function closeWindow(win){
+  win.classList.remove("show");
+  win.style.display = "";
+  syncTaskbar();
+}
+
+function minimizeWindow(win){
+  win.style.display = "none";
+  syncTaskbar();
+}
+
+function syncTaskbar(){
+  const box = document.getElementById("task-buttons");
+  box.innerHTML = "";
+  const visibleWindows = [...document.querySelectorAll(".window.show")];
+
+  visibleWindows.forEach(win=>{
+    const btn = document.createElement("button");
+    btn.className = "task-button";
+    if(!win.classList.contains("inactive") && win.style.display !== "none") btn.classList.add("active");
+    btn.textContent = win.dataset.task || win.id;
+    btn.addEventListener("click",()=>{
+      if(win.style.display==="none"){
+        win.style.display="";
+        activate(win);
+      } else if(!win.classList.contains("inactive")) {
+        minimizeWindow(win);
+      } else {
+        activate(win);
+      }
+    });
+    box.appendChild(btn);
+  });
+}
+
+const desktopIcons = [...document.querySelectorAll(".desktop-icon")];
+function clearIconSelection(){ desktopIcons.forEach(i=>i.classList.remove("selected")); }
+
+function wireIcon(iconId, windowId){
+  const icon = document.getElementById(iconId);
+  icon.addEventListener("click",()=>{
+    clearIconSelection();
+    icon.classList.add("selected");
+  });
+  icon.addEventListener("dblclick",()=>openWindow(windowId));
+}
+
+wireIcon("computer-icon","computer-window");
+wireIcon("inbox-icon","inbox-window");
+wireIcon("diary-icon","diary-window");
+wireIcon("internet-icon","internet-window");
+
+document.getElementById("recycle-icon").addEventListener("click",()=>{
+  clearIconSelection();
+  document.getElementById("recycle-icon").classList.add("selected");
+});
+
+document.getElementById("c-drive").addEventListener("dblclick",()=>openWindow("drive-window"));
+
+document.querySelectorAll(".window").forEach(win=>{
+  win.addEventListener("mousedown",()=>activate(win));
+
+  win.querySelectorAll(".close").forEach(btn=>btn.addEventListener("click",e=>{
+    e.stopPropagation();
+    closeWindow(win);
+  }));
+
+  win.querySelectorAll(".minimize").forEach(btn=>btn.addEventListener("click",e=>{
+    e.stopPropagation();
+    minimizeWindow(win);
+  }));
+
+  const bar = win.querySelector(".titlebar");
+  let dragging=false, ox=0, oy=0;
+  bar.addEventListener("mousedown",e=>{
+    if(e.target.closest("button")) return;
+    dragging=true;
+    activate(win);
+    ox=e.clientX - win.offsetLeft * (window.innerWidth/640 > window.innerHeight/480 ? window.innerHeight/480 : window.innerWidth/640);
+    oy=e.clientY - win.offsetTop * (window.innerWidth/640 > window.innerHeight/480 ? window.innerHeight/480 : window.innerWidth/640);
+  });
+  window.addEventListener("mousemove",e=>{
+    if(!dragging) return;
+    const scale = Math.min(window.innerWidth/640, window.innerHeight/480);
+    const rect = screen.getBoundingClientRect();
+    let x=(e.clientX-rect.left)/scale - (ox - rect.left)/scale;
+    let y=(e.clientY-rect.top)/scale - (oy - rect.top)/scale;
+    x=Math.max(0,Math.min(640-win.offsetWidth,x));
+    y=Math.max(0,Math.min(456-win.offsetHeight,y));
+    win.style.left=x+"px";
+    win.style.top=y+"px";
+  });
+  window.addEventListener("mouseup",()=>dragging=false);
+});
+
+const startButton=document.getElementById("start-button");
+const startMenu=document.getElementById("start-menu");
+startButton.addEventListener("click",e=>{
+  e.stopPropagation();
+  startMenu.classList.toggle("show");
+});
+document.addEventListener("click",e=>{
+  if(!startMenu.contains(e.target) && !startButton.contains(e.target)) startMenu.classList.remove("show");
+});
+
+const password=document.getElementById("password");
+const status=document.getElementById("password-status");
+document.getElementById("unlock").addEventListener("click",()=>{
+  if(password.value==="0630"){
+    status.style.color="#006000";
+    status.textContent="Password accepted. The folder is empty... for now.";
+  } else {
+    status.style.color="#800000";
+    status.textContent="The password is incorrect.";
+  }
+});
+
+function updateClock(){
+  document.getElementById("clock").textContent =
+    new Date().toLocaleTimeString([],{hour:"numeric",minute:"2-digit"});
+}
+updateClock();
+setInterval(updateClock,1000);
+</script>
+</body>
+</html>
