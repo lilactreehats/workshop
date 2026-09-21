@@ -255,6 +255,94 @@
             cursor: pointer;
             z-index: 101;
         }
+
+        /* laptop hotspot */
+        .laptop-hotspot {
+            position: absolute;
+            left: 39%;
+            top: 45%;
+            width: 10%;
+            height: 13%;
+            z-index: 22;
+
+            background: transparent;
+            border: 0;
+            padding: 0;
+            cursor: pointer;
+        }
+
+        .laptop-hotspot:focus-visible {
+            outline: 2px dashed #7e6aa8;
+            outline-offset: 4px;
+        }
+
+        /* laptop close-up */
+        .laptop-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 150;
+
+            display: none;
+            justify-content: center;
+            align-items: center;
+
+            background: #000;
+        }
+
+        .laptop-modal.open {
+            display: flex;
+        }
+
+        .laptop-closeup {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            background: #f4efe8;
+        }
+
+        .laptop-closeup img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* clicking the dark laptop screen enters /computer/ */
+        .computer-screen-hotspot {
+            position: absolute;
+            left: 17%;
+            top: 14%;
+            width: 66%;
+            height: 62%;
+
+            border: 0;
+            padding: 0;
+            background: transparent;
+            cursor: pointer;
+        }
+
+        .computer-screen-hotspot:focus-visible {
+            outline: 2px dashed rgba(255, 255, 255, 0.75);
+            outline-offset: -4px;
+        }
+
+        .close-laptop {
+            position: absolute;
+            top: 18px;
+            right: 18px;
+            z-index: 152;
+
+            width: 34px;
+            height: 34px;
+            border: 2px solid #111;
+            background: #f4efe8;
+            color: #111;
+            font-family: "Courier New", monospace;
+            font-size: 20px;
+            line-height: 1;
+            cursor: pointer;
+        }
     </style>
 </head>
 
@@ -285,6 +373,13 @@
             title="light switch"
         ></button>
 
+        <button
+            class="laptop-hotspot"
+            type="button"
+            aria-label="Look closer at the laptop"
+            title="laptop"
+        ></button>
+
         <a
             class="cara-link"
             href="https://cara.app/lilactreehats/all"
@@ -304,6 +399,26 @@
         <div class="sticker-window" role="dialog" aria-label="Growing since sticker">
             <button class="close-sticker" type="button" aria-label="Close sticker">×</button>
             <img src="growth-sticker.png" alt="Growing since June 30, 2026 at 3:33 PM sticker">
+        </div>
+    </div>
+
+    <div class="laptop-modal" id="laptop-modal" aria-hidden="true">
+        <div class="laptop-closeup" role="dialog" aria-label="A close-up of the workshop laptop">
+            <img src="laptop-closeup.png" alt="A close-up of the old laptop">
+
+            <button
+                class="computer-screen-hotspot"
+                type="button"
+                aria-label="Turn on the computer"
+                title="turn on"
+            ></button>
+
+            <button
+                class="close-laptop"
+                type="button"
+                aria-label="Back to the workshop"
+                title="back"
+            >×</button>
         </div>
     </div>
 
@@ -380,6 +495,41 @@
                 }
             });
         }
+
+        const laptopHotspot = document.querySelector(".laptop-hotspot");
+        const laptopModal = document.getElementById("laptop-modal");
+        const closeLaptop = document.querySelector(".close-laptop");
+        const computerScreenHotspot = document.querySelector(".computer-screen-hotspot");
+
+        function openLaptop() {
+            laptopModal.classList.add("open");
+            laptopModal.setAttribute("aria-hidden", "false");
+        }
+
+        function closeLaptopView() {
+            laptopModal.classList.remove("open");
+            laptopModal.setAttribute("aria-hidden", "true");
+        }
+
+        if (laptopHotspot) {
+            laptopHotspot.addEventListener("click", openLaptop);
+        }
+
+        if (closeLaptop) {
+            closeLaptop.addEventListener("click", closeLaptopView);
+        }
+
+        if (computerScreenHotspot) {
+            computerScreenHotspot.addEventListener("click", function() {
+                window.location.href = "/computer/";
+            });
+        }
+
+        document.addEventListener("keydown", function(event) {
+            if (event.key === "Escape" && laptopModal.classList.contains("open")) {
+                closeLaptopView();
+            }
+        });
     </script>
 </body>
 </html>
