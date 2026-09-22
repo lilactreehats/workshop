@@ -1,2322 +1,964 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Lilac Computer</title>
-
-<style>
-:root {
-  --desktop:#8f87c4;
-  --gray:#c0c4c8;
-  --gray2:#808080;
-  --white:#ffffff;
-  --black:#000000;
-  --blue:#0000a8;
-  --inactive:#8c9094;
-}
-
-* {
-  box-sizing:border-box;
-}
-
-html,
-body {
-  margin:0;
-  width:100%;
-  height:100%;
-  overflow:hidden;
-  background:#000;
-  font-family:"Microsoft Sans Serif","MS Sans Serif",Tahoma,Arial,sans-serif;
-}
-
-button,
-input {
-  font:inherit;
-}
-
-
-/* =========================================================
-   SCREEN
-   ========================================================= */
-
-#screen {
-  position:fixed;
-  width:640px;
-  height:480px;
-  left:50%;
-  top:50%;
-  transform-origin:center;
-  overflow:hidden;
-  background:var(--desktop);
-  color:#000;
-}
-
-#desktop {
-  position:absolute;
-  inset:0;
-  background:var(--desktop);
-}
-
-
-/* =========================================================
-   DESKTOP ICONS
-   ========================================================= */
-
-.desktop-icons {
-  position:absolute;
-  left:7px;
-  top:3px;
-  width:62px;
-  display:flex;
-  flex-direction:column;
-  gap:7px;
-  z-index:2;
-}
-
-.desktop-icon {
-  width:62px;
-  color:#fff;
-  text-align:center;
-  font-size:12px;
-  line-height:13px;
-  text-shadow:1px 1px #000;
-  user-select:none;
-  cursor:default;
-  touch-action:manipulation;
-}
-
-.desktop-icon img {
-  width:32px;
-  height:32px;
-  object-fit:contain;
-  display:block;
-  margin:0 auto 1px;
-}
-
-.desktop-icon .label {
-  display:inline;
-  padding:0 2px;
-}
-
-.desktop-icon.selected .label {
-  background:#0000a8;
-  outline:1px dotted #fff;
-}
-
-
-/* =========================================================
-   WINDOWS
-   ========================================================= */
-
-.window {
-  position:absolute;
-  display:none;
-  background:var(--gray);
-
-  border-top:1px solid #fff;
-  border-left:1px solid #fff;
-  border-right:1px solid #000;
-  border-bottom:1px solid #000;
-
-  box-shadow:
-    inset 1px 1px #dfdfdf,
-    inset -1px -1px #808080;
-
-  z-index:10;
-}
-
-.window.show {
-  display:block;
-}
-
-.window.inactive .titlebar {
-  background:var(--inactive);
-  color:#ddd;
-}
-
-.titlebar {
-  height:18px;
-  margin:2px;
-  padding:2px 2px 2px 4px;
-
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-
-  background:var(--blue);
-  color:#fff;
-
-  font-size:12px;
-  font-weight:bold;
-  line-height:12px;
-
-  user-select:none;
-  touch-action:none;
-}
-
-.title-buttons {
-  display:flex;
-  gap:2px;
-}
-
-.win-btn {
-  width:16px;
-  height:14px;
-  padding:0;
-
-  background:var(--gray);
-  color:#000;
-
-  border-top:1px solid #fff;
-  border-left:1px solid #fff;
-  border-right:1px solid #000;
-  border-bottom:1px solid #000;
-
-  box-shadow:
-    inset 1px 1px #dfdfdf,
-    inset -1px -1px #808080;
-
-  font-size:11px;
-  font-weight:bold;
-  line-height:10px;
-}
-
-.win-btn:active,
-.button:active {
-  border-top-color:#000;
-  border-left-color:#000;
-  border-right-color:#fff;
-  border-bottom-color:#fff;
-}
-
-.menu {
-  height:19px;
-  padding:2px 6px;
-  font-size:12px;
-}
-
-.menu span {
-  margin-right:13px;
-}
-
-.client {
-  margin:0 3px 3px;
-  background:#fff;
-
-  border-top:1px solid #808080;
-  border-left:1px solid #808080;
-  border-right:1px solid #fff;
-  border-bottom:1px solid #fff;
-
-  box-shadow:inset 1px 1px #000;
-}
-
-.statusbar {
-  height:20px;
-  margin:0 3px 3px;
-  display:flex;
-  gap:2px;
-}
-
-.statusbox {
-  flex:1;
-  padding:2px 4px;
-
-  border-top:1px solid #808080;
-  border-left:1px solid #808080;
-  border-right:1px solid #fff;
-  border-bottom:1px solid #fff;
-
-  font-size:12px;
-}
-
-.button {
-  min-width:78px;
-  height:23px;
-  padding:1px 8px;
-
-  background:var(--gray);
-  color:#000;
-
-  border-top:1px solid #fff;
-  border-left:1px solid #fff;
-  border-right:1px solid #000;
-  border-bottom:1px solid #000;
-
-  box-shadow:
-    inset 1px 1px #dfdfdf,
-    inset -1px -1px #808080;
-
-  font-size:12px;
-}
-
-.button:disabled {
-  color:#808080;
-  text-shadow:1px 1px #fff;
-}
-
-
-/* =========================================================
-   FILE ICONS
-   ========================================================= */
-
-.icon-grid,
-.drive-grid,
-.documents-grid {
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:19px 8px;
-}
-
-.file-item {
-  text-align:center;
-  font-size:12px;
-  user-select:none;
-  cursor:default;
-  touch-action:manipulation;
-}
-
-.file-item img {
-  width:32px;
-  height:32px;
-  object-fit:contain;
-  display:block;
-  margin:0 auto 3px;
-}
-
-.file-label {
-  display:inline-block;
-  line-height:14px;
-}
-
-
-/* =========================================================
-   MY COMPUTER
-   ========================================================= */
-
-#computer-window {
-  left:186px;
-  top:38px;
-  width:380px;
-  height:245px;
-}
-
-#computer-window .client {
-  height:177px;
-  padding:14px 10px;
-}
-
-
-/* =========================================================
-   C DRIVE
-   ========================================================= */
-
-#drive-window {
-  left:215px;
-  top:34px;
-  width:400px;
-  height:315px;
-}
-
-#drive-window .client {
-  height:247px;
-  padding:12px 8px;
-}
-
-
-/* =========================================================
-   DOCUMENTS
-   ========================================================= */
-
-#documents-window {
-  left:175px;
-  top:82px;
-  width:330px;
-  height:215px;
-}
-
-#documents-window .client {
-  height:147px;
-  padding:15px 10px;
-}
-
-
-/* =========================================================
-   NOTEPAD
-   ========================================================= */
-
-#todo-window {
-  left:180px;
-  top:90px;
-  width:330px;
-  height:235px;
-}
-
-.notepad-body {
-  height:181px;
-  padding:8px;
-  background:#fff;
-  font-family:"Courier New",monospace;
-  font-size:13px;
-  white-space:pre-wrap;
-}
-
-
-/* =========================================================
-   INBOX
-   ========================================================= */
-
-#inbox-window {
-  left:83px;
-  top:50px;
-  width:480px;
-  height:342px;
-}
-
-.wizard {
-  height:319px;
-  padding:18px 15px 12px;
-  background:var(--gray);
-  font-size:12px;
-}
-
-.wizard h1 {
-  font-family:Georgia,"Times New Roman",serif;
-  font-size:28px;
-  font-weight:normal;
-  line-height:30px;
-  margin:0 0 8px;
-}
-
-.wizard p {
-  margin:0 0 14px;
-  line-height:15px;
-}
-
-.service {
-  display:grid;
-  grid-template-columns:36px 16px 130px 1fr 44px;
-  gap:7px;
-  align-items:center;
-  margin:10px 0;
-}
-
-.service img {
-  width:32px;
-  height:32px;
-  object-fit:contain;
-}
-
-.fake-check {
-  width:13px;
-  height:13px;
-  background:#fff;
-
-  border-top:1px solid #808080;
-  border-left:1px solid #808080;
-  border-right:1px solid #fff;
-  border-bottom:1px solid #fff;
-
-  box-shadow:inset 1px 1px #000;
-}
-
-.service-desc {
-  line-height:14px;
-}
-
-.wizard hr {
-  border:0;
-  height:2px;
-  background:#808080;
-  border-bottom:1px solid #fff;
-  margin:10px 0;
-}
-
-.wizard-actions {
-  display:flex;
-  justify-content:flex-end;
-  gap:10px;
-}
-
-
-/* =========================================================
-   INTERNET
-   ========================================================= */
-
-#internet-window {
-  left:95px;
-  top:58px;
-  width:500px;
-  height:340px;
-}
-
-.browser-toolbar {
-  height:27px;
-  padding:2px 4px;
-  border-top:1px solid #fff;
-  border-bottom:1px solid #808080;
-}
-
-.browser-toolbar .button {
-  min-width:24px;
-  width:24px;
-  height:21px;
-  padding:0;
-}
-
-.addressbar {
-  height:27px;
-  display:flex;
-  gap:5px;
-  align-items:center;
-  padding:2px 4px;
-  border-bottom:1px solid #808080;
-  font-size:11px;
-}
-
-.addressbar input {
-  height:20px;
-  flex:1;
-  padding:1px 3px;
-
-  background:#fff;
-
-  border-top:1px solid #808080;
-  border-left:1px solid #808080;
-  border-right:1px solid #fff;
-  border-bottom:1px solid #fff;
-
-  box-shadow:inset 1px 1px #000;
-  font-size:11px;
-}
-
-#internet-window .client {
-  height:232px;
-}
-
-.internet-error {
-  padding:35px 40px;
-  font-family:"Times New Roman",serif;
-}
-
-.internet-error h2 {
-  margin:0 0 15px;
-  font-size:24px;
-}
-
-.internet-error p {
-  margin:8px 0;
-  font-family:Arial,sans-serif;
-  font-size:12px;
-  line-height:17px;
-}
-
-
-/* =========================================================
-   RECYCLE BIN
-   ========================================================= */
-
-#recycle-window {
-  left:170px;
-  top:105px;
-  width:320px;
-  height:220px;
-}
-
-#recycle-window .client {
-  height:152px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:#666;
-  font-size:12px;
-}
-
-
-/* =========================================================
-   DIARY
-   ========================================================= */
-
-#diary-window {
-  left:190px;
-  top:145px;
-  width:270px;
-}
-
-.diary-body {
-  padding:13px 12px 11px;
-  font-size:12px;
-}
-
-.diary-top {
-  display:flex;
-  gap:9px;
-  align-items:flex-start;
-}
-
-.diary-top img {
-  width:32px;
-  height:32px;
-  object-fit:contain;
-}
-
-.password-row {
-  display:grid;
-  grid-template-columns:58px 1fr;
-  gap:7px;
-  align-items:center;
-  margin:12px 0 0;
-}
-
-.password-row input {
-  width:100%;
-  height:21px;
-  padding:1px 3px;
-
-  border-top:1px solid #808080;
-  border-left:1px solid #808080;
-  border-right:1px solid #fff;
-  border-bottom:1px solid #fff;
-
-  box-shadow:inset 1px 1px #000;
-
-  background:#fff;
-  outline:none;
-  font-size:12px;
-}
-
-#password-status {
-  min-height:16px;
-  margin:5px 0 0 65px;
-  font-size:11px;
-}
-
-.diary-actions {
-  display:flex;
-  justify-content:flex-end;
-  gap:8px;
-  margin-top:8px;
-}
-
-
-/* =========================================================
-   TASKBAR
-   ========================================================= */
-
-.taskbar {
-  position:absolute;
-  left:0;
-  right:0;
-  bottom:0;
-
-  height:24px;
-  padding:2px;
-
-  display:flex;
-  align-items:center;
-  gap:3px;
-
-  background:var(--gray);
-
-  border-top:1px solid #fff;
-  box-shadow:inset 0 1px #dfdfdf;
-
-  z-index:100;
-}
-
-.start-button {
-  height:20px;
-  min-width:52px;
-  padding:0 5px;
-
-  display:flex;
-  align-items:center;
-  gap:3px;
-
-  font-size:12px;
-  font-weight:bold;
-}
-
-.start-glyph {
-  width:14px;
-  height:14px;
-
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  grid-template-rows:1fr 1fr;
-
-  gap:1px;
-  transform:skew(-8deg);
-}
-
-.start-glyph i:nth-child(1) { background:#e33; }
-.start-glyph i:nth-child(2) { background:#2a3; }
-.start-glyph i:nth-child(3) { background:#26c; }
-.start-glyph i:nth-child(4) { background:#ec3; }
-
-.task-buttons {
-  display:flex;
-  gap:3px;
-  min-width:0;
-  overflow:hidden;
-}
-
-.task-button {
-  width:125px;
-  height:20px;
-  padding:0 6px;
-
-  text-align:left;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-
-  background:var(--gray);
-
-  border-top:1px solid #fff;
-  border-left:1px solid #fff;
-  border-right:1px solid #000;
-  border-bottom:1px solid #000;
-
-  box-shadow:
-    inset 1px 1px #dfdfdf,
-    inset -1px -1px #808080;
-
-  font-size:11px;
-}
-
-.task-button.active {
-  border-top-color:#000;
-  border-left-color:#000;
-  border-right-color:#fff;
-  border-bottom-color:#fff;
-
-  box-shadow:inset 1px 1px #808080;
-
-  background:
-    repeating-linear-gradient(
-      45deg,
-      #d8d8d8 0 1px,
-      #c0c0c0 1px 2px
-    );
-
-  font-weight:bold;
-}
-
-.task-spacer {
-  flex:1;
-}
-
-.clock {
-  flex:0 0 62px;
-  height:20px;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-
-  border-top:1px solid #808080;
-  border-left:1px solid #808080;
-  border-right:1px solid #fff;
-  border-bottom:1px solid #fff;
-
-  font-size:11px;
-}
-
-
-/* =========================================================
-   START MENU
-   ========================================================= */
-
-#start-menu {
-  position:absolute;
-  left:2px;
-  bottom:24px;
-
-  width:180px;
-  display:none;
-
-  background:var(--gray);
-
-  border-top:1px solid #fff;
-  border-left:1px solid #fff;
-  border-right:1px solid #000;
-  border-bottom:1px solid #000;
-
-  box-shadow:
-    inset 1px 1px #dfdfdf,
-    inset -1px -1px #808080;
-
-  z-index:200;
-}
-
-#start-menu.show {
-  display:flex;
-}
-
-.start-side {
-  width:25px;
-  background:#808080;
-  color:#d8d8d8;
-
-  writing-mode:vertical-rl;
-  transform:rotate(180deg);
-
-  font-size:16px;
-  font-weight:bold;
-  padding:5px 3px;
-}
-
-.start-list {
-  flex:1;
-  padding:3px 2px;
-}
-
-.start-item {
-  height:28px;
-  display:flex;
-  align-items:center;
-  padding:0 6px;
-  gap:7px;
-  font-size:12px;
-}
-
-.start-item:hover {
-  background:#000080;
-  color:#fff;
-}
-
-.mini {
-  width:18px;
-  height:18px;
-
-  display:grid;
-  place-items:center;
-
-  border:1px solid #808080;
-  background:#fff;
-}
-
-.separator {
-  height:2px;
-  background:#808080;
-  border-bottom:1px solid #fff;
-  margin:2px 3px;
-}
-
-
-/* =========================================================
-   SHUTDOWN SCREEN
-   ========================================================= */
-
-#shutdown-screen {
-  position:absolute;
-  inset:0;
-
-  display:none;
-
-  background:#000;
-
-  z-index:9999;
-}
-
-#shutdown-screen.on {
-  display:block;
-}
-</style>
+    <title>The Workshop</title>
+
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background: #f4efe8;
+            overflow: hidden;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .stage {
+            position: relative;
+            width: 100vw;
+            max-width: 100vw;
+            max-height: 100vh;
+            aspect-ratio: 16 / 9;
+            overflow: hidden;
+        }
+
+        .room {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: fill;
+            z-index: 1;
+        }
+
+        .object {
+            position: absolute;
+            object-fit: contain;
+            pointer-events: auto;
+        }
+
+        .tree {
+            left: 14%;
+            bottom: 19%;
+            width: 12%;
+            z-index: 3;
+        }
+
+        .chair {
+            left: 29%;
+            bottom: 13%;
+            width: 12%;
+            z-index: 5;
+        }
+
+        .desk {
+            left: 28%;
+            bottom: 19%;
+            width: 30%;
+            z-index: 4;
+        }
+
+        .corkboard {
+            left: 53%;
+            top: 25%;
+            width: 13%;
+            z-index: 3;
+        }
+
+        .door {
+            left: 71.5%;
+            bottom: 22.5%;
+            width: 12%;
+            z-index: 3;
+        }
+
+        .outlet {
+            left: 68%;
+            bottom: 30%;
+            width: 3.5%;
+            z-index: 5;
+        }
+
+
+        /* =====================================================
+           CARA LINK
+           ===================================================== */
+
+        .cara-link {
+            position: absolute;
+            left: 50.2%;
+            top: 50.5%;
+            width: 6%;
+            height: 4%;
+            z-index: 12;
+            cursor: pointer;
+        }
+
+
+        /* =====================================================
+           TREE / STICKER HOTSPOT
+           ===================================================== */
+
+        .plant-hotspot {
+            position: absolute;
+            left: 16.6%;
+            bottom: 20.1%;
+            width: 5.2%;
+            height: 9%;
+            z-index: 20;
+
+            background: transparent;
+            border: 0;
+            padding: 0;
+            cursor: pointer;
+        }
+
+        .plant-hotspot:focus-visible {
+            outline: 2px dashed #7e6aa8;
+            outline-offset: 4px;
+        }
+
+
+        /* =====================================================
+           LIGHT SWITCH
+           ===================================================== */
+
+        .light-switch-hotspot {
+            position: absolute;
+            left: 68.45%;
+            bottom: 54.6%;
+            width: 2.1%;
+            height: 6.8%;
+            z-index: 20;
+
+            background: transparent;
+            border: 0;
+            padding: 0;
+            cursor: pointer;
+        }
+
+        .light-switch-hotspot:focus-visible {
+            outline: 2px dashed #f4ead7;
+            outline-offset: 4px;
+        }
+
+
+        /* =====================================================
+           LAPTOP HOTSPOT
+           ===================================================== */
+
+        .laptop-hotspot {
+            position: absolute;
+            left: 39%;
+            top: 45%;
+            width: 10%;
+            height: 13%;
+            z-index: 22;
+
+            background: transparent;
+            border: 0;
+            padding: 0;
+            cursor: pointer;
+        }
+
+        .laptop-hotspot:focus-visible {
+            outline: 2px dashed #7e6aa8;
+            outline-offset: 4px;
+        }
+
+
+        /* =====================================================
+           GROWTH POST-IT
+           ===================================================== */
+
+        .growth-postit {
+            position: absolute;
+            left: 59%;
+            top: 29.4%;
+            z-index: 6;
+
+            width: 4.6%;
+            min-width: 42px;
+            aspect-ratio: 1 / 0.78;
+
+            background: #fffdf7;
+            border: 1px solid rgba(0, 0, 0, 0.22);
+            padding: 3px 3px;
+            box-sizing: border-box;
+
+            font-family: "Courier New", monospace;
+            font-size: clamp(4px, 0.3vw, 6px);
+            line-height: 1.1;
+            color: #111;
+
+            transform: rotate(2deg);
+            box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.10);
+        }
+
+        .growth-postit .label {
+            display: block;
+            margin-bottom: 1px;
+            font-weight: bold;
+        }
+
+        .growth-postit .counter {
+            display: block;
+        }
+
+
+        /* =====================================================
+           LIGHTS OFF
+           ===================================================== */
+
+        .lights-overlay {
+            position: absolute;
+            inset: 0;
+            z-index: 10;
+
+            pointer-events: none;
+            opacity: 0;
+
+            transition: opacity 0.25s ease;
+
+            background:
+                radial-gradient(
+                    ellipse at 50% 38%,
+                    rgba(255, 255, 255, 0.025) 0%,
+                    rgba(255, 255, 255, 0.012) 22%,
+                    rgba(255, 255, 255, 0) 50%
+                ),
+
+                linear-gradient(
+                    to bottom,
+                    rgba(0, 0, 0, 0.88) 0%,
+                    rgba(0, 0, 0, 0.94) 48%,
+                    rgba(0, 0, 0, 0.98) 100%
+                ),
+
+                linear-gradient(
+                    to right,
+                    rgba(0, 0, 0, 0.18) 0%,
+                    rgba(0, 0, 0, 0) 30%,
+                    rgba(0, 0, 0, 0) 70%,
+                    rgba(0, 0, 0, 0.18) 100%
+                ),
+
+                rgba(0, 0, 0, 0.82);
+        }
+
+        .stage.lights-off .lights-overlay {
+            opacity: 1;
+        }
+
+
+        /* =====================================================
+           GROWTH STICKER MODAL
+           ===================================================== */
+
+        .sticker-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+
+            display: none;
+            justify-content: center;
+            align-items: center;
+
+            background: rgba(43, 34, 56, 0.45);
+        }
+
+        .sticker-modal.open {
+            display: flex;
+        }
+
+        .sticker-window {
+            position: relative;
+            width: min(62vw, 360px);
+            padding: 0;
+
+            background: transparent;
+            border: none;
+            border-radius: 0;
+            box-shadow: none;
+        }
+
+        .sticker-window img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .close-sticker {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+
+            width: 32px;
+            height: 32px;
+
+            border-radius: 50%;
+            border: 2px solid #2b2238;
+
+            background: #fffdf7;
+            color: #2b2238;
+
+            font-size: 20px;
+            line-height: 1;
+
+            cursor: pointer;
+            z-index: 101;
+        }
+
+
+        /* =====================================================
+           LAPTOP CLOSE-UP
+           ===================================================== */
+
+        .laptop-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 150;
+
+            display: none;
+            justify-content: center;
+            align-items: center;
+
+            background: #000;
+        }
+
+        .laptop-modal.open {
+            display: flex;
+        }
+
+        .laptop-closeup {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+
+            overflow: hidden;
+            background: #f4efe8;
+        }
+
+        .laptop-closeup img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+
+        /* click the laptop screen to enter computer */
+
+        .computer-screen-hotspot {
+            position: absolute;
+
+            left: 17%;
+            top: 14%;
+
+            width: 66%;
+            height: 62%;
+
+            border: 0;
+            padding: 0;
+
+            background: transparent;
+            cursor: pointer;
+        }
+
+
+        /* close laptop close-up */
+
+        .close-laptop {
+            position: absolute;
+
+            top: 18px;
+            right: 18px;
+
+            width: 36px;
+            height: 36px;
+
+            border-radius: 50%;
+            border: 2px solid #2b2238;
+
+            background: #fffdf7;
+            color: #2b2238;
+
+            font-size: 22px;
+            line-height: 1;
+
+            cursor: pointer;
+            z-index: 160;
+        }
+
+    </style>
 </head>
 
 
 <body>
 
-<div id="screen">
-<div id="desktop">
 
+    <!-- =====================================================
+         WORKSHOP
+         ===================================================== -->
 
-<!-- ======================================================
-     DESKTOP
-     ====================================================== -->
+    <main class="stage" id="stage">
 
-<div class="desktop-icons">
+        <img
+            class="room"
+            src="room.jpg"
+            alt="The empty Lilac Workshop"
+        >
 
-  <div class="desktop-icon" id="computer-icon">
-    <img src="assets/computer.png" alt="">
-    <span class="label">My Computer</span>
-  </div>
 
-  <div class="desktop-icon" id="inbox-icon">
-    <img src="assets/inbox.png" alt="">
-    <span class="label">Inbox</span>
-  </div>
+        <img
+            class="object tree"
+            src="tree.png"
+            alt="A small lilac tree"
+        >
 
-  <div class="desktop-icon" id="diary-icon">
-    <img src="assets/diary.png" alt="">
-    <span class="label">my diary</span>
-  </div>
 
-  <div class="desktop-icon" id="internet-icon">
-    <img src="assets/internet.png" alt="">
-    <span class="label">Internet</span>
-  </div>
+        <img
+            class="object chair"
+            src="chair.png"
+            alt="A wooden chair"
+        >
 
-  <div class="desktop-icon" id="recycle-icon">
-    <img src="assets/recycle.png" alt="">
-    <span class="label">Recycle Bin</span>
-  </div>
 
-</div>
+        <img
+            class="object desk"
+            src="desk.png"
+            alt="A desk with a laptop"
+        >
 
 
-<!-- ======================================================
-     MY COMPUTER
-     ====================================================== -->
+        <img
+            class="object corkboard"
+            src="corkboard.png"
+            alt="A corkboard with one note"
+        >
 
-<div class="window"
-     id="computer-window"
-     data-task="My Computer">
 
-  <div class="titlebar">
+        <img
+            class="object door"
+            src="door.png"
+            alt="The workshop door"
+        >
 
-    <span>My Computer</span>
 
-    <div class="title-buttons">
-      <button class="win-btn minimize">_</button>
-      <button class="win-btn close">×</button>
-    </div>
+        <img
+            class="object outlet"
+            src="outlet.png"
+            alt="A small wall outlet"
+        >
 
-  </div>
 
-  <div class="menu">
-    <span>File</span>
-    <span>Edit</span>
-    <span>View</span>
-    <span>Help</span>
-  </div>
+        <!-- dark room overlay -->
 
-  <div class="client">
+        <div
+            class="lights-overlay"
+            aria-hidden="true"
+        ></div>
 
-    <div class="icon-grid">
 
-      <div class="file-item">
+        <!-- growth sticker -->
 
-        <img src="assets/floppy.png" alt="">
+        <button
+            class="plant-hotspot"
+            type="button"
+            aria-label="Open the growing since sticker"
+            title="growing since"
+        ></button>
 
-        <span class="file-label">
-          3½ Floppy (A:)
-        </span>
 
-      </div>
+        <!-- light switch -->
 
+        <button
+            class="light-switch-hotspot"
+            type="button"
+            aria-label="Turn the workshop lights off"
+            title="light switch"
+        ></button>
 
-      <div class="file-item"
-           id="c-drive">
 
-        <img src="assets/harddrive.png" alt="">
+        <!-- laptop -->
 
-        <span class="file-label">
-          Ms-dos_5 (C:)
-        </span>
+        <button
+            class="laptop-hotspot"
+            type="button"
+            aria-label="Look closer at the laptop"
+            title="laptop"
+        ></button>
 
-      </div>
 
-    </div>
+        <!-- Cara -->
 
-  </div>
+        <a
+            class="cara-link"
+            href="https://cara.app/lilactreehats/all"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Open Lilac Tree Hats on Cara"
+            title="Cara"
+        ></a>
 
-  <div class="statusbar">
 
-    <div class="statusbox">
-      2 object(s)
-    </div>
+        <!-- live age counter -->
 
-    <div class="statusbox"
-         style="max-width:120px">
-      My Computer
-    </div>
+        <div class="growth-postit">
 
-  </div>
+            <span class="label">
+                age:
+            </span>
 
-</div>
+            <span
+                class="counter"
+                id="growth-counter"
+            >
+                ...
+            </span>
 
+        </div>
 
-<!-- ======================================================
-     C DRIVE
-     ====================================================== -->
+    </main>
 
-<div class="window"
-     id="drive-window"
-     data-task="Ms-dos_5 (C:)">
 
-  <div class="titlebar">
+    <!-- =====================================================
+         GROWTH STICKER
+         ===================================================== -->
 
-    <span>Ms-dos_5 (C:)</span>
-
-    <div class="title-buttons">
-      <button class="win-btn minimize">_</button>
-      <button class="win-btn close">×</button>
-    </div>
-
-  </div>
-
-  <div class="menu">
-    <span>File</span>
-    <span>Edit</span>
-    <span>View</span>
-    <span>Help</span>
-  </div>
-
-  <div class="client">
-
-    <div class="drive-grid">
-
-      <div class="file-item">
-        <img src="assets/folder.png" alt="">
-        <span class="file-label">DOS</span>
-      </div>
-
-      <div class="file-item">
-        <img src="assets/folder.png" alt="">
-        <span class="file-label">Program Files</span>
-      </div>
-
-      <div class="file-item">
-        <img src="assets/folder.png" alt="">
-        <span class="file-label">Windows</span>
-      </div>
-
-      <div class="file-item"
-           id="documents-folder">
-
-        <img src="assets/folder.png" alt="">
-
-        <span class="file-label">
-          Documents
-        </span>
-
-      </div>
-
-
-      <div class="file-item">
-        <img src="assets/doc.png" alt="">
-        <span class="file-label">AUTOEXEC.BAT</span>
-      </div>
-
-      <div class="file-item">
-        <img src="assets/doc.png" alt="">
-        <span class="file-label">CONFIG.SYS</span>
-      </div>
-
-      <div class="file-item">
-        <img src="assets/doc.png" alt="">
-        <span class="file-label">COMMAND.COM</span>
-      </div>
-
-      <div class="file-item">
-        <img src="assets/doc.png" alt="">
-        <span class="file-label">MSDOS.SYS</span>
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <div class="statusbar">
-
-    <div class="statusbox">
-      8 object(s)
-    </div>
-
-    <div class="statusbox"
-         style="max-width:105px">
-      953KB
-    </div>
-
-  </div>
-
-</div>
-
-
-<!-- ======================================================
-     DOCUMENTS
-     ====================================================== -->
-
-<div class="window"
-     id="documents-window"
-     data-task="Documents">
-
-  <div class="titlebar">
-
-    <span>Documents</span>
-
-    <div class="title-buttons">
-      <button class="win-btn minimize">_</button>
-      <button class="win-btn close">×</button>
-    </div>
-
-  </div>
-
-  <div class="menu">
-    <span>File</span>
-    <span>Edit</span>
-    <span>View</span>
-    <span>Help</span>
-  </div>
-
-  <div class="client">
-
-    <div class="documents-grid">
-
-      <div class="file-item"
-           id="todo-file">
-
-        <img src="assets/doc.png" alt="">
-
-        <span class="file-label">
-          to do.txt
-        </span>
-
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <div class="statusbar">
-
-    <div class="statusbox">
-      1 object(s)
-    </div>
-
-  </div>
-
-</div>
-
-
-<!-- ======================================================
-     TO DO
-     ====================================================== -->
-
-<div class="window"
-     id="todo-window"
-     data-task="to do.txt - Notepad">
-
-  <div class="titlebar">
-
-    <span>to do.txt - Notepad</span>
-
-    <div class="title-buttons">
-      <button class="win-btn minimize">_</button>
-      <button class="win-btn close">×</button>
-    </div>
-
-  </div>
-
-  <div class="menu">
-    <span>File</span>
-    <span>Edit</span>
-    <span>Search</span>
-    <span>Help</span>
-  </div>
-
-  <div class="client notepad-body">change the password</div>
-
-</div>
-
-
-<!-- ======================================================
-     INBOX
-     ====================================================== -->
-
-<div class="window"
-     id="inbox-window"
-     data-task="Inbox Setup Wizard">
-
-  <div class="titlebar">
-
-    <span>Inbox Setup Wizard</span>
-
-    <div class="title-buttons">
-      <button class="win-btn close">×</button>
-    </div>
-
-  </div>
-
-
-  <div class="wizard">
-
-    <h1>Get Connected</h1>
-
-    <p>
-      <strong>
-        No mail service has been configured.
-      </strong>
-    </p>
-
-    <p>
-      Windows comes with E-mail, fax tools,
-      and access to online information services.
-      Select a service below to continue.
-    </p>
-
-
-    <div class="service">
-
-      <img src="assets/internet.png" alt="">
-
-      <div class="fake-check"></div>
-
-      <div>
-        Internet Mail
-      </div>
-
-      <div class="service-desc">
-        Offers access to E-mail and Internet mail.
-      </div>
-
-      <div>
-        1.3 MB
-      </div>
-
-    </div>
-
-
-    <div class="service">
-
-      <img src="assets/inbox.png" alt="">
-
-      <div class="fake-check"></div>
-
-      <div>
-        Microsoft Mail
-      </div>
-
-      <div class="service-desc">
-        Connects to mail servers and post offices.
-      </div>
-
-      <div>
-        0.1 MB
-      </div>
-
-    </div>
-
-
-    <div class="service">
-
-      <img src="assets/fax.png" alt="">
-
-      <div class="fake-check"></div>
-
-      <div>
-        Microsoft Fax
-      </div>
-
-      <div class="service-desc">
-        Allows your computer to send and receive faxes.
-      </div>
-
-      <div>
-        1.3 MB
-      </div>
-
-    </div>
-
-
-    <hr>
-
-
-    <div class="wizard-actions">
-
-      <button class="button" disabled>
-        OK
-      </button>
-
-      <button class="button close">
-        Cancel
-      </button>
-
-    </div>
-
-  </div>
-
-</div>
-
-
-<!-- ======================================================
-     INTERNET
-     ====================================================== -->
-
-<div class="window"
-     id="internet-window"
-     data-task="Internet">
-
-  <div class="titlebar">
-
-    <span>Internet</span>
-
-    <div class="title-buttons">
-      <button class="win-btn minimize">_</button>
-      <button class="win-btn close">×</button>
-    </div>
-
-  </div>
-
-
-  <div class="menu">
-    <span>File</span>
-    <span>Edit</span>
-    <span>View</span>
-    <span>Favorites</span>
-    <span>Help</span>
-  </div>
-
-
-  <div class="browser-toolbar">
-
-    <button class="button">←</button>
-    <button class="button">→</button>
-    <button class="button">×</button>
-    <button class="button">⌂</button>
-
-  </div>
-
-
-  <div class="addressbar">
-
-    <span>Address</span>
-
-    <input
-      value="http://"
-      readonly
+    <div
+        class="sticker-modal"
+        id="sticker-modal"
+        aria-hidden="true"
     >
 
-    <button class="button">
-      Go
-    </button>
+        <div
+            class="sticker-window"
+            role="dialog"
+            aria-label="Growing since sticker"
+        >
 
-  </div>
-
-
-  <div class="client">
-
-    <div class="internet-error">
-
-      <h2>
-        Unable to connect
-      </h2>
-
-      <p>
-        A connection to the Internet
-        could not be established.
-      </p>
-
-      <p>
-        Check your connection settings
-        and try again.
-      </p>
-
-    </div>
-
-  </div>
-
-</div>
+            <button
+                class="close-sticker"
+                type="button"
+                aria-label="Close sticker"
+            >
+                ×
+            </button>
 
 
-<!-- ======================================================
-     RECYCLE BIN
-     ====================================================== -->
+            <img
+                src="growth-sticker.png"
+                alt="Growing since June 30, 2026 at 3:33 PM sticker"
+            >
 
-<div class="window"
-     id="recycle-window"
-     data-task="Recycle Bin">
-
-  <div class="titlebar">
-
-    <span>Recycle Bin</span>
-
-    <div class="title-buttons">
-      <button class="win-btn minimize">_</button>
-      <button class="win-btn close">×</button>
-    </div>
-
-  </div>
-
-
-  <div class="menu">
-    <span>File</span>
-    <span>Edit</span>
-    <span>View</span>
-    <span>Help</span>
-  </div>
-
-
-  <div class="client">
-    This folder is empty.
-  </div>
-
-
-  <div class="statusbar">
-
-    <div class="statusbox">
-      0 object(s)
-    </div>
-
-  </div>
-
-</div>
-
-
-<!-- ======================================================
-     DIARY
-     ====================================================== -->
-
-<div class="window"
-     id="diary-window"
-     data-task="my diary">
-
-  <div class="titlebar">
-
-    <span>Password Required</span>
-
-    <div class="title-buttons">
-      <button class="win-btn close">×</button>
-    </div>
-
-  </div>
-
-
-  <div class="diary-body">
-
-    <div class="diary-top">
-
-      <img src="assets/diary.png" alt="">
-
-      <div>
-
-        <strong>
-          my diary
-        </strong>
-
-        <br><br>
-
-        Enter password to open this folder.
-
-      </div>
+        </div>
 
     </div>
 
 
-    <div class="password-row">
+    <!-- =====================================================
+         LAPTOP CLOSE-UP
+         ===================================================== -->
 
-      <label for="password">
-        Password:
-      </label>
+    <div
+        class="laptop-modal"
+        id="laptop-modal"
+        aria-hidden="true"
+    >
 
-      <input
-        id="password"
-        type="password"
-        autocomplete="off"
-      >
+        <div
+            class="laptop-closeup"
+            role="dialog"
+            aria-label="Old laptop"
+        >
+
+            <img
+                src="laptop-closeup.png"
+                alt="A close-up of the old laptop"
+            >
+
+
+            <!-- clicking screen enters computer -->
+
+            <button
+                class="computer-screen-hotspot"
+                type="button"
+                aria-label="Use the computer"
+                title="use computer"
+            ></button>
+
+
+            <!-- close close-up -->
+
+            <button
+                class="close-laptop"
+                type="button"
+                aria-label="Step away from laptop"
+            >
+                ×
+            </button>
+
+        </div>
 
     </div>
 
 
-    <div id="password-status"></div>
+    <script>
 
+        /* =====================================================
+           GROWTH COUNTER
+           ===================================================== */
 
-    <div class="diary-actions">
+        const projectStart =
+            new Date(
+                "2026-06-30T15:33:00-04:00"
+            );
 
-      <button
-        class="button"
-        id="unlock"
-      >
-        OK
-      </button>
 
-      <button class="button close">
-        Cancel
-      </button>
+        function updateGrowthCounter() {
 
-    </div>
+            const growthCounter =
+                document.getElementById(
+                    "growth-counter"
+                );
 
-  </div>
 
-</div>
+            if (!growthCounter) {
+                return;
+            }
 
 
-<!-- ======================================================
-     START MENU
-     ====================================================== -->
+            const now =
+                new Date();
 
-<div id="start-menu">
 
-  <div class="start-side">
-    Windows 95
-  </div>
+            const difference =
+                now - projectStart;
 
 
-  <div class="start-list">
+            const totalMinutes =
+                Math.floor(
+                    difference /
+                    (1000 * 60)
+                );
 
-    <div class="start-item">
-      <div class="mini">▦</div>
-      Programs
-      <span style="margin-left:auto">▶</span>
-    </div>
 
-    <div class="start-item">
-      <div class="mini">▤</div>
-      Documents
-      <span style="margin-left:auto">▶</span>
-    </div>
+            const days =
+                Math.floor(
+                    totalMinutes /
+                    (60 * 24)
+                );
 
-    <div class="start-item">
-      <div class="mini">⚙</div>
-      Settings
-      <span style="margin-left:auto">▶</span>
-    </div>
 
-    <div class="start-item">
-      <div class="mini">⌕</div>
-      Find
-      <span style="margin-left:auto">▶</span>
-    </div>
+            const hours =
+                Math.floor(
+                    (
+                        totalMinutes %
+                        (60 * 24)
+                    ) /
+                    60
+                );
 
-    <div class="start-item">
-      <div class="mini">?</div>
-      Help
-    </div>
 
-    <div class="start-item">
-      <div class="mini">▣</div>
-      Run...
-    </div>
+            const minutes =
+                totalMinutes %
+                60;
 
-    <div class="separator"></div>
 
-    <div class="start-item">
-      <div class="mini">▤</div>
-      Shut Down...
-    </div>
+            growthCounter.textContent =
+                `${days}d ${hours}h ${minutes}m`;
 
-  </div>
+        }
 
-</div>
 
+        updateGrowthCounter();
 
-<!-- ======================================================
-     TASKBAR
-     ====================================================== -->
 
-<div class="taskbar">
+        setInterval(
+            updateGrowthCounter,
+            60 * 1000
+        );
 
-  <button
-    class="button start-button"
-    id="start-button"
-  >
 
-    <span class="start-glyph">
-      <i></i>
-      <i></i>
-      <i></i>
-      <i></i>
-    </span>
+        /* =====================================================
+           GROWTH STICKER
+           ===================================================== */
 
-    Start
+        const plantHotspot =
+            document.querySelector(
+                ".plant-hotspot"
+            );
 
-  </button>
 
+        const stickerModal =
+            document.getElementById(
+                "sticker-modal"
+            );
 
-  <div
-    class="task-buttons"
-    id="task-buttons"
-  ></div>
 
+        const closeSticker =
+            document.querySelector(
+                ".close-sticker"
+            );
 
-  <div class="task-spacer"></div>
 
+        function openSticker() {
 
-  <div
-    class="clock"
-    id="clock"
-  >
-    8:45 PM
-  </div>
+            stickerModal.classList.add(
+                "open"
+            );
 
-</div>
+            stickerModal.setAttribute(
+                "aria-hidden",
+                "false"
+            );
 
+        }
 
-<!-- ======================================================
-     BLACK SCREEN
-     ====================================================== -->
 
-<div id="shutdown-screen"></div>
+        function closeStickerModal() {
 
+            stickerModal.classList.remove(
+                "open"
+            );
 
-</div>
-</div>
+            stickerModal.setAttribute(
+                "aria-hidden",
+                "true"
+            );
 
+        }
 
-<script>
 
-/* =========================================================
-   FIT SCREEN
-   ========================================================= */
+        if (plantHotspot) {
 
-const screen =
-  document.getElementById("screen");
+            plantHotspot.addEventListener(
+                "click",
+                openSticker
+            );
 
-let currentScale = 1;
-let topZ = 20;
+        }
 
 
-function fitScreen() {
+        if (closeSticker) {
 
-  currentScale =
-    Math.min(
-      window.innerWidth / 640,
-      window.innerHeight / 480
-    );
+            closeSticker.addEventListener(
+                "click",
+                closeStickerModal
+            );
 
-  screen.style.transform =
-    `translate(-50%, -50%) scale(${currentScale})`;
+        }
 
-}
 
+        if (stickerModal) {
 
-fitScreen();
+            stickerModal.addEventListener(
+                "click",
+                function(event) {
 
-window.addEventListener(
-  "resize",
-  fitScreen
-);
+                    if (
+                        event.target ===
+                        stickerModal
+                    ) {
 
+                        closeStickerModal();
 
-/* =========================================================
-   WINDOWS
-   ========================================================= */
+                    }
 
-function activate(win) {
+                }
+            );
 
-  document
-    .querySelectorAll(".window")
-    .forEach(w => {
+        }
 
-      w.classList.add("inactive");
 
-    });
+        /* =====================================================
+           LIGHT SWITCH
+           ===================================================== */
 
+        const stage =
+            document.getElementById(
+                "stage"
+            );
 
-  win.classList.remove("inactive");
 
-  win.style.zIndex =
-    ++topZ;
+        const lightSwitch =
+            document.querySelector(
+                ".light-switch-hotspot"
+            );
 
-  syncTaskbar();
-
-}
-
-
-function openWindow(id) {
-
-  const win =
-    document.getElementById(id);
-
-  win.classList.add("show");
-
-  win.style.display = "";
-
-  activate(win);
-
-}
-
-
-function closeWindow(win) {
-
-  win.classList.remove("show");
-
-  win.style.display = "";
-
-  syncTaskbar();
-
-}
-
-
-function minimizeWindow(win) {
-
-  win.style.display = "none";
-
-  syncTaskbar();
-
-}
-
-
-/* =========================================================
-   TASKBAR
-   ========================================================= */
-
-function syncTaskbar() {
-
-  const box =
-    document.getElementById(
-      "task-buttons"
-    );
-
-  box.innerHTML = "";
-
-
-  const visibleWindows = [
-    ...document.querySelectorAll(
-      ".window.show"
-    )
-  ];
-
-
-  visibleWindows.forEach(win => {
-
-    const btn =
-      document.createElement(
-        "button"
-      );
-
-    btn.className =
-      "task-button";
-
-
-    if (
-      !win.classList.contains(
-        "inactive"
-      ) &&
-      win.style.display !== "none"
-    ) {
-
-      btn.classList.add(
-        "active"
-      );
-
-    }
-
-
-    btn.textContent =
-      win.dataset.task ||
-      win.id;
-
-
-    btn.addEventListener(
-      "click",
-      () => {
 
         if (
-          win.style.display ===
-          "none"
+            stage &&
+            lightSwitch
         ) {
 
-          win.style.display = "";
+            lightSwitch.addEventListener(
+                "click",
+                function() {
 
-          activate(win);
+                    stage.classList.toggle(
+                        "lights-off"
+                    );
 
-        }
 
-        else if (
-          !win.classList.contains(
-            "inactive"
-          )
-        ) {
+                    if (
+                        stage.classList.contains(
+                            "lights-off"
+                        )
+                    ) {
 
-          minimizeWindow(win);
+                        lightSwitch.setAttribute(
+                            "aria-label",
+                            "Turn the workshop lights on"
+                        );
 
-        }
+                        lightSwitch.setAttribute(
+                            "title",
+                            "turn lights on"
+                        );
 
-        else {
+                    }
 
-          activate(win);
+                    else {
 
-        }
+                        lightSwitch.setAttribute(
+                            "aria-label",
+                            "Turn the workshop lights off"
+                        );
 
-      }
-    );
+                        lightSwitch.setAttribute(
+                            "title",
+                            "turn lights off"
+                        );
 
+                    }
 
-    box.appendChild(btn);
-
-  });
-
-}
-
-
-/* =========================================================
-   DESKTOP ICONS
-   ========================================================= */
-
-const desktopIcons = [
-  ...document.querySelectorAll(
-    ".desktop-icon"
-  )
-];
-
-
-function clearIconSelection() {
-
-  desktopIcons.forEach(icon => {
-
-    icon.classList.remove(
-      "selected"
-    );
-
-  });
-
-}
-
-
-function wireIcon(
-  iconId,
-  windowId
-) {
-
-  const icon =
-    document.getElementById(
-      iconId
-    );
-
-
-  icon.addEventListener(
-    "click",
-    () => {
-
-      clearIconSelection();
-
-      icon.classList.add(
-        "selected"
-      );
-
-
-      if (
-        window.matchMedia(
-          "(pointer: coarse)"
-        ).matches
-      ) {
-
-        openWindow(
-          windowId
-        );
-
-      }
-
-    }
-  );
-
-
-  icon.addEventListener(
-    "dblclick",
-    () => {
-
-      openWindow(
-        windowId
-      );
-
-    }
-  );
-
-}
-
-
-wireIcon(
-  "computer-icon",
-  "computer-window"
-);
-
-wireIcon(
-  "inbox-icon",
-  "inbox-window"
-);
-
-wireIcon(
-  "diary-icon",
-  "diary-window"
-);
-
-wireIcon(
-  "internet-icon",
-  "internet-window"
-);
-
-wireIcon(
-  "recycle-icon",
-  "recycle-window"
-);
-
-
-/* =========================================================
-   FILES + FOLDERS
-   ========================================================= */
-
-function wireFile(
-  itemId,
-  windowId
-) {
-
-  const item =
-    document.getElementById(
-      itemId
-    );
-
-
-  item.addEventListener(
-    "dblclick",
-    () => {
-
-      openWindow(
-        windowId
-      );
-
-    }
-  );
-
-
-  item.addEventListener(
-    "click",
-    () => {
-
-      if (
-        window.matchMedia(
-          "(pointer: coarse)"
-        ).matches
-      ) {
-
-        openWindow(
-          windowId
-        );
-
-      }
-
-    }
-  );
-
-}
-
-
-wireFile(
-  "c-drive",
-  "drive-window"
-);
-
-wireFile(
-  "documents-folder",
-  "documents-window"
-);
-
-wireFile(
-  "todo-file",
-  "todo-window"
-);
-
-
-/* =========================================================
-   WINDOW CONTROLS + DRAGGING
-   ========================================================= */
-
-document
-  .querySelectorAll(".window")
-  .forEach(win => {
-
-
-    win.addEventListener(
-      "pointerdown",
-      () => {
-
-        activate(win);
-
-      }
-    );
-
-
-    win
-      .querySelectorAll(".close")
-      .forEach(btn => {
-
-        btn.addEventListener(
-          "click",
-          event => {
-
-            event.stopPropagation();
-
-            closeWindow(win);
-
-          }
-        );
-
-      });
-
-
-    win
-      .querySelectorAll(".minimize")
-      .forEach(btn => {
-
-        btn.addEventListener(
-          "click",
-          event => {
-
-            event.stopPropagation();
-
-            minimizeWindow(win);
-
-          }
-        );
-
-      });
-
-
-    const bar =
-      win.querySelector(
-        ".titlebar"
-      );
-
-
-    let dragging = false;
-
-    let offsetX = 0;
-    let offsetY = 0;
-
-
-    bar.addEventListener(
-      "pointerdown",
-      event => {
-
-        if (
-          event.target.closest(
-            "button"
-          )
-        ) {
-
-          return;
+                }
+            );
 
         }
 
 
-        dragging = true;
+        /* =====================================================
+           LAPTOP
+           ===================================================== */
 
-        activate(win);
-
-
-        const rect =
-          screen.getBoundingClientRect();
-
-
-        const pointerX =
-          (
-            event.clientX -
-            rect.left
-          ) /
-          currentScale;
+        const laptopHotspot =
+            document.querySelector(
+                ".laptop-hotspot"
+            );
 
 
-        const pointerY =
-          (
-            event.clientY -
-            rect.top
-          ) /
-          currentScale;
+        const laptopModal =
+            document.getElementById(
+                "laptop-modal"
+            );
 
 
-        offsetX =
-          pointerX -
-          win.offsetLeft;
+        const closeLaptop =
+            document.querySelector(
+                ".close-laptop"
+            );
 
 
-        offsetY =
-          pointerY -
-          win.offsetTop;
+        const computerScreenHotspot =
+            document.querySelector(
+                ".computer-screen-hotspot"
+            );
 
 
-        bar.setPointerCapture(
-          event.pointerId
-        );
+        function openLaptop() {
 
-      }
-    );
+            laptopModal.classList.add(
+                "open"
+            );
 
+            laptopModal.setAttribute(
+                "aria-hidden",
+                "false"
+            );
 
-    bar.addEventListener(
-      "pointermove",
-      event => {
-
-        if (!dragging) {
-          return;
         }
 
 
-        const rect =
-          screen.getBoundingClientRect();
+        function closeLaptopView() {
 
+            laptopModal.classList.remove(
+                "open"
+            );
 
-        let x =
-          (
-            event.clientX -
-            rect.left
-          ) /
-          currentScale -
-          offsetX;
+            laptopModal.setAttribute(
+                "aria-hidden",
+                "true"
+            );
 
+        }
 
-        let y =
-          (
-            event.clientY -
-            rect.top
-          ) /
-          currentScale -
-          offsetY;
 
+        if (laptopHotspot) {
 
-        x =
-          Math.max(
-            0,
-            Math.min(
-              640 -
-              win.offsetWidth,
-              x
-            )
-          );
+            laptopHotspot.addEventListener(
+                "click",
+                openLaptop
+            );
 
+        }
 
-        y =
-          Math.max(
-            0,
-            Math.min(
-              456 -
-              win.offsetHeight,
-              y
-            )
-          );
 
+        if (closeLaptop) {
 
-        win.style.left =
-          x + "px";
+            closeLaptop.addEventListener(
+                "click",
+                closeLaptopView
+            );
 
+        }
 
-        win.style.top =
-          y + "px";
 
-      }
-    );
+        if (computerScreenHotspot) {
 
+            computerScreenHotspot.addEventListener(
+                "click",
+                function() {
 
-    bar.addEventListener(
-      "pointerup",
-      () => {
+                    window.location.href =
+                        "/computer/";
 
-        dragging = false;
+                }
+            );
 
-      }
-    );
+        }
 
-  });
 
+        /* =====================================================
+           ESCAPE KEY
+           ===================================================== */
 
-/* =========================================================
-   START MENU
-   ========================================================= */
+        document.addEventListener(
+            "keydown",
+            function(event) {
 
-const startButton =
-  document.getElementById(
-    "start-button"
-  );
+                if (
+                    event.key ===
+                    "Escape"
+                ) {
 
+                    closeStickerModal();
+                    closeLaptopView();
 
-const startMenu =
-  document.getElementById(
-    "start-menu"
-  );
+                }
 
-
-startButton.addEventListener(
-  "click",
-  event => {
-
-    event.stopPropagation();
-
-    startMenu.classList.toggle(
-      "show"
-    );
-
-  }
-);
-
-
-document.addEventListener(
-  "click",
-  event => {
-
-    if (
-      !startMenu.contains(
-        event.target
-      ) &&
-      !startButton.contains(
-        event.target
-      )
-    ) {
-
-      startMenu.classList.remove(
-        "show"
-      );
-
-    }
-
-  }
-);
-
-
-/* =========================================================
-   DIARY PASSWORD
-   ========================================================= */
-
-const password =
-  document.getElementById(
-    "password"
-  );
-
-
-const passwordStatus =
-  document.getElementById(
-    "password-status"
-  );
-
-
-const unlock =
-  document.getElementById(
-    "unlock"
-  );
-
-
-function tryPassword() {
-
-  if (
-    password.value.trim() ===
-    "0630"
-  ) {
-
-    passwordStatus.style.color =
-      "#006000";
-
-
-    passwordStatus.textContent =
-      "Opening...";
-
-
-    setTimeout(
-      shutDown,
-      650
-    );
-
-  }
-
-  else {
-
-    passwordStatus.style.color =
-      "#800000";
-
-
-    passwordStatus.textContent =
-      "The password is incorrect.";
-
-  }
-
-}
-
-
-unlock.addEventListener(
-  "click",
-  tryPassword
-);
-
-
-password.addEventListener(
-  "keydown",
-  event => {
-
-    if (
-      event.key ===
-      "Enter"
-    ) {
-
-      tryPassword();
-
-    }
-
-  }
-);
-
-
-/* =========================================================
-   SHUTDOWN ENDING
-   ========================================================= */
-
-function shutDown() {
-
-  const shutdownScreen =
-    document.getElementById(
-      "shutdown-screen"
-    );
-
-
-  shutdownScreen.classList.add(
-    "on"
-  );
-
-
-  /*
-    Stay black briefly.
-
-    Then return to the main
-    Lilac Workshop.
-  */
-
-  setTimeout(
-    () => {
-
-      window.location.href =
-        "/";
-
-    },
-    1400
-  );
-
-}
-
-
-/* =========================================================
-   CLOCK
-   ========================================================= */
-
-function updateClock() {
-
-  document
-    .getElementById(
-      "clock"
-    )
-    .textContent =
-      new Date()
-        .toLocaleTimeString(
-          [],
-          {
-            hour:"numeric",
-            minute:"2-digit"
-          }
+            }
         );
 
-}
-
-
-updateClock();
-
-
-setInterval(
-  updateClock,
-  1000
-);
-
-</script>
+    </script>
 
 </body>
 </html>
