@@ -1,257 +1,349 @@
 <!doctype html>
 <html lang="en">
+
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
 <title>Lilac Computer</title>
 
 <style>
+
 :root {
-  --desktop:#8f87c4;
-  --gray:#c0c4c8;
-  --gray2:#808080;
-  --white:#ffffff;
-  --black:#000000;
-  --blue:#0000a8;
-  --inactive:#8c9094;
+    --desktop: #8f87c4;
+    --gray: #c0c4c8;
+    --gray2: #808080;
+    --white: #ffffff;
+    --black: #000000;
+    --blue: #0000a8;
+    --inactive: #8c9094;
 }
 
 * {
-  box-sizing:border-box;
+    box-sizing: border-box;
 }
 
 html,
 body {
-  margin:0;
-  width:100%;
-  height:100%;
-  overflow:hidden;
-  background:#000;
-  font-family:"Microsoft Sans Serif","MS Sans Serif",Tahoma,Arial,sans-serif;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #000;
+
+    font-family:
+        "Microsoft Sans Serif",
+        "MS Sans Serif",
+        Tahoma,
+        Arial,
+        sans-serif;
 }
 
 button,
 input {
-  font:inherit;
+    font: inherit;
 }
 
+
 /* =========================================================
-   SCREEN
+   COMPUTER SCREEN
    ========================================================= */
 
 #screen {
-  position:fixed;
-  width:640px;
-  height:480px;
-  left:50%;
-  top:50%;
-  transform-origin:center;
-  overflow:hidden;
-  background:var(--desktop);
-  color:#000;
+    position: fixed;
+
+    width: 640px;
+    height: 480px;
+
+    left: 50%;
+    top: 50%;
+
+    transform-origin: center;
+
+    overflow: hidden;
+
+    background: var(--desktop);
+
+    color: #000;
 }
 
 #desktop {
-  position:absolute;
-  inset:0;
-  background:var(--desktop);
+    position: absolute;
+    inset: 0;
+
+    background: var(--desktop);
 }
+
 
 /* =========================================================
    DESKTOP ICONS
    ========================================================= */
 
 .desktop-icons {
-  position:absolute;
-  left:7px;
-  top:3px;
-  width:62px;
-  display:flex;
-  flex-direction:column;
-  gap:7px;
-  z-index:2;
+    position: absolute;
+
+    left: 7px;
+    top: 3px;
+
+    width: 62px;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 7px;
+
+    z-index: 2;
 }
 
 .desktop-icon {
-  width:62px;
-  color:#fff;
-  text-align:center;
-  font-size:12px;
-  line-height:13px;
-  text-shadow:1px 1px #000;
-  user-select:none;
-  cursor:default;
-  touch-action:manipulation;
+    width: 62px;
+
+    color: white;
+
+    text-align: center;
+
+    font-size: 12px;
+    line-height: 13px;
+
+    text-shadow: 1px 1px #000;
+
+    user-select: none;
+
+    cursor: default;
+
+    touch-action: manipulation;
 }
 
 .desktop-icon img {
-  width:32px;
-  height:32px;
-  object-fit:contain;
-  display:block;
-  margin:0 auto 1px;
+    width: 32px;
+    height: 32px;
+
+    object-fit: contain;
+
+    display: block;
+
+    margin: 0 auto 1px;
 }
 
 .desktop-icon .label {
-  display:inline;
-  padding:0 2px;
+    display: inline;
+
+    padding: 0 2px;
 }
 
 .desktop-icon.selected .label {
-  background:#0000a8;
-  outline:1px dotted #fff;
+    background: #0000a8;
+
+    outline: 1px dotted #fff;
 }
+
 
 /* =========================================================
    WINDOWS
    ========================================================= */
 
 .window {
-  position:absolute;
-  display:none;
-  background:var(--gray);
+    position: absolute;
 
-  border-top:1px solid #fff;
-  border-left:1px solid #fff;
-  border-right:1px solid #000;
-  border-bottom:1px solid #000;
+    display: none;
 
-  box-shadow:
-    inset 1px 1px #dfdfdf,
-    inset -1px -1px #808080;
+    background: var(--gray);
 
-  z-index:10;
+    border-top: 1px solid #fff;
+    border-left: 1px solid #fff;
+
+    border-right: 1px solid #000;
+    border-bottom: 1px solid #000;
+
+    box-shadow:
+        inset 1px 1px #dfdfdf,
+        inset -1px -1px #808080;
+
+    z-index: 10;
 }
 
 .window.show {
-  display:block;
+    display: block;
 }
 
 .window.inactive .titlebar {
-  background:var(--inactive);
-  color:#ddd;
+    background: var(--inactive);
+
+    color: #ddd;
 }
 
 .titlebar {
-  height:18px;
-  margin:2px;
-  padding:2px 2px 2px 4px;
+    height: 18px;
 
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
+    margin: 2px;
 
-  background:var(--blue);
-  color:#fff;
+    padding:
+        2px
+        2px
+        2px
+        4px;
 
-  font-size:12px;
-  font-weight:bold;
-  line-height:12px;
+    display: flex;
 
-  user-select:none;
-  touch-action:none;
+    align-items: center;
+
+    justify-content: space-between;
+
+    background: var(--blue);
+
+    color: white;
+
+    font-size: 12px;
+    font-weight: bold;
+
+    line-height: 12px;
+
+    user-select: none;
+
+    touch-action: none;
 }
 
 .title-buttons {
-  display:flex;
-  gap:2px;
+    display: flex;
+
+    gap: 2px;
 }
 
 .win-btn {
-  width:16px;
-  height:14px;
-  padding:0;
+    width: 16px;
+    height: 14px;
 
-  background:var(--gray);
-  color:#000;
+    padding: 0;
 
-  border-top:1px solid #fff;
-  border-left:1px solid #fff;
-  border-right:1px solid #000;
-  border-bottom:1px solid #000;
+    background: var(--gray);
 
-  box-shadow:
-    inset 1px 1px #dfdfdf,
-    inset -1px -1px #808080;
+    color: #000;
 
-  font-size:11px;
-  font-weight:bold;
-  line-height:10px;
+    border-top: 1px solid #fff;
+    border-left: 1px solid #fff;
+
+    border-right: 1px solid #000;
+    border-bottom: 1px solid #000;
+
+    box-shadow:
+        inset 1px 1px #dfdfdf,
+        inset -1px -1px #808080;
+
+    font-size: 11px;
+
+    font-weight: bold;
+
+    line-height: 10px;
 }
 
 .win-btn:active,
 .button:active {
-  border-top-color:#000;
-  border-left-color:#000;
-  border-right-color:#fff;
-  border-bottom-color:#fff;
+    border-top-color: #000;
+    border-left-color: #000;
+
+    border-right-color: #fff;
+    border-bottom-color: #fff;
 }
 
 .menu {
-  height:19px;
-  padding:2px 6px;
-  font-size:12px;
+    height: 19px;
+
+    padding:
+        2px
+        6px;
+
+    font-size: 12px;
 }
 
 .menu span {
-  margin-right:13px;
+    margin-right: 13px;
 }
 
 .client {
-  margin:0 3px 3px;
-  background:#fff;
+    margin:
+        0
+        3px
+        3px;
 
-  border-top:1px solid #808080;
-  border-left:1px solid #808080;
-  border-right:1px solid #fff;
-  border-bottom:1px solid #fff;
+    background: white;
 
-  box-shadow:inset 1px 1px #000;
+    border-top: 1px solid #808080;
+    border-left: 1px solid #808080;
+
+    border-right: 1px solid #fff;
+    border-bottom: 1px solid #fff;
+
+    box-shadow:
+        inset
+        1px
+        1px
+        #000;
 }
 
 .statusbar {
-  height:20px;
-  margin:0 3px 3px;
-  display:flex;
-  gap:2px;
+    height: 20px;
+
+    margin:
+        0
+        3px
+        3px;
+
+    display: flex;
+
+    gap: 2px;
 }
 
 .statusbox {
-  flex:1;
-  padding:2px 4px;
+    flex: 1;
 
-  border-top:1px solid #808080;
-  border-left:1px solid #808080;
-  border-right:1px solid #fff;
-  border-bottom:1px solid #fff;
+    padding:
+        2px
+        4px;
 
-  font-size:12px;
+    border-top: 1px solid #808080;
+    border-left: 1px solid #808080;
+
+    border-right: 1px solid #fff;
+    border-bottom: 1px solid #fff;
+
+    font-size: 12px;
 }
 
 .button {
-  min-width:78px;
-  height:23px;
-  padding:1px 8px;
+    min-width: 78px;
 
-  background:var(--gray);
-  color:#000;
+    height: 23px;
 
-  border-top:1px solid #fff;
-  border-left:1px solid #fff;
-  border-right:1px solid #000;
-  border-bottom:1px solid #000;
+    padding:
+        1px
+        8px;
 
-  box-shadow:
-    inset 1px 1px #dfdfdf,
-    inset -1px -1px #808080;
+    background: var(--gray);
 
-  font-size:12px;
+    color: #000;
+
+    border-top: 1px solid #fff;
+    border-left: 1px solid #fff;
+
+    border-right: 1px solid #000;
+    border-bottom: 1px solid #000;
+
+    box-shadow:
+        inset 1px 1px #dfdfdf,
+        inset -1px -1px #808080;
+
+    font-size: 12px;
 }
 
 .button:disabled {
-  color:#808080;
-  text-shadow:1px 1px #fff;
+    color: #808080;
+
+    text-shadow:
+        1px
+        1px
+        #fff;
 }
+
 
 /* =========================================================
    FILE ICONS
@@ -260,1098 +352,2159 @@ input {
 .icon-grid,
 .drive-grid,
 .documents-grid {
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:19px 8px;
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap:
+        19px
+        8px;
 }
 
 .file-item {
-  text-align:center;
-  font-size:12px;
-  user-select:none;
-  cursor:default;
-  touch-action:manipulation;
+    text-align: center;
+
+    font-size: 12px;
+
+    user-select: none;
+
+    cursor: default;
+
+    touch-action: manipulation;
 }
 
 .file-item img {
-  width:32px;
-  height:32px;
-  object-fit:contain;
-  display:block;
-  margin:0 auto 3px;
+    width: 32px;
+    height: 32px;
+
+    object-fit: contain;
+
+    display: block;
+
+    margin:
+        0
+        auto
+        3px;
 }
 
 .file-label {
-  display:inline-block;
-  line-height:14px;
+    display: inline-block;
+
+    line-height: 14px;
 }
+
 
 /* =========================================================
    MY COMPUTER
    ========================================================= */
 
 #computer-window {
-  left:186px;
-  top:38px;
-  width:380px;
-  height:245px;
+    left: 186px;
+    top: 38px;
+
+    width: 380px;
+
+    height: 245px;
 }
 
 #computer-window .client {
-  height:177px;
-  padding:14px 10px;
+    height: 177px;
+
+    padding:
+        14px
+        10px;
 }
+
 
 /* =========================================================
    C DRIVE
    ========================================================= */
 
 #drive-window {
-  left:215px;
-  top:34px;
-  width:400px;
-  height:315px;
+    left: 215px;
+    top: 34px;
+
+    width: 400px;
+
+    height: 315px;
 }
 
 #drive-window .client {
-  height:247px;
-  padding:12px 8px;
+    height: 247px;
+
+    padding:
+        12px
+        8px;
 }
+
 
 /* =========================================================
    DOCUMENTS
    ========================================================= */
 
 #documents-window {
-  left:175px;
-  top:82px;
-  width:330px;
-  height:215px;
+    left: 175px;
+    top: 82px;
+
+    width: 330px;
+
+    height: 215px;
 }
 
 #documents-window .client {
-  height:147px;
-  padding:15px 10px;
+    height: 147px;
+
+    padding:
+        15px
+        10px;
 }
 
+
 /* =========================================================
-   NOTEPAD / TO DO
+   TO DO / NOTEPAD
    ========================================================= */
 
 #todo-window {
-  left:180px;
-  top:90px;
-  width:330px;
-  height:235px;
+    left: 180px;
+    top: 90px;
+
+    width: 330px;
+
+    height: 235px;
 }
 
 .notepad-body {
-  height:181px;
-  padding:8px;
-  background:#fff;
-  font-family:"Courier New",monospace;
-  font-size:13px;
-  white-space:pre-wrap;
+    height: 181px;
+
+    padding: 8px;
+
+    background: white;
+
+    font-family:
+        "Courier New",
+        monospace;
+
+    font-size: 13px;
+
+    white-space: pre-wrap;
 }
+
 
 /* =========================================================
    INBOX
    ========================================================= */
 
 #inbox-window {
-  left:83px;
-  top:50px;
-  width:480px;
-  height:342px;
+    left: 83px;
+    top: 50px;
+
+    width: 480px;
+
+    height: 342px;
 }
 
 .wizard {
-  height:319px;
-  padding:18px 15px 12px;
-  background:var(--gray);
-  font-size:12px;
+    height: 319px;
+
+    padding:
+        18px
+        15px
+        12px;
+
+    background: var(--gray);
+
+    font-size: 12px;
 }
 
 .wizard h1 {
-  font-family:Georgia,"Times New Roman",serif;
-  font-size:28px;
-  font-weight:normal;
-  line-height:30px;
-  margin:0 0 8px;
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 28px;
+
+    font-weight: normal;
+
+    line-height: 30px;
+
+    margin:
+        0
+        0
+        8px;
 }
 
 .wizard p {
-  margin:0 0 14px;
-  line-height:15px;
+    margin:
+        0
+        0
+        14px;
+
+    line-height: 15px;
 }
 
 .service {
-  display:grid;
-  grid-template-columns:36px 16px 130px 1fr 44px;
-  gap:7px;
-  align-items:center;
-  margin:10px 0;
+    display: grid;
+
+    grid-template-columns:
+        36px
+        16px
+        130px
+        1fr
+        44px;
+
+    gap: 7px;
+
+    align-items: center;
+
+    margin:
+        10px
+        0;
 }
 
 .service img {
-  width:32px;
-  height:32px;
-  object-fit:contain;
+    width: 32px;
+    height: 32px;
+
+    object-fit: contain;
 }
 
 .fake-check {
-  width:13px;
-  height:13px;
-  background:#fff;
+    width: 13px;
+    height: 13px;
 
-  border-top:1px solid #808080;
-  border-left:1px solid #808080;
-  border-right:1px solid #fff;
-  border-bottom:1px solid #fff;
+    background: white;
 
-  box-shadow:inset 1px 1px #000;
+    border-top: 1px solid #808080;
+    border-left: 1px solid #808080;
+
+    border-right: 1px solid #fff;
+    border-bottom: 1px solid #fff;
+
+    box-shadow:
+        inset
+        1px
+        1px
+        #000;
 }
 
 .service-desc {
-  line-height:14px;
+    line-height: 14px;
 }
 
 .wizard hr {
-  border:0;
-  height:2px;
-  background:#808080;
-  border-bottom:1px solid #fff;
-  margin:10px 0;
+    border: 0;
+
+    height: 2px;
+
+    background: #808080;
+
+    border-bottom:
+        1px
+        solid
+        #fff;
+
+    margin:
+        10px
+        0;
 }
 
 .wizard-actions {
-  display:flex;
-  justify-content:flex-end;
-  gap:10px;
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 10px;
 }
+
 
 /* =========================================================
    INTERNET
    ========================================================= */
 
 #internet-window {
-  left:95px;
-  top:58px;
-  width:500px;
-  height:340px;
+    left: 95px;
+    top: 58px;
+
+    width: 500px;
+
+    height: 340px;
 }
 
 .browser-toolbar {
-  height:27px;
-  padding:2px 4px;
-  border-top:1px solid #fff;
-  border-bottom:1px solid #808080;
+    height: 27px;
+
+    padding:
+        2px
+        4px;
+
+    border-top:
+        1px
+        solid
+        #fff;
+
+    border-bottom:
+        1px
+        solid
+        #808080;
 }
 
 .browser-toolbar .button {
-  min-width:24px;
-  width:24px;
-  height:21px;
-  padding:0;
+    min-width: 24px;
+
+    width: 24px;
+
+    height: 21px;
+
+    padding: 0;
 }
 
 .addressbar {
-  height:27px;
-  display:flex;
-  gap:5px;
-  align-items:center;
-  padding:2px 4px;
-  border-bottom:1px solid #808080;
-  font-size:11px;
+    height: 27px;
+
+    display: flex;
+
+    gap: 5px;
+
+    align-items: center;
+
+    padding:
+        2px
+        4px;
+
+    border-bottom:
+        1px
+        solid
+        #808080;
+
+    font-size: 11px;
 }
 
 .addressbar input {
-  height:20px;
-  flex:1;
-  padding:1px 3px;
+    height: 20px;
 
-  background:#fff;
+    flex: 1;
 
-  border-top:1px solid #808080;
-  border-left:1px solid #808080;
-  border-right:1px solid #fff;
-  border-bottom:1px solid #fff;
+    padding:
+        1px
+        3px;
 
-  box-shadow:inset 1px 1px #000;
-  font-size:11px;
+    background: white;
+
+    border-top:
+        1px
+        solid
+        #808080;
+
+    border-left:
+        1px
+        solid
+        #808080;
+
+    border-right:
+        1px
+        solid
+        #fff;
+
+    border-bottom:
+        1px
+        solid
+        #fff;
+
+    box-shadow:
+        inset
+        1px
+        1px
+        #000;
+
+    font-size: 11px;
 }
 
 #internet-window .client {
-  height:232px;
+    height: 232px;
 }
 
 .internet-error {
-  padding:35px 40px;
-  font-family:"Times New Roman",serif;
+    padding:
+        35px
+        40px;
+
+    font-family:
+        "Times New Roman",
+        serif;
 }
 
 .internet-error h2 {
-  margin:0 0 15px;
-  font-size:24px;
+    margin:
+        0
+        0
+        15px;
+
+    font-size: 24px;
 }
 
 .internet-error p {
-  margin:8px 0;
-  font-family:Arial,sans-serif;
-  font-size:12px;
-  line-height:17px;
+    margin:
+        8px
+        0;
+
+    font-family:
+        Arial,
+        sans-serif;
+
+    font-size: 12px;
+
+    line-height: 17px;
 }
+
 
 /* =========================================================
    RECYCLE BIN
    ========================================================= */
 
 #recycle-window {
-  left:170px;
-  top:105px;
-  width:320px;
-  height:220px;
+    left: 170px;
+    top: 105px;
+
+    width: 320px;
+
+    height: 220px;
 }
 
 #recycle-window .client {
-  height:152px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:#666;
-  font-size:12px;
+    height: 152px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    color: #666;
+
+    font-size: 12px;
 }
+
 
 /* =========================================================
    DIARY
    ========================================================= */
 
 #diary-window {
-  left:190px;
-  top:145px;
-  width:270px;
+    left: 190px;
+    top: 145px;
+
+    width: 270px;
 }
 
 .diary-body {
-  padding:13px 12px 11px;
-  font-size:12px;
+    padding:
+        13px
+        12px
+        11px;
+
+    font-size: 12px;
 }
 
 .diary-top {
-  display:flex;
-  gap:9px;
-  align-items:flex-start;
+    display: flex;
+
+    gap: 9px;
+
+    align-items: flex-start;
 }
 
 .diary-top img {
-  width:32px;
-  height:32px;
-  object-fit:contain;
+    width: 32px;
+    height: 32px;
+
+    object-fit: contain;
 }
 
 .password-row {
-  display:grid;
-  grid-template-columns:58px 1fr;
-  gap:7px;
-  align-items:center;
-  margin:12px 0 0;
+    display: grid;
+
+    grid-template-columns:
+        58px
+        1fr;
+
+    gap: 7px;
+
+    align-items: center;
+
+    margin:
+        12px
+        0
+        0;
 }
 
 .password-row input {
-  width:100%;
-  height:21px;
-  padding:1px 3px;
+    width: 100%;
 
-  border-top:1px solid #808080;
-  border-left:1px solid #808080;
-  border-right:1px solid #fff;
-  border-bottom:1px solid #fff;
+    height: 21px;
 
-  box-shadow:inset 1px 1px #000;
-  background:#fff;
-  outline:none;
+    padding:
+        1px
+        3px;
 
-  font-size:12px;
+    border-top:
+        1px
+        solid
+        #808080;
+
+    border-left:
+        1px
+        solid
+        #808080;
+
+    border-right:
+        1px
+        solid
+        #fff;
+
+    border-bottom:
+        1px
+        solid
+        #fff;
+
+    box-shadow:
+        inset
+        1px
+        1px
+        #000;
+
+    background: white;
+
+    outline: none;
+
+    font-size: 12px;
 }
 
 #password-status {
-  min-height:16px;
-  margin:5px 0 0 65px;
-  font-size:11px;
+    min-height: 16px;
+
+    margin:
+        5px
+        0
+        0
+        65px;
+
+    font-size: 11px;
 }
 
 .diary-actions {
-  display:flex;
-  justify-content:flex-end;
-  gap:8px;
-  margin-top:8px;
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 8px;
+
+    margin-top: 8px;
 }
+
 
 /* =========================================================
    TASKBAR
    ========================================================= */
 
 .taskbar {
-  position:absolute;
-  left:0;
-  right:0;
-  bottom:0;
+    position: absolute;
 
-  height:24px;
-  padding:2px;
+    left: 0;
+    right: 0;
+    bottom: 0;
 
-  display:flex;
-  align-items:center;
-  gap:3px;
+    height: 24px;
 
-  background:var(--gray);
-  border-top:1px solid #fff;
-  box-shadow:inset 0 1px #dfdfdf;
+    padding: 2px;
 
-  z-index:100;
+    display: flex;
+
+    align-items: center;
+
+    gap: 3px;
+
+    background: var(--gray);
+
+    border-top:
+        1px
+        solid
+        #fff;
+
+    box-shadow:
+        inset
+        0
+        1px
+        #dfdfdf;
+
+    z-index: 100;
 }
 
 .start-button {
-  height:20px;
-  min-width:52px;
-  padding:0 5px;
+    height: 20px;
 
-  display:flex;
-  align-items:center;
-  gap:3px;
+    min-width: 52px;
 
-  font-size:12px;
-  font-weight:bold;
+    padding:
+        0
+        5px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 3px;
+
+    font-size: 12px;
+
+    font-weight: bold;
 }
 
 .start-glyph {
-  width:14px;
-  height:14px;
+    width: 14px;
+    height: 14px;
 
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  grid-template-rows:1fr 1fr;
+    display: grid;
 
-  gap:1px;
-  transform:skew(-8deg);
+    grid-template-columns:
+        1fr
+        1fr;
+
+    grid-template-rows:
+        1fr
+        1fr;
+
+    gap: 1px;
+
+    transform:
+        skew(-8deg);
 }
 
-.start-glyph i:nth-child(1) { background:#e33; }
-.start-glyph i:nth-child(2) { background:#2a3; }
-.start-glyph i:nth-child(3) { background:#26c; }
-.start-glyph i:nth-child(4) { background:#ec3; }
+.start-glyph i:nth-child(1) {
+    background: #e33;
+}
+
+.start-glyph i:nth-child(2) {
+    background: #2a3;
+}
+
+.start-glyph i:nth-child(3) {
+    background: #26c;
+}
+
+.start-glyph i:nth-child(4) {
+    background: #ec3;
+}
 
 .task-buttons {
-  display:flex;
-  gap:3px;
-  min-width:0;
-  overflow:hidden;
+    display: flex;
+
+    gap: 3px;
+
+    min-width: 0;
+
+    overflow: hidden;
 }
 
 .task-button {
-  width:125px;
-  height:20px;
-  padding:0 6px;
+    width: 125px;
 
-  text-align:left;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
+    height: 20px;
 
-  background:var(--gray);
+    padding:
+        0
+        6px;
 
-  border-top:1px solid #fff;
-  border-left:1px solid #fff;
-  border-right:1px solid #000;
-  border-bottom:1px solid #000;
+    text-align: left;
 
-  box-shadow:
-    inset 1px 1px #dfdfdf,
-    inset -1px -1px #808080;
+    white-space: nowrap;
 
-  font-size:11px;
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    background: var(--gray);
+
+    border-top:
+        1px
+        solid
+        #fff;
+
+    border-left:
+        1px
+        solid
+        #fff;
+
+    border-right:
+        1px
+        solid
+        #000;
+
+    border-bottom:
+        1px
+        solid
+        #000;
+
+    box-shadow:
+        inset 1px 1px #dfdfdf,
+        inset -1px -1px #808080;
+
+    font-size: 11px;
 }
 
 .task-button.active {
-  border-top-color:#000;
-  border-left-color:#000;
-  border-right-color:#fff;
-  border-bottom-color:#fff;
+    border-top-color: #000;
+    border-left-color: #000;
 
-  box-shadow:inset 1px 1px #808080;
+    border-right-color: #fff;
+    border-bottom-color: #fff;
 
-  background:
-    repeating-linear-gradient(
-      45deg,
-      #d8d8d8 0 1px,
-      #c0c0c0 1px 2px
-    );
+    box-shadow:
+        inset
+        1px
+        1px
+        #808080;
 
-  font-weight:bold;
+    background:
+        repeating-linear-gradient(
+            45deg,
+            #d8d8d8 0 1px,
+            #c0c0c0 1px 2px
+        );
+
+    font-weight: bold;
 }
 
 .task-spacer {
-  flex:1;
+    flex: 1;
 }
 
 .clock {
-  flex:0 0 62px;
-  height:20px;
+    flex:
+        0
+        0
+        62px;
 
-  display:flex;
-  align-items:center;
-  justify-content:center;
+    height: 20px;
 
-  border-top:1px solid #808080;
-  border-left:1px solid #808080;
-  border-right:1px solid #fff;
-  border-bottom:1px solid #fff;
+    display: flex;
 
-  font-size:11px;
+    align-items: center;
+
+    justify-content: center;
+
+    border-top:
+        1px
+        solid
+        #808080;
+
+    border-left:
+        1px
+        solid
+        #808080;
+
+    border-right:
+        1px
+        solid
+        #fff;
+
+    border-bottom:
+        1px
+        solid
+        #fff;
+
+    font-size: 11px;
 }
+
 
 /* =========================================================
    START MENU
    ========================================================= */
 
 #start-menu {
-  position:absolute;
-  left:2px;
-  bottom:24px;
+    position: absolute;
 
-  width:180px;
-  display:none;
+    left: 2px;
+    bottom: 24px;
 
-  background:var(--gray);
+    width: 180px;
 
-  border-top:1px solid #fff;
-  border-left:1px solid #fff;
-  border-right:1px solid #000;
-  border-bottom:1px solid #000;
+    display: none;
 
-  box-shadow:
-    inset 1px 1px #dfdfdf,
-    inset -1px -1px #808080;
+    background: var(--gray);
 
-  z-index:200;
+    border-top:
+        1px
+        solid
+        #fff;
+
+    border-left:
+        1px
+        solid
+        #fff;
+
+    border-right:
+        1px
+        solid
+        #000;
+
+    border-bottom:
+        1px
+        solid
+        #000;
+
+    box-shadow:
+        inset 1px 1px #dfdfdf,
+        inset -1px -1px #808080;
+
+    z-index: 200;
 }
 
 #start-menu.show {
-  display:flex;
+    display: flex;
 }
 
 .start-side {
-  width:25px;
-  background:#808080;
-  color:#d8d8d8;
+    width: 25px;
 
-  writing-mode:vertical-rl;
-  transform:rotate(180deg);
+    background: #808080;
 
-  font-size:16px;
-  font-weight:bold;
+    color: #d8d8d8;
 
-  padding:5px 3px;
+    writing-mode:
+        vertical-rl;
+
+    transform:
+        rotate(180deg);
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+    padding:
+        5px
+        3px;
 }
 
 .start-list {
-  flex:1;
-  padding:3px 2px;
+    flex: 1;
+
+    padding:
+        3px
+        2px;
 }
 
 .start-item {
-  height:28px;
-  display:flex;
-  align-items:center;
-  padding:0 6px;
-  gap:7px;
-  font-size:12px;
+    height: 28px;
+
+    display: flex;
+
+    align-items: center;
+
+    padding:
+        0
+        6px;
+
+    gap: 7px;
+
+    font-size: 12px;
 }
 
 .start-item:hover {
-  background:#000080;
-  color:#fff;
+    background: #000080;
+
+    color: #fff;
 }
 
 .mini {
-  width:18px;
-  height:18px;
-  display:grid;
-  place-items:center;
-  border:1px solid #808080;
-  background:#fff;
+    width: 18px;
+    height: 18px;
+
+    display: grid;
+
+    place-items: center;
+
+    border:
+        1px
+        solid
+        #808080;
+
+    background: white;
 }
 
 .separator {
-  height:2px;
-  background:#808080;
-  border-bottom:1px solid #fff;
-  margin:2px 3px;
+    height: 2px;
+
+    background: #808080;
+
+    border-bottom:
+        1px
+        solid
+        #fff;
+
+    margin:
+        2px
+        3px;
 }
+
 
 /* =========================================================
    SHUTDOWN
    ========================================================= */
 
 #shutdown-screen {
-  position:absolute;
-  inset:0;
-  display:none;
-  background:#000;
-  z-index:9999;
+    position: absolute;
+
+    inset: 0;
+
+    display: none;
+
+    background: #000;
+
+    z-index: 9999;
 }
 
 #shutdown-screen.on {
-  display:block;
+    display: block;
 }
+
 </style>
 </head>
 
+
+
 <body>
 
+
 <div id="screen">
-  <div id="desktop">
 
-    <!-- =====================================================
-         DESKTOP ICONS
-         ===================================================== -->
+<div id="desktop">
 
-    <div class="desktop-icons">
 
-      <div class="desktop-icon" id="computer-icon">
-        <img src="assets/computer.png" alt="">
-        <span class="label">My Computer</span>
-      </div>
+<!-- ======================================================
+     DESKTOP ICONS
+     ====================================================== -->
 
-      <div class="desktop-icon" id="inbox-icon">
-        <img src="assets/inbox.png" alt="">
-        <span class="label">Inbox</span>
-      </div>
+<div class="desktop-icons">
 
-      <div class="desktop-icon" id="diary-icon">
-        <img src="assets/diary.png" alt="">
-        <span class="label">my diary</span>
-      </div>
 
-      <div class="desktop-icon" id="internet-icon">
-        <img src="assets/internet.png" alt="">
-        <span class="label">Internet</span>
-      </div>
+    <div
+        class="desktop-icon"
+        id="computer-icon"
+    >
 
-      <div class="desktop-icon" id="recycle-icon">
-        <img src="assets/recycle.png" alt="">
-        <span class="label">Recycle Bin</span>
-      </div>
+        <img
+            src="assets/computer.png"
+            alt=""
+        >
+
+        <span class="label">
+            My Computer
+        </span>
 
     </div>
 
 
-    <!-- =====================================================
-         MY COMPUTER
-         ===================================================== -->
 
-    <div class="window" id="computer-window" data-task="My Computer">
+    <div
+        class="desktop-icon"
+        id="inbox-icon"
+    >
 
-      <div class="titlebar">
-        <span>My Computer</span>
+        <img
+            src="assets/inbox.png"
+            alt=""
+        >
+
+        <span class="label">
+            Inbox
+        </span>
+
+    </div>
+
+
+
+    <div
+        class="desktop-icon"
+        id="diary-icon"
+    >
+
+        <img
+            src="assets/diary.png"
+            alt=""
+        >
+
+        <span class="label">
+            my diary
+        </span>
+
+    </div>
+
+
+
+    <div
+        class="desktop-icon"
+        id="internet-icon"
+    >
+
+        <img
+            src="assets/internet.png"
+            alt=""
+        >
+
+        <span class="label">
+            Internet
+        </span>
+
+    </div>
+
+
+
+    <div
+        class="desktop-icon"
+        id="recycle-icon"
+    >
+
+        <img
+            src="assets/recycle.png"
+            alt=""
+        >
+
+        <span class="label">
+            Recycle Bin
+        </span>
+
+    </div>
+
+
+</div>
+
+
+
+<!-- ======================================================
+     MY COMPUTER
+     ====================================================== -->
+
+<div
+    class="window"
+    id="computer-window"
+    data-task="My Computer"
+>
+
+
+    <div class="titlebar">
+
+        <span>
+            My Computer
+        </span>
+
 
         <div class="title-buttons">
-          <button class="win-btn minimize">_</button>
-          <button class="win-btn close">×</button>
-        </div>
-      </div>
 
-      <div class="menu">
+            <button
+                class="win-btn minimize"
+            >
+                _
+            </button>
+
+            <button
+                class="win-btn close"
+            >
+                ×
+            </button>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="menu">
+
         <span>File</span>
         <span>Edit</span>
         <span>View</span>
         <span>Help</span>
-      </div>
 
-      <div class="client">
+    </div>
+
+
+
+    <div class="client">
+
         <div class="icon-grid">
 
-          <div class="file-item">
-            <img src="assets/floppy.png" alt="">
-            <span class="file-label">3½ Floppy (A:)</span>
-          </div>
 
-          <div class="file-item" id="c-drive">
-            <img src="assets/harddrive.png" alt="">
-            <span class="file-label">Ms-dos_5 (C:)</span>
-          </div>
+            <div class="file-item">
+
+                <img
+                    src="assets/floppy.png"
+                    alt=""
+                >
+
+                <span class="file-label">
+                    3½ Floppy (A:)
+                </span>
+
+            </div>
+
+
+
+            <div
+                class="file-item"
+                id="c-drive"
+            >
+
+                <img
+                    src="assets/harddrive.png"
+                    alt=""
+                >
+
+                <span class="file-label">
+                    Ms-dos_5 (C:)
+                </span>
+
+            </div>
+
 
         </div>
-      </div>
-
-      <div class="statusbar">
-        <div class="statusbox">2 object(s)</div>
-        <div class="statusbox" style="max-width:120px">My Computer</div>
-      </div>
 
     </div>
 
 
-    <!-- =====================================================
-         C DRIVE
-         ===================================================== -->
 
-    <div class="window" id="drive-window" data-task="Ms-dos_5 (C:)">
+    <div class="statusbar">
 
-      <div class="titlebar">
-        <span>Ms-dos_5 (C:)</span>
+        <div class="statusbox">
+            2 object(s)
+        </div>
+
+        <div
+            class="statusbox"
+            style="max-width:120px"
+        >
+            My Computer
+        </div>
+
+    </div>
+
+
+</div>
+
+
+
+<!-- ======================================================
+     C DRIVE
+     ====================================================== -->
+
+<div
+    class="window"
+    id="drive-window"
+    data-task="Ms-dos_5 (C:)"
+>
+
+
+    <div class="titlebar">
+
+        <span>
+            Ms-dos_5 (C:)
+        </span>
 
         <div class="title-buttons">
-          <button class="win-btn minimize">_</button>
-          <button class="win-btn close">×</button>
-        </div>
-      </div>
 
-      <div class="menu">
+            <button
+                class="win-btn minimize"
+            >
+                _
+            </button>
+
+            <button
+                class="win-btn close"
+            >
+                ×
+            </button>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="menu">
+
         <span>File</span>
         <span>Edit</span>
         <span>View</span>
         <span>Help</span>
-      </div>
 
-      <div class="client">
+    </div>
+
+
+
+    <div class="client">
+
         <div class="drive-grid">
 
-          <div class="file-item">
-            <img src="assets/folder.png" alt="">
-            <span class="file-label">DOS</span>
-          </div>
 
-          <div class="file-item">
-            <img src="assets/folder.png" alt="">
-            <span class="file-label">Program Files</span>
-          </div>
+            <div class="file-item">
 
-          <div class="file-item">
-            <img src="assets/folder.png" alt="">
-            <span class="file-label">Windows</span>
-          </div>
+                <img
+                    src="assets/folder.png"
+                    alt=""
+                >
 
-          <div class="file-item" id="documents-folder">
-            <img src="assets/folder.png" alt="">
-            <span class="file-label">Documents</span>
-          </div>
+                <span class="file-label">
+                    DOS
+                </span>
 
-          <div class="file-item">
-            <img src="assets/doc.png" alt="">
-            <span class="file-label">AUTOEXEC.BAT</span>
-          </div>
+            </div>
 
-          <div class="file-item">
-            <img src="assets/doc.png" alt="">
-            <span class="file-label">CONFIG.SYS</span>
-          </div>
 
-          <div class="file-item">
-            <img src="assets/doc.png" alt="">
-            <span class="file-label">COMMAND.COM</span>
-          </div>
 
-          <div class="file-item">
-            <img src="assets/doc.png" alt="">
-            <span class="file-label">MSDOS.SYS</span>
-          </div>
+            <div class="file-item">
+
+                <img
+                    src="assets/folder.png"
+                    alt=""
+                >
+
+                <span class="file-label">
+                    Program Files
+                </span>
+
+            </div>
+
+
+
+            <div class="file-item">
+
+                <img
+                    src="assets/folder.png"
+                    alt=""
+                >
+
+                <span class="file-label">
+                    Windows
+                </span>
+
+            </div>
+
+
+
+            <div
+                class="file-item"
+                id="documents-folder"
+            >
+
+                <img
+                    src="assets/folder.png"
+                    alt=""
+                >
+
+                <span class="file-label">
+                    Documents
+                </span>
+
+            </div>
+
+
+
+            <div class="file-item">
+
+                <img
+                    src="assets/doc.png"
+                    alt=""
+                >
+
+                <span class="file-label">
+                    AUTOEXEC.BAT
+                </span>
+
+            </div>
+
+
+
+            <div class="file-item">
+
+                <img
+                    src="assets/doc.png"
+                    alt=""
+                >
+
+                <span class="file-label">
+                    CONFIG.SYS
+                </span>
+
+            </div>
+
+
+
+            <div class="file-item">
+
+                <img
+                    src="assets/doc.png"
+                    alt=""
+                >
+
+                <span class="file-label">
+                    COMMAND.COM
+                </span>
+
+            </div>
+
+
+
+            <div class="file-item">
+
+                <img
+                    src="assets/doc.png"
+                    alt=""
+                >
+
+                <span class="file-label">
+                    MSDOS.SYS
+                </span>
+
+            </div>
+
 
         </div>
-      </div>
-
-      <div class="statusbar">
-        <div class="statusbox">8 object(s)</div>
-        <div class="statusbox" style="max-width:105px">953KB</div>
-      </div>
 
     </div>
 
 
-    <!-- =====================================================
-         DOCUMENTS
-         ===================================================== -->
 
-    <div class="window" id="documents-window" data-task="Documents">
+    <div class="statusbar">
 
-      <div class="titlebar">
-        <span>Documents</span>
+        <div class="statusbox">
+            8 object(s)
+        </div>
+
+        <div
+            class="statusbox"
+            style="max-width:105px"
+        >
+            953KB
+        </div>
+
+    </div>
+
+
+</div>
+
+
+
+<!-- ======================================================
+     DOCUMENTS
+     ====================================================== -->
+
+<div
+    class="window"
+    id="documents-window"
+    data-task="Documents"
+>
+
+
+    <div class="titlebar">
+
+        <span>
+            Documents
+        </span>
 
         <div class="title-buttons">
-          <button class="win-btn minimize">_</button>
-          <button class="win-btn close">×</button>
-        </div>
-      </div>
 
-      <div class="menu">
+            <button
+                class="win-btn minimize"
+            >
+                _
+            </button>
+
+            <button
+                class="win-btn close"
+            >
+                ×
+            </button>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="menu">
+
         <span>File</span>
         <span>Edit</span>
         <span>View</span>
         <span>Help</span>
-      </div>
-
-      <div class="client">
-        <div class="documents-grid">
-
-          <div class="file-item" id="todo-file">
-            <img src="assets/doc.png" alt="">
-            <span class="file-label">to do.txt</span>
-          </div>
-
-        </div>
-      </div>
-
-      <div class="statusbar">
-        <div class="statusbox">1 object(s)</div>
-      </div>
 
     </div>
 
 
-    <!-- =====================================================
-         TO DO.TXT
-         ===================================================== -->
 
-    <div class="window" id="todo-window" data-task="to do.txt - Notepad">
+    <div class="client">
 
-      <div class="titlebar">
-        <span>to do.txt - Notepad</span>
+        <div class="documents-grid">
+
+
+            <div
+                class="file-item"
+                id="todo-file"
+            >
+
+                <img
+                    src="assets/doc.png"
+                    alt=""
+                >
+
+                <span class="file-label">
+                    to do.txt
+                </span>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+    <div class="statusbar">
+
+        <div class="statusbox">
+            1 object(s)
+        </div>
+
+    </div>
+
+
+</div>
+
+
+
+<!-- ======================================================
+     TO DO.TXT
+     ====================================================== -->
+
+<div
+    class="window"
+    id="todo-window"
+    data-task="to do.txt - Notepad"
+>
+
+
+    <div class="titlebar">
+
+        <span>
+            to do.txt - Notepad
+        </span>
 
         <div class="title-buttons">
-          <button class="win-btn minimize">_</button>
-          <button class="win-btn close">×</button>
-        </div>
-      </div>
 
-      <div class="menu">
+            <button
+                class="win-btn minimize"
+            >
+                _
+            </button>
+
+            <button
+                class="win-btn close"
+            >
+                ×
+            </button>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="menu">
+
         <span>File</span>
         <span>Edit</span>
         <span>Search</span>
         <span>Help</span>
-      </div>
-
-      <div class="client notepad-body">change the password</div>
 
     </div>
 
 
-    <!-- =====================================================
-         INBOX
-         ===================================================== -->
 
-    <div class="window" id="inbox-window" data-task="Inbox Setup Wizard">
+    <div class="client notepad-body">change the password</div>
 
-      <div class="titlebar">
-        <span>Inbox Setup Wizard</span>
+
+</div>
+
+
+
+<!-- ======================================================
+     INBOX
+     ====================================================== -->
+
+<div
+    class="window"
+    id="inbox-window"
+    data-task="Inbox Setup Wizard"
+>
+
+
+    <div class="titlebar">
+
+        <span>
+            Inbox Setup Wizard
+        </span>
 
         <div class="title-buttons">
-          <button class="win-btn close">×</button>
+
+            <button
+                class="win-btn close"
+            >
+                ×
+            </button>
+
         </div>
-      </div>
 
-      <div class="wizard">
+    </div>
 
-        <h1>Get Connected</h1>
+
+
+    <div class="wizard">
+
+        <h1>
+            Get Connected
+        </h1>
+
 
         <p>
-          <strong>No mail service has been configured.</strong>
+            <strong>
+                No mail service has been configured.
+            </strong>
         </p>
+
 
         <p>
-          Windows comes with E-mail, fax tools, and access to online
-          information services. Select a service below to continue.
+            Windows comes with E-mail,
+            fax tools, and access to online
+            information services.
+            Select a service below to continue.
         </p>
 
-        <div class="service">
-          <img src="assets/internet.png" alt="">
-          <div class="fake-check"></div>
-          <div>Internet Mail</div>
-          <div class="service-desc">
-            Offers access to E-mail and Internet mail.
-          </div>
-          <div>1.3 MB</div>
-        </div>
+
 
         <div class="service">
-          <img src="assets/inbox.png" alt="">
-          <div class="fake-check"></div>
-          <div>Microsoft Mail</div>
-          <div class="service-desc">
-            Connects to mail servers and post offices.
-          </div>
-          <div>0.1 MB</div>
+
+            <img
+                src="assets/internet.png"
+                alt=""
+            >
+
+            <div class="fake-check"></div>
+
+            <div>
+                Internet Mail
+            </div>
+
+            <div class="service-desc">
+                Offers access to E-mail
+                and Internet mail.
+            </div>
+
+            <div>
+                1.3 MB
+            </div>
+
         </div>
 
+
+
         <div class="service">
-          <img src="assets/fax.png" alt="">
-          <div class="fake-check"></div>
-          <div>Microsoft Fax</div>
-          <div class="service-desc">
-            Allows your computer to send and receive faxes.
-          </div>
-          <div>1.3 MB</div>
+
+            <img
+                src="assets/inbox.png"
+                alt=""
+            >
+
+            <div class="fake-check"></div>
+
+            <div>
+                Microsoft Mail
+            </div>
+
+            <div class="service-desc">
+                Connects to mail servers
+                and post offices.
+            </div>
+
+            <div>
+                0.1 MB
+            </div>
+
         </div>
+
+
+
+        <div class="service">
+
+            <img
+                src="assets/fax.png"
+                alt=""
+            >
+
+            <div class="fake-check"></div>
+
+            <div>
+                Microsoft Fax
+            </div>
+
+            <div class="service-desc">
+                Allows your computer
+                to send and receive faxes.
+            </div>
+
+            <div>
+                1.3 MB
+            </div>
+
+        </div>
+
+
 
         <hr>
 
+
+
         <div class="wizard-actions">
-          <button class="button" disabled>OK</button>
-          <button class="button close">Cancel</button>
+
+            <button
+                class="button"
+                disabled
+            >
+                OK
+            </button>
+
+            <button
+                class="button close"
+            >
+                Cancel
+            </button>
+
         </div>
 
-      </div>
     </div>
 
 
-    <!-- =====================================================
-         INTERNET
-         ===================================================== -->
+</div>
 
-    <div class="window" id="internet-window" data-task="Internet">
 
-      <div class="titlebar">
-        <span>Internet</span>
+
+<!-- ======================================================
+     INTERNET
+     ====================================================== -->
+
+<div
+    class="window"
+    id="internet-window"
+    data-task="Internet"
+>
+
+
+    <div class="titlebar">
+
+        <span>
+            Internet
+        </span>
 
         <div class="title-buttons">
-          <button class="win-btn minimize">_</button>
-          <button class="win-btn close">×</button>
-        </div>
-      </div>
 
-      <div class="menu">
+            <button
+                class="win-btn minimize"
+            >
+                _
+            </button>
+
+            <button
+                class="win-btn close"
+            >
+                ×
+            </button>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="menu">
+
         <span>File</span>
         <span>Edit</span>
         <span>View</span>
         <span>Favorites</span>
         <span>Help</span>
-      </div>
-
-      <div class="browser-toolbar">
-        <button class="button">←</button>
-        <button class="button">→</button>
-        <button class="button">×</button>
-        <button class="button">⌂</button>
-      </div>
-
-      <div class="addressbar">
-        <span>Address</span>
-        <input value="http://" readonly>
-        <button class="button">Go</button>
-      </div>
-
-      <div class="client">
-        <div class="internet-error">
-          <h2>Unable to connect</h2>
-
-          <p>
-            A connection to the Internet could not be established.
-          </p>
-
-          <p>
-            Check your connection settings and try again.
-          </p>
-        </div>
-      </div>
 
     </div>
 
 
-    <!-- =====================================================
-         RECYCLE BIN
-         ===================================================== -->
 
-    <div class="window" id="recycle-window" data-task="Recycle Bin">
+    <div class="browser-toolbar">
 
-      <div class="titlebar">
-        <span>Recycle Bin</span>
+        <button class="button">←</button>
+
+        <button class="button">→</button>
+
+        <button class="button">×</button>
+
+        <button class="button">⌂</button>
+
+    </div>
+
+
+
+    <div class="addressbar">
+
+        <span>
+            Address
+        </span>
+
+        <input
+            value="http://"
+            readonly
+        >
+
+        <button class="button">
+            Go
+        </button>
+
+    </div>
+
+
+
+    <div class="client">
+
+        <div class="internet-error">
+
+            <h2>
+                Unable to connect
+            </h2>
+
+            <p>
+                A connection to the Internet
+                could not be established.
+            </p>
+
+            <p>
+                Check your connection settings
+                and try again.
+            </p>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+
+<!-- ======================================================
+     RECYCLE BIN
+     ====================================================== -->
+
+<div
+    class="window"
+    id="recycle-window"
+    data-task="Recycle Bin"
+>
+
+
+    <div class="titlebar">
+
+        <span>
+            Recycle Bin
+        </span>
 
         <div class="title-buttons">
-          <button class="win-btn minimize">_</button>
-          <button class="win-btn close">×</button>
-        </div>
-      </div>
 
-      <div class="menu">
+            <button
+                class="win-btn minimize"
+            >
+                _
+            </button>
+
+            <button
+                class="win-btn close"
+            >
+                ×
+            </button>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="menu">
+
         <span>File</span>
         <span>Edit</span>
         <span>View</span>
         <span>Help</span>
-      </div>
-
-      <div class="client">
-        This folder is empty.
-      </div>
-
-      <div class="statusbar">
-        <div class="statusbox">0 object(s)</div>
-      </div>
 
     </div>
 
 
-    <!-- =====================================================
-         DIARY
-         ===================================================== -->
 
-    <div class="window" id="diary-window" data-task="my diary">
+    <div class="client">
 
-      <div class="titlebar">
-        <span>Password Required</span>
+        This folder is empty.
+
+    </div>
+
+
+
+    <div class="statusbar">
+
+        <div class="statusbox">
+            0 object(s)
+        </div>
+
+    </div>
+
+
+</div>
+
+
+
+<!-- ======================================================
+     DIARY
+     ====================================================== -->
+
+<div
+    class="window"
+    id="diary-window"
+    data-task="my diary"
+>
+
+
+    <div class="titlebar">
+
+        <span>
+            Password Required
+        </span>
 
         <div class="title-buttons">
-          <button class="win-btn close">×</button>
-        </div>
-      </div>
 
-      <div class="diary-body">
+            <button
+                class="win-btn close"
+            >
+                ×
+            </button>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="diary-body">
 
         <div class="diary-top">
-          <img src="assets/diary.png" alt="">
 
-          <div>
-            <strong>my diary</strong>
-            <br><br>
-            Enter password to open this folder.
-          </div>
+            <img
+                src="assets/diary.png"
+                alt=""
+            >
+
+            <div>
+
+                <strong>
+                    my diary
+                </strong>
+
+                <br><br>
+
+                Enter password to open this folder.
+
+            </div>
+
         </div>
+
+
 
         <div class="password-row">
-          <label for="password">Password:</label>
-          <input
-            id="password"
-            type="password"
-            autocomplete="off"
-          >
+
+            <label for="password">
+                Password:
+            </label>
+
+            <input
+                id="password"
+                type="password"
+                autocomplete="off"
+            >
+
         </div>
+
+
 
         <div id="password-status"></div>
 
+
+
         <div class="diary-actions">
-          <button class="button" id="unlock">OK</button>
-          <button class="button close">Cancel</button>
+
+            <button
+                class="button"
+                id="unlock"
+            >
+                OK
+            </button>
+
+            <button
+                class="button close"
+            >
+                Cancel
+            </button>
+
         </div>
 
-      </div>
     </div>
 
 
-    <!-- =====================================================
-         START MENU
-         ===================================================== -->
+</div>
 
-    <div id="start-menu">
 
-      <div class="start-side">Windows 95</div>
 
-      <div class="start-list">
+<!-- ======================================================
+     START MENU
+     ====================================================== -->
 
-        <div class="start-item">
-          <div class="mini">▦</div>
-          Programs
-          <span style="margin-left:auto">▶</span>
-        </div>
+<div id="start-menu">
 
-        <div class="start-item">
-          <div class="mini">▤</div>
-          Documents
-          <span style="margin-left:auto">▶</span>
-        </div>
+    <div class="start-side">
+        Windows 95
+    </div>
+
+
+
+    <div class="start-list">
+
 
         <div class="start-item">
-          <div class="mini">⚙</div>
-          Settings
-          <span style="margin-left:auto">▶</span>
+
+            <div class="mini">
+                ▦
+            </div>
+
+            Programs
+
+            <span style="margin-left:auto">
+                ▶
+            </span>
+
         </div>
 
-        <div class="start-item">
-          <div class="mini">⌕</div>
-          Find
-          <span style="margin-left:auto">▶</span>
-        </div>
+
 
         <div class="start-item">
-          <div class="mini">?</div>
-          Help
+
+            <div class="mini">
+                ▤
+            </div>
+
+            Documents
+
+            <span style="margin-left:auto">
+                ▶
+            </span>
+
         </div>
 
+
+
         <div class="start-item">
-          <div class="mini">▣</div>
-          Run...
+
+            <div class="mini">
+                ⚙
+            </div>
+
+            Settings
+
+            <span style="margin-left:auto">
+                ▶
+            </span>
+
         </div>
+
+
+
+        <div class="start-item">
+
+            <div class="mini">
+                ⌕
+            </div>
+
+            Find
+
+            <span style="margin-left:auto">
+                ▶
+            </span>
+
+        </div>
+
+
+
+        <div class="start-item">
+
+            <div class="mini">
+                ?
+            </div>
+
+            Help
+
+        </div>
+
+
+
+        <div class="start-item">
+
+            <div class="mini">
+                ▣
+            </div>
+
+            Run...
+
+        </div>
+
+
 
         <div class="separator"></div>
 
+
+
         <div class="start-item">
-          <div class="mini">▤</div>
-          Shut Down...
+
+            <div class="mini">
+                ▤
+            </div>
+
+            Shut Down...
+
         </div>
 
-      </div>
+
     </div>
 
 
-    <!-- =====================================================
-         TASKBAR
-         ===================================================== -->
+</div>
 
-    <div class="taskbar">
 
-      <button class="button start-button" id="start-button">
+
+<!-- ======================================================
+     TASKBAR
+     ====================================================== -->
+
+<div class="taskbar">
+
+    <button
+        class="button start-button"
+        id="start-button"
+    >
 
         <span class="start-glyph">
-          <i></i>
-          <i></i>
-          <i></i>
-          <i></i>
+
+            <i></i>
+            <i></i>
+            <i></i>
+            <i></i>
+
         </span>
 
         Start
 
-      </button>
+    </button>
 
-      <div class="task-buttons" id="task-buttons"></div>
 
-      <div class="task-spacer"></div>
 
-      <div class="clock" id="clock">8:45 PM</div>
+    <div
+        class="task-buttons"
+        id="task-buttons"
+    ></div>
 
+
+
+    <div class="task-spacer"></div>
+
+
+
+    <div
+        class="clock"
+        id="clock"
+    >
+        8:45 PM
     </div>
 
 
-    <!-- =====================================================
-         BLACK SCREEN AFTER DIARY OPENS
-         ===================================================== -->
-
-    <div id="shutdown-screen"></div>
-
-  </div>
 </div>
+
+
+
+<!-- ======================================================
+     BLACK SHUTDOWN SCREEN
+     ====================================================== -->
+
+<div id="shutdown-screen"></div>
+
+
+</div>
+
+</div>
+
 
 
 <script>
 
+
 /* =========================================================
-   FIT 640x480 COMPUTER TO SCREEN
+   FIT COMPUTER TO BROWSER
    ========================================================= */
 
-const screen = document.getElementById("screen");
+const screen =
+    document.getElementById(
+        "screen"
+    );
+
 
 let currentScale = 1;
+
 let topZ = 20;
 
-function fitScreen() {
-  currentScale = Math.min(
-    window.innerWidth / 640,
-    window.innerHeight / 480
-  );
 
-  screen.style.transform =
-    `translate(-50%, -50%) scale(${currentScale})`;
+
+function fitScreen() {
+
+    currentScale =
+        Math.min(
+            window.innerWidth / 640,
+            window.innerHeight / 480
+        );
+
+    screen.style.transform =
+        `translate(-50%, -50%) scale(${currentScale})`;
+
 }
+
 
 fitScreen();
 
-window.addEventListener("resize", fitScreen);
+
+window.addEventListener(
+    "resize",
+    fitScreen
+);
+
 
 
 /* =========================================================
@@ -1360,46 +2513,92 @@ window.addEventListener("resize", fitScreen);
 
 function activate(win) {
 
-  document
-    .querySelectorAll(".window")
-    .forEach(w => w.classList.add("inactive"));
+    document
+        .querySelectorAll(
+            ".window"
+        )
+        .forEach(
+            windowElement => {
 
-  win.classList.remove("inactive");
+                windowElement
+                    .classList
+                    .add(
+                        "inactive"
+                    );
 
-  win.style.zIndex = ++topZ;
+            }
+        );
 
-  syncTaskbar();
+
+    win
+        .classList
+        .remove(
+            "inactive"
+        );
+
+
+    win.style.zIndex =
+        ++topZ;
+
+
+    syncTaskbar();
+
 }
+
 
 
 function openWindow(id) {
 
-  const win = document.getElementById(id);
+    const win =
+        document.getElementById(
+            id
+        );
 
-  win.classList.add("show");
 
-  win.style.display = "";
+    win.classList.add(
+        "show"
+    );
 
-  activate(win);
+
+    win.style.display =
+        "";
+
+
+    activate(
+        win
+    );
+
 }
+
 
 
 function closeWindow(win) {
 
-  win.classList.remove("show");
+    win.classList.remove(
+        "show"
+    );
 
-  win.style.display = "";
 
-  syncTaskbar();
+    win.style.display =
+        "";
+
+
+    syncTaskbar();
+
 }
+
 
 
 function minimizeWindow(win) {
 
-  win.style.display = "none";
+    win.style.display =
+        "none";
 
-  syncTaskbar();
+
+    syncTaskbar();
+
 }
+
 
 
 /* =========================================================
@@ -1408,54 +2607,119 @@ function minimizeWindow(win) {
 
 function syncTaskbar() {
 
-  const box = document.getElementById("task-buttons");
+    const box =
+        document.getElementById(
+            "task-buttons"
+        );
 
-  box.innerHTML = "";
 
-  const visibleWindows = [
-    ...document.querySelectorAll(".window.show")
-  ];
+    box.innerHTML =
+        "";
 
-  visibleWindows.forEach(win => {
 
-    const btn = document.createElement("button");
+    const windows = [
 
-    btn.className = "task-button";
+        ...document
+            .querySelectorAll(
+                ".window.show"
+            )
 
-    if (
-      !win.classList.contains("inactive") &&
-      win.style.display !== "none"
-    ) {
-      btn.classList.add("active");
-    }
+    ];
 
-    btn.textContent =
-      win.dataset.task || win.id;
 
-    btn.addEventListener("click", () => {
+    windows.forEach(
+        win => {
 
-      if (win.style.display === "none") {
 
-        win.style.display = "";
+            const button =
+                document.createElement(
+                    "button"
+                );
 
-        activate(win);
 
-      } else if (!win.classList.contains("inactive")) {
+            button.className =
+                "task-button";
 
-        minimizeWindow(win);
 
-      } else {
+            if (
+                !win
+                    .classList
+                    .contains(
+                        "inactive"
+                    )
 
-        activate(win);
+                &&
 
-      }
+                win.style.display !==
+                    "none"
+            ) {
 
-    });
+                button.classList.add(
+                    "active"
+                );
 
-    box.appendChild(btn);
+            }
 
-  });
+
+            button.textContent =
+                win.dataset.task ||
+                win.id;
+
+
+            button.addEventListener(
+                "click",
+                () => {
+
+
+                    if (
+                        win.style.display ===
+                        "none"
+                    ) {
+
+                        win.style.display =
+                            "";
+
+                        activate(
+                            win
+                        );
+
+                    }
+
+                    else if (
+                        !win
+                            .classList
+                            .contains(
+                                "inactive"
+                            )
+                    ) {
+
+                        minimizeWindow(
+                            win
+                        );
+
+                    }
+
+                    else {
+
+                        activate(
+                            win
+                        );
+
+                    }
+
+                }
+            );
+
+
+            box.appendChild(
+                button
+            );
+
+        }
+    );
+
 }
+
 
 
 /* =========================================================
@@ -1463,269 +2727,435 @@ function syncTaskbar() {
    ========================================================= */
 
 const desktopIcons = [
-  ...document.querySelectorAll(".desktop-icon")
+
+    ...document
+        .querySelectorAll(
+            ".desktop-icon"
+        )
+
 ];
+
 
 function clearIconSelection() {
 
-  desktopIcons.forEach(icon => {
-    icon.classList.remove("selected");
-  });
+    desktopIcons.forEach(
+        icon => {
+
+            icon.classList.remove(
+                "selected"
+            );
+
+        }
+    );
 
 }
 
 
-function wireIcon(iconId, windowId) {
 
-  const icon = document.getElementById(iconId);
+function wireIcon(
+    iconId,
+    windowId
+) {
 
-  icon.addEventListener("click", () => {
+    const icon =
+        document.getElementById(
+            iconId
+        );
 
-    clearIconSelection();
 
-    icon.classList.add("selected");
+    icon.addEventListener(
+        "click",
+        () => {
 
-    /*
-      On phones/tablets, one tap opens.
-      On desktop, double-click opens.
-    */
 
-    if (window.matchMedia("(pointer: coarse)").matches) {
-      openWindow(windowId);
-    }
+            clearIconSelection();
 
-  });
 
-  icon.addEventListener("dblclick", () => {
-    openWindow(windowId);
-  });
+            icon.classList.add(
+                "selected"
+            );
+
+
+            if (
+                window.matchMedia(
+                    "(pointer: coarse)"
+                ).matches
+            ) {
+
+                openWindow(
+                    windowId
+                );
+
+            }
+
+        }
+    );
+
+
+    icon.addEventListener(
+        "dblclick",
+        () => {
+
+            openWindow(
+                windowId
+            );
+
+        }
+    );
 
 }
 
 
-wireIcon(
-  "computer-icon",
-  "computer-window"
-);
 
 wireIcon(
-  "inbox-icon",
-  "inbox-window"
+    "computer-icon",
+    "computer-window"
 );
 
-wireIcon(
-  "diary-icon",
-  "diary-window"
-);
 
 wireIcon(
-  "internet-icon",
-  "internet-window"
+    "inbox-icon",
+    "inbox-window"
 );
 
+
 wireIcon(
-  "recycle-icon",
-  "recycle-window"
+    "diary-icon",
+    "diary-window"
 );
+
+
+wireIcon(
+    "internet-icon",
+    "internet-window"
+);
+
+
+wireIcon(
+    "recycle-icon",
+    "recycle-window"
+);
+
 
 
 /* =========================================================
    FILES / FOLDERS
    ========================================================= */
 
-function wireFile(itemId, windowId) {
+function wireFile(
+    itemId,
+    windowId
+) {
 
-  const item =
-    document.getElementById(itemId);
+    const item =
+        document.getElementById(
+            itemId
+        );
 
-  item.addEventListener("dblclick", () => {
-    openWindow(windowId);
-  });
 
-  item.addEventListener("click", () => {
+    item.addEventListener(
+        "dblclick",
+        () => {
 
-    if (
-      window.matchMedia("(pointer: coarse)").matches
-    ) {
-      openWindow(windowId);
-    }
+            openWindow(
+                windowId
+            );
 
-  });
+        }
+    );
+
+
+    item.addEventListener(
+        "click",
+        () => {
+
+            if (
+                window.matchMedia(
+                    "(pointer: coarse)"
+                ).matches
+            ) {
+
+                openWindow(
+                    windowId
+                );
+
+            }
+
+        }
+    );
 
 }
 
 
-wireFile(
-  "c-drive",
-  "drive-window"
-);
 
 wireFile(
-  "documents-folder",
-  "documents-window"
+    "c-drive",
+    "drive-window"
 );
 
+
 wireFile(
-  "todo-file",
-  "todo-window"
+    "documents-folder",
+    "documents-window"
 );
+
+
+wireFile(
+    "todo-file",
+    "todo-window"
+);
+
 
 
 /* =========================================================
-   CLOSE / MINIMIZE / DRAG WINDOWS
+   CLOSE + MINIMIZE + DRAG
    ========================================================= */
 
 document
-  .querySelectorAll(".window")
-  .forEach(win => {
-
-    win.addEventListener(
-      "pointerdown",
-      () => activate(win)
-    );
+    .querySelectorAll(
+        ".window"
+    )
+    .forEach(
+        win => {
 
 
-    win
-      .querySelectorAll(".close")
-      .forEach(btn => {
+            win.addEventListener(
+                "pointerdown",
+                () => {
 
-        btn.addEventListener(
-          "click",
-          event => {
+                    activate(
+                        win
+                    );
 
-            event.stopPropagation();
-
-            closeWindow(win);
-
-          }
-        );
-
-      });
+                }
+            );
 
 
-    win
-      .querySelectorAll(".minimize")
-      .forEach(btn => {
-
-        btn.addEventListener(
-          "click",
-          event => {
-
-            event.stopPropagation();
-
-            minimizeWindow(win);
-
-          }
-        );
-
-      });
+            win
+                .querySelectorAll(
+                    ".close"
+                )
+                .forEach(
+                    button => {
 
 
-    const bar =
-      win.querySelector(".titlebar");
-
-    let dragging = false;
-
-    let offsetX = 0;
-    let offsetY = 0;
+                        button.addEventListener(
+                            "click",
+                            event => {
 
 
-    bar.addEventListener(
-      "pointerdown",
-      event => {
+                                event.stopPropagation();
 
-        if (
-          event.target.closest("button")
-        ) {
-          return;
+
+                                closeWindow(
+                                    win
+                                );
+
+                            }
+                        );
+
+                    }
+                );
+
+
+            win
+                .querySelectorAll(
+                    ".minimize"
+                )
+                .forEach(
+                    button => {
+
+
+                        button.addEventListener(
+                            "click",
+                            event => {
+
+
+                                event.stopPropagation();
+
+
+                                minimizeWindow(
+                                    win
+                                );
+
+                            }
+                        );
+
+                    }
+                );
+
+
+            const bar =
+                win.querySelector(
+                    ".titlebar"
+                );
+
+
+            let dragging =
+                false;
+
+
+            let offsetX =
+                0;
+
+
+            let offsetY =
+                0;
+
+
+            bar.addEventListener(
+                "pointerdown",
+                event => {
+
+
+                    if (
+                        event.target.closest(
+                            "button"
+                        )
+                    ) {
+
+                        return;
+
+                    }
+
+
+                    dragging =
+                        true;
+
+
+                    activate(
+                        win
+                    );
+
+
+                    const rect =
+                        screen
+                            .getBoundingClientRect();
+
+
+                    const pointerX =
+                        (
+                            event.clientX -
+                            rect.left
+                        )
+                        /
+                        currentScale;
+
+
+                    const pointerY =
+                        (
+                            event.clientY -
+                            rect.top
+                        )
+                        /
+                        currentScale;
+
+
+                    offsetX =
+                        pointerX -
+                        win.offsetLeft;
+
+
+                    offsetY =
+                        pointerY -
+                        win.offsetTop;
+
+
+                    bar.setPointerCapture(
+                        event.pointerId
+                    );
+
+                }
+            );
+
+
+            bar.addEventListener(
+                "pointermove",
+                event => {
+
+
+                    if (
+                        !dragging
+                    ) {
+
+                        return;
+
+                    }
+
+
+                    const rect =
+                        screen
+                            .getBoundingClientRect();
+
+
+                    let x =
+                        (
+                            event.clientX -
+                            rect.left
+                        )
+                        /
+                        currentScale
+                        -
+                        offsetX;
+
+
+                    let y =
+                        (
+                            event.clientY -
+                            rect.top
+                        )
+                        /
+                        currentScale
+                        -
+                        offsetY;
+
+
+                    x =
+                        Math.max(
+                            0,
+                            Math.min(
+                                640 -
+                                win.offsetWidth,
+                                x
+                            )
+                        );
+
+
+                    y =
+                        Math.max(
+                            0,
+                            Math.min(
+                                456 -
+                                win.offsetHeight,
+                                y
+                            )
+                        );
+
+
+                    win.style.left =
+                        x + "px";
+
+
+                    win.style.top =
+                        y + "px";
+
+                }
+            );
+
+
+            bar.addEventListener(
+                "pointerup",
+                () => {
+
+                    dragging =
+                        false;
+
+                }
+            );
+
         }
-
-        dragging = true;
-
-        activate(win);
-
-        const rect =
-          screen.getBoundingClientRect();
-
-        const pointerX =
-          (event.clientX - rect.left) /
-          currentScale;
-
-        const pointerY =
-          (event.clientY - rect.top) /
-          currentScale;
-
-        offsetX =
-          pointerX - win.offsetLeft;
-
-        offsetY =
-          pointerY - win.offsetTop;
-
-        bar.setPointerCapture(
-          event.pointerId
-        );
-
-      }
     );
 
-
-    bar.addEventListener(
-      "pointermove",
-      event => {
-
-        if (!dragging) {
-          return;
-        }
-
-        const rect =
-          screen.getBoundingClientRect();
-
-        let x =
-          (event.clientX - rect.left) /
-          currentScale -
-          offsetX;
-
-        let y =
-          (event.clientY - rect.top) /
-          currentScale -
-          offsetY;
-
-        x = Math.max(
-          0,
-          Math.min(
-            640 - win.offsetWidth,
-            x
-          )
-        );
-
-        y = Math.max(
-          0,
-          Math.min(
-            456 - win.offsetHeight,
-            y
-          )
-        );
-
-        win.style.left =
-          x + "px";
-
-        win.style.top =
-          y + "px";
-
-      }
-    );
-
-
-    bar.addEventListener(
-      "pointerup",
-      () => {
-
-        dragging = false;
-
-      }
-    );
-
-  });
 
 
 /* =========================================================
@@ -1733,47 +3163,63 @@ document
    ========================================================= */
 
 const startButton =
-  document.getElementById(
-    "start-button"
-  );
+    document.getElementById(
+        "start-button"
+    );
+
 
 const startMenu =
-  document.getElementById(
-    "start-menu"
-  );
+    document.getElementById(
+        "start-menu"
+    );
 
 
 startButton.addEventListener(
-  "click",
-  event => {
+    "click",
+    event => {
 
-    event.stopPropagation();
 
-    startMenu.classList.toggle(
-      "show"
-    );
+        event.stopPropagation();
 
-  }
+
+        startMenu
+            .classList
+            .toggle(
+                "show"
+            );
+
+    }
 );
 
 
 document.addEventListener(
-  "click",
-  event => {
+    "click",
+    event => {
 
-    if (
-      !startMenu.contains(event.target) &&
-      !startButton.contains(event.target)
-    ) {
 
-      startMenu.classList.remove(
-        "show"
-      );
+        if (
+            !startMenu.contains(
+                event.target
+            )
+
+            &&
+
+            !startButton.contains(
+                event.target
+            )
+        ) {
+
+            startMenu
+                .classList
+                .remove(
+                    "show"
+                );
+
+        }
 
     }
-
-  }
 );
+
 
 
 /* =========================================================
@@ -1781,93 +3227,120 @@ document.addEventListener(
    ========================================================= */
 
 const password =
-  document.getElementById(
-    "password"
-  );
+    document.getElementById(
+        "password"
+    );
+
 
 const passwordStatus =
-  document.getElementById(
-    "password-status"
-  );
+    document.getElementById(
+        "password-status"
+    );
+
 
 const unlock =
-  document.getElementById(
-    "unlock"
-  );
+    document.getElementById(
+        "unlock"
+    );
 
 
 function tryPassword() {
 
-  if (
-    password.value.trim() === "0630"
-  ) {
+    if (
+        password.value.trim() ===
+        "0630"
+    ) {
 
-    passwordStatus.style.color =
-      "#006000";
+        passwordStatus.style.color =
+            "#006000";
 
-    passwordStatus.textContent =
-      "Opening...";
 
-    /*
-      Tiny delay so the player sees
-      that the password worked.
+        passwordStatus.textContent =
+            "Opening...";
 
-      Then the computer dies.
-    */
 
-    setTimeout(
-      shutDown,
-      650
-    );
+        setTimeout(
+            shutDown,
+            650
+        );
 
-  } else {
+    }
 
-    passwordStatus.style.color =
-      "#800000";
+    else {
 
-    passwordStatus.textContent =
-      "The password is incorrect.";
+        passwordStatus.style.color =
+            "#800000";
 
-  }
+
+        passwordStatus.textContent =
+            "The password is incorrect.";
+
+    }
 
 }
 
 
 unlock.addEventListener(
-  "click",
-  tryPassword
+    "click",
+    tryPassword
 );
 
 
 password.addEventListener(
-  "keydown",
-  event => {
+    "keydown",
+    event => {
 
-    if (
-      event.key === "Enter"
-    ) {
+        if (
+            event.key ===
+            "Enter"
+        ) {
 
-      tryPassword();
+            tryPassword();
+
+        }
 
     }
-
-  }
 );
 
 
+
 /* =========================================================
-   SHUTDOWN ENDING
+   DIARY ENDING
    ========================================================= */
 
 function shutDown() {
 
-  document
-    .getElementById(
-      "shutdown-screen"
-    )
-    .classList.add("on");
+    const shutdownScreen =
+        document.getElementById(
+            "shutdown-screen"
+        );
+
+
+    shutdownScreen
+        .classList
+        .add(
+            "on"
+        );
+
+
+    /*
+        Stay black for a moment,
+        then return to the Workshop.
+    */
+
+    setTimeout(
+        () => {
+
+            window.location.replace(
+                "https://lilactreehats.com/"
+            );
+
+        },
+        1400
+    );
 
 }
+
 
 
 /* =========================================================
@@ -1876,28 +3349,36 @@ function shutDown() {
 
 function updateClock() {
 
-  document
-    .getElementById("clock")
-    .textContent =
-      new Date()
-        .toLocaleTimeString(
-          [],
-          {
-            hour:"numeric",
-            minute:"2-digit"
-          }
-        );
+    document
+        .getElementById(
+            "clock"
+        )
+        .textContent =
+
+        new Date()
+            .toLocaleTimeString(
+                [],
+                {
+                    hour: "numeric",
+                    minute: "2-digit"
+                }
+            );
 
 }
 
+
 updateClock();
 
+
 setInterval(
-  updateClock,
-  1000
+    updateClock,
+    1000
 );
+
 
 </script>
 
+
 </body>
+
 </html>
