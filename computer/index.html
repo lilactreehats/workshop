@@ -4,15 +4,21 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Lilac Computer</title>
+
 <style>
-:root{
+:root {
   --desktop:#8f87c4;
   --gray:#c0c4c8;
   --inactive:#8c9094;
   --blue:#0000a8;
 }
-*{box-sizing:border-box}
-html,body{
+
+* {
+  box-sizing:border-box;
+}
+
+html,
+body {
   margin:0;
   width:100%;
   height:100%;
@@ -20,9 +26,21 @@ html,body{
   background:#000;
   font-family:"Microsoft Sans Serif","MS Sans Serif",Tahoma,Arial,sans-serif;
 }
-button,input{font:inherit}
 
-#screen{
+button,
+input {
+  font:inherit;
+}
+
+input[type="checkbox"] {
+  accent-color:auto;
+}
+
+/* =========================================================
+   SCREEN
+   ========================================================= */
+
+#screen {
   position:fixed;
   left:50%;
   top:50%;
@@ -33,10 +51,18 @@ button,input{font:inherit}
   background:var(--desktop);
   color:#000;
 }
-#desktop{position:absolute;inset:0;background:var(--desktop)}
 
-/* desktop */
-.desktop-icons{
+#desktop {
+  position:absolute;
+  inset:0;
+  background:var(--desktop);
+}
+
+/* =========================================================
+   DESKTOP ICONS
+   ========================================================= */
+
+.desktop-icons {
   position:absolute;
   left:7px;
   top:3px;
@@ -46,7 +72,8 @@ button,input{font:inherit}
   gap:7px;
   z-index:2;
 }
-.desktop-icon{
+
+.desktop-icon {
   width:62px;
   color:#fff;
   text-align:center;
@@ -57,18 +84,30 @@ button,input{font:inherit}
   cursor:default;
   touch-action:manipulation;
 }
-.desktop-icon img{
+
+.desktop-icon img {
   width:32px;
   height:32px;
   object-fit:contain;
   display:block;
   margin:0 auto 1px;
 }
-.desktop-icon .label{display:inline;padding:0 2px}
-.desktop-icon.selected .label{background:#0000a8;outline:1px dotted #fff}
 
-/* windows */
-.window{
+.desktop-icon .label {
+  display:inline;
+  padding:0 2px;
+}
+
+.desktop-icon.selected .label {
+  background:#0000a8;
+  outline:1px dotted #fff;
+}
+
+/* =========================================================
+   WINDOWS
+   ========================================================= */
+
+.window {
   position:absolute;
   display:none;
   background:var(--gray);
@@ -76,12 +115,22 @@ button,input{font:inherit}
   border-left:1px solid #fff;
   border-right:1px solid #000;
   border-bottom:1px solid #000;
-  box-shadow:inset 1px 1px #dfdfdf,inset -1px -1px #808080;
+  box-shadow:
+    inset 1px 1px #dfdfdf,
+    inset -1px -1px #808080;
   z-index:10;
 }
-.window.show{display:block}
-.window.inactive .titlebar{background:var(--inactive);color:#ddd}
-.titlebar{
+
+.window.show {
+  display:block;
+}
+
+.window.inactive .titlebar {
+  background:var(--inactive);
+  color:#ddd;
+}
+
+.titlebar {
   height:18px;
   margin:2px;
   padding:2px 2px 2px 4px;
@@ -96,8 +145,13 @@ button,input{font:inherit}
   user-select:none;
   touch-action:none;
 }
-.title-buttons{display:flex;gap:2px}
-.win-btn{
+
+.title-buttons {
+  display:flex;
+  gap:2px;
+}
+
+.win-btn {
   width:16px;
   height:14px;
   padding:0;
@@ -107,20 +161,33 @@ button,input{font:inherit}
   border-left:1px solid #fff;
   border-right:1px solid #000;
   border-bottom:1px solid #000;
-  box-shadow:inset 1px 1px #dfdfdf,inset -1px -1px #808080;
+  box-shadow:
+    inset 1px 1px #dfdfdf,
+    inset -1px -1px #808080;
   font-size:11px;
   font-weight:bold;
   line-height:10px;
 }
-.win-btn:active,.button:active{
+
+.win-btn:active,
+.button:active {
   border-top-color:#000;
   border-left-color:#000;
   border-right-color:#fff;
   border-bottom-color:#fff;
 }
-.menu{height:19px;padding:2px 6px;font-size:12px}
-.menu span{margin-right:13px}
-.client{
+
+.menu {
+  height:19px;
+  padding:2px 6px;
+  font-size:12px;
+}
+
+.menu span {
+  margin-right:13px;
+}
+
+.client {
   margin:0 3px 3px;
   background:#fff;
   border-top:1px solid #808080;
@@ -129,8 +196,15 @@ button,input{font:inherit}
   border-bottom:1px solid #fff;
   box-shadow:inset 1px 1px #000;
 }
-.statusbar{height:20px;margin:0 3px 3px;display:flex;gap:2px}
-.statusbox{
+
+.statusbar {
+  height:20px;
+  margin:0 3px 3px;
+  display:flex;
+  gap:2px;
+}
+
+.statusbox {
   flex:1;
   padding:2px 4px;
   border-top:1px solid #808080;
@@ -139,7 +213,8 @@ button,input{font:inherit}
   border-bottom:1px solid #fff;
   font-size:12px;
 }
-.button{
+
+.button {
   min-width:78px;
   height:23px;
   padding:1px 8px;
@@ -149,88 +224,403 @@ button,input{font:inherit}
   border-left:1px solid #fff;
   border-right:1px solid #000;
   border-bottom:1px solid #000;
-  box-shadow:inset 1px 1px #dfdfdf,inset -1px -1px #808080;
+  box-shadow:
+    inset 1px 1px #dfdfdf,
+    inset -1px -1px #808080;
   font-size:12px;
 }
-.button:disabled{color:#808080;text-shadow:1px 1px #fff}
 
-/* files */
-.icon-grid,.drive-grid,.documents-grid{
+.button:disabled {
+  color:#808080;
+  text-shadow:1px 1px #fff;
+}
+
+.dialog-body {
+  padding:14px;
+  font-size:12px;
+  line-height:16px;
+}
+
+.dialog-actions {
+  display:flex;
+  justify-content:flex-end;
+  gap:8px;
+  margin-top:14px;
+}
+
+/* =========================================================
+   FILE ICONS
+   ========================================================= */
+
+.icon-grid,
+.drive-grid,
+.documents-grid,
+.folder-grid {
   display:grid;
   grid-template-columns:repeat(4,1fr);
   gap:19px 8px;
 }
-.file-item{
+
+.file-item {
   text-align:center;
   font-size:12px;
   user-select:none;
   cursor:default;
   touch-action:manipulation;
 }
-.file-item img{
+
+.file-item img {
   width:32px;
   height:32px;
   object-fit:contain;
   display:block;
   margin:0 auto 3px;
 }
-.file-label{display:inline-block;line-height:14px}
 
-/* window sizes */
-#computer-window{left:186px;top:38px;width:380px;height:245px}
-#computer-window .client{height:177px;padding:14px 10px}
-#drive-window{left:215px;top:34px;width:400px;height:315px}
-#drive-window .client{height:247px;padding:12px 8px}
-#documents-window{left:175px;top:82px;width:330px;height:215px}
-#documents-window .client{height:147px;padding:15px 10px}
-#todo-window{left:180px;top:90px;width:330px;height:235px}
-.notepad-body{
-  height:181px;
+.file-label {
+  display:inline-block;
+  line-height:14px;
+}
+
+/* =========================================================
+   MY COMPUTER
+   ========================================================= */
+
+#computer-window {
+  left:176px;
+  top:38px;
+  width:400px;
+  height:245px;
+}
+
+#computer-window .client {
+  height:177px;
+  padding:14px 10px;
+}
+
+/* =========================================================
+   C DRIVE
+   ========================================================= */
+
+#drive-window {
+  left:210px;
+  top:42px;
+  width:390px;
+  height:260px;
+}
+
+#drive-window .client {
+  height:192px;
+  padding:14px 10px;
+}
+
+/* =========================================================
+   SIMPLE FOLDERS
+   ========================================================= */
+
+#programs-window,
+#settings-window,
+#documents-window {
+  left:175px;
+  top:82px;
+  width:330px;
+  height:215px;
+}
+
+#programs-window .client,
+#settings-window .client,
+#documents-window .client {
+  height:147px;
+  padding:15px 10px;
+}
+
+.empty-folder {
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#666;
+  font-size:12px;
+}
+
+/* =========================================================
+   NOTEPAD
+   ========================================================= */
+
+#todo-window,
+#passwords-window {
+  left:180px;
+  top:90px;
+  width:350px;
+  height:250px;
+}
+
+.notepad-body {
+  height:196px;
   padding:8px;
   background:#fff;
   font-family:"Courier New",monospace;
   font-size:13px;
+  line-height:18px;
   white-space:pre-wrap;
 }
 
-/* inbox */
-#inbox-window{left:83px;top:50px;width:480px;height:342px}
-.wizard{height:319px;padding:18px 15px 12px;background:var(--gray);font-size:12px}
-.wizard h1{
-  font-family:Georgia,"Times New Roman",serif;
-  font-size:28px;
-  font-weight:normal;
-  line-height:30px;
-  margin:0 0 8px;
+/* =========================================================
+   FLOPPY ERROR
+   ========================================================= */
+
+#floppy-error-window {
+  left:205px;
+  top:150px;
+  width:270px;
 }
-.wizard p{margin:0 0 14px;line-height:15px}
-.service{
+
+.floppy-error-row {
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.error-symbol {
+  width:32px;
+  height:32px;
+  flex:0 0 32px;
   display:grid;
-  grid-template-columns:36px 16px 130px 1fr 44px;
+  place-items:center;
+  border-radius:50%;
+  background:#d00000;
+  color:#fff;
+  font-family:Arial,sans-serif;
+  font-size:24px;
+  font-weight:bold;
+}
+
+/* =========================================================
+   DIARY
+   ========================================================= */
+
+#diary-window {
+  left:190px;
+  top:145px;
+  width:270px;
+}
+
+.diary-body {
+  padding:13px 12px 11px;
+  font-size:12px;
+}
+
+.diary-top {
+  display:flex;
+  gap:9px;
+  align-items:flex-start;
+}
+
+.diary-top img {
+  width:32px;
+  height:32px;
+  object-fit:contain;
+}
+
+.password-row {
+  display:grid;
+  grid-template-columns:58px 1fr;
   gap:7px;
   align-items:center;
-  margin:10px 0;
+  margin:12px 0 0;
 }
-.service img{width:32px;height:32px;object-fit:contain}
-.fake-check{
-  width:13px;
-  height:13px;
-  background:#fff;
+
+.password-row input,
+.login-grid input,
+.connect-grid input {
+  width:100%;
+  height:21px;
+  padding:1px 3px;
   border-top:1px solid #808080;
   border-left:1px solid #808080;
   border-right:1px solid #fff;
   border-bottom:1px solid #fff;
   box-shadow:inset 1px 1px #000;
+  background:#fff;
+  outline:none;
+  font-size:12px;
 }
-.service-desc{line-height:14px}
-.wizard hr{border:0;height:2px;background:#808080;border-bottom:1px solid #fff;margin:10px 0}
-.wizard-actions{display:flex;justify-content:flex-end;gap:10px}
 
-/* internet */
-#internet-window{left:95px;top:58px;width:500px;height:340px}
-.browser-toolbar{height:27px;padding:2px 4px;border-top:1px solid #fff;border-bottom:1px solid #808080}
-.browser-toolbar .button{min-width:24px;width:24px;height:21px;padding:0}
-.addressbar{
+#password-status,
+#mail-status {
+  min-height:16px;
+  margin-top:6px;
+  font-size:11px;
+}
+
+.diary-actions {
+  display:flex;
+  justify-content:flex-end;
+  gap:8px;
+  margin-top:8px;
+}
+
+#diary-folder-window {
+  left:165px;
+  top:90px;
+  width:330px;
+  height:215px;
+}
+
+#diary-folder-window .client {
+  height:147px;
+  padding:15px 10px;
+}
+
+/* =========================================================
+   INBOX SETUP
+   ========================================================= */
+
+#inbox-setup-window {
+  left:82px;
+  top:48px;
+  width:485px;
+  height:350px;
+}
+
+.wizard {
+  height:327px;
+  padding:17px 15px 12px;
+  background:var(--gray);
+  font-size:12px;
+}
+
+.wizard h1 {
+  margin:0 0 8px;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:27px;
+  font-weight:normal;
+  line-height:29px;
+}
+
+.wizard p {
+  margin:0 0 12px;
+  line-height:15px;
+}
+
+.service {
+  display:grid;
+  grid-template-columns:36px 20px 122px 1fr 44px;
+  gap:7px;
+  align-items:center;
+  margin:9px 0;
+}
+
+.service img {
+  width:32px;
+  height:32px;
+  object-fit:contain;
+}
+
+.service input[type="checkbox"] {
+  width:14px;
+  height:14px;
+  margin:0;
+}
+
+.service-desc {
+  line-height:14px;
+}
+
+.wizard hr {
+  border:0;
+  height:2px;
+  background:#808080;
+  border-bottom:1px solid #fff;
+  margin:10px 0;
+}
+
+.wizard-actions {
+  display:flex;
+  justify-content:flex-end;
+  gap:10px;
+}
+
+/* =========================================================
+   MAIL LOGIN + EMPTY INBOX
+   ========================================================= */
+
+#mail-login-window {
+  left:172px;
+  top:120px;
+  width:315px;
+}
+
+.login-grid {
+  display:grid;
+  grid-template-columns:76px 1fr;
+  gap:8px;
+  align-items:center;
+  margin-top:10px;
+}
+
+#inbox-window {
+  left:110px;
+  top:65px;
+  width:430px;
+  height:300px;
+}
+
+#inbox-window .client {
+  height:232px;
+}
+
+.mail-toolbar {
+  height:27px;
+  padding:3px 5px;
+  border-bottom:1px solid #808080;
+  font-size:11px;
+}
+
+.mail-list-head {
+  display:grid;
+  grid-template-columns:100px 1fr 95px;
+  padding:4px 7px;
+  background:#dfdfdf;
+  border-bottom:1px solid #808080;
+  font-size:11px;
+}
+
+.mail-empty {
+  height:175px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#666;
+  font-size:12px;
+}
+
+/* =========================================================
+   INTERNET BROWSER
+   ========================================================= */
+
+#internet-window {
+  left:95px;
+  top:58px;
+  width:500px;
+  height:340px;
+}
+
+.browser-toolbar {
+  height:27px;
+  padding:2px 4px;
+  border-top:1px solid #fff;
+  border-bottom:1px solid #808080;
+}
+
+.browser-toolbar .button {
+  min-width:24px;
+  width:24px;
+  height:21px;
+  padding:0;
+}
+
+.addressbar {
   height:27px;
   display:flex;
   gap:5px;
@@ -239,7 +629,8 @@ button,input{font:inherit}
   border-bottom:1px solid #808080;
   font-size:11px;
 }
-.addressbar input{
+
+.addressbar input {
   height:20px;
   flex:1;
   padding:1px 3px;
@@ -251,14 +642,64 @@ button,input{font:inherit}
   box-shadow:inset 1px 1px #000;
   font-size:11px;
 }
-#internet-window .client{height:232px}
-.internet-error{padding:35px 40px;font-family:"Times New Roman",serif}
-.internet-error h2{margin:0 0 15px;font-size:24px}
-.internet-error p{margin:8px 0;font-family:Arial,sans-serif;font-size:12px;line-height:17px}
 
-/* recycle */
-#recycle-window{left:170px;top:105px;width:320px;height:220px}
-#recycle-window .client{
+#internet-window .client {
+  height:232px;
+}
+
+.internet-error {
+  padding:35px 40px;
+  font-family:"Times New Roman",serif;
+}
+
+.internet-error h2 {
+  margin:0 0 15px;
+  font-size:24px;
+}
+
+.internet-error p {
+  margin:8px 0;
+  font-family:Arial,sans-serif;
+  font-size:12px;
+  line-height:17px;
+}
+
+.internet-home {
+  height:100%;
+  padding:22px 28px;
+  background:#fff;
+  font-family:"Times New Roman",serif;
+}
+
+.internet-home h1 {
+  margin:0 0 8px;
+  font-size:28px;
+  font-weight:normal;
+}
+
+.internet-home p {
+  font-family:Arial,sans-serif;
+  font-size:12px;
+  line-height:17px;
+}
+
+.internet-home .tiny {
+  color:#555;
+  font-size:11px;
+}
+
+/* =========================================================
+   RECYCLE BIN
+   ========================================================= */
+
+#recycle-window {
+  left:170px;
+  top:105px;
+  width:320px;
+  height:220px;
+}
+
+#recycle-window .client {
   height:152px;
   display:flex;
   align-items:center;
@@ -267,92 +708,223 @@ button,input{font:inherit}
   font-size:12px;
 }
 
-/* diary */
-#diary-window{left:190px;top:145px;width:270px}
-.diary-body{padding:13px 12px 11px;font-size:12px}
-.diary-top{display:flex;gap:9px;align-items:flex-start}
-.diary-top img{width:32px;height:32px;object-fit:contain}
-.password-row{
-  display:grid;
-  grid-template-columns:58px 1fr;
-  gap:7px;
-  align-items:center;
-  margin:12px 0 0;
+/* =========================================================
+   DIAL-UP NETWORKING FOLDER
+   ========================================================= */
+
+#dialup-window {
+  left:155px;
+  top:72px;
+  width:355px;
+  height:225px;
 }
-.password-row input{
-  width:100%;
-  height:21px;
-  padding:1px 3px;
-  border-top:1px solid #808080;
-  border-left:1px solid #808080;
-  border-right:1px solid #fff;
-  border-bottom:1px solid #fff;
-  box-shadow:inset 1px 1px #000;
-  background:#fff;
-  outline:none;
+
+#dialup-window .client {
+  height:157px;
+  padding:15px 10px;
+}
+
+/* =========================================================
+   CONNECT TO
+   ========================================================= */
+
+#connect-window {
+  left:155px;
+  top:84px;
+  width:350px;
+}
+
+.connect-body {
+  padding:14px 14px 12px;
   font-size:12px;
 }
-#password-status{min-height:16px;margin:5px 0 0 65px;font-size:11px}
-.diary-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:8px}
 
-
-
-/* diary folder + passwords */
-#diary-folder-window{left:165px;top:90px;width:330px;height:215px}
-#diary-folder-window .client{height:147px;padding:15px 10px}
-#passwords-window{left:175px;top:82px;width:350px;height:270px}
-.passwords-body{
-  height:216px;
-  padding:10px;
-  background:#fff;
-  font-family:"Courier New",monospace;
-  font-size:13px;
-  line-height:18px;
-  white-space:pre-wrap;
+.connect-heading {
+  display:flex;
+  gap:10px;
+  align-items:center;
+  padding-bottom:10px;
+  margin-bottom:10px;
+  border-bottom:1px solid #808080;
 }
 
-/* dial-up networking */
-#dialup-window{left:155px;top:72px;width:355px;height:225px}
-#dialup-window .client{height:157px;padding:15px 10px}
-#connect-window{left:165px;top:92px;width:325px}
-.connect-body{padding:14px 14px 12px;font-size:12px}
-.connect-heading{display:flex;gap:10px;align-items:flex-start;margin-bottom:12px}
-.connect-heading img{width:32px;height:32px;object-fit:contain}
-.connect-grid{
+.connect-heading img {
+  width:32px;
+  height:32px;
+  object-fit:contain;
+}
+
+.connect-grid {
   display:grid;
   grid-template-columns:78px 1fr;
-  gap:7px 8px;
+  gap:8px 8px;
   align-items:center;
 }
-.connect-grid input{
-  width:100%;
-  height:21px;
-  padding:1px 3px;
-  background:#fff;
+
+.save-password {
+  margin:8px 0 10px 86px;
+  display:flex;
+  gap:5px;
+  align-items:center;
+}
+
+.connect-lower {
+  padding-top:10px;
+  margin-top:4px;
   border-top:1px solid #808080;
-  border-left:1px solid #808080;
-  border-right:1px solid #fff;
-  border-bottom:1px solid #fff;
-  box-shadow:inset 1px 1px #000;
-  outline:none;
+}
+
+/* =========================================================
+   CONNECTING / ESTABLISHED
+   ========================================================= */
+
+#connecting-window {
+  left:195px;
+  top:160px;
+  width:300px;
+}
+
+.connecting-row {
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.modem-symbol {
+  width:42px;
+  height:34px;
+  flex:0 0 42px;
+  position:relative;
+}
+
+.modem-symbol::before,
+.modem-symbol::after {
+  content:"";
+  position:absolute;
+  width:17px;
+  height:13px;
+  border:2px solid #555;
+  background:#dcdcdc;
+  box-shadow:inset 1px 1px #fff;
+}
+
+.modem-symbol::before {
+  left:1px;
+  top:2px;
+}
+
+.modem-symbol::after {
+  right:1px;
+  bottom:2px;
+}
+
+.modem-wire {
+  position:absolute;
+  left:15px;
+  top:15px;
+  width:15px;
+  height:2px;
+  background:#7030a0;
+  transform:rotate(18deg);
+}
+
+#connection-established-window {
+  left:135px;
+  top:110px;
+  width:380px;
+}
+
+.established-title {
+  font-weight:bold;
+  margin-bottom:12px;
+}
+
+.established-row {
+  display:flex;
+  gap:12px;
+  align-items:flex-start;
+}
+
+.established-copy {
+  flex:1;
+}
+
+/* =========================================================
+   START MENU
+   ========================================================= */
+
+#start-menu {
+  position:absolute;
+  left:2px;
+  bottom:24px;
+  width:190px;
+  display:none;
+  background:var(--gray);
+  border-top:1px solid #fff;
+  border-left:1px solid #fff;
+  border-right:1px solid #000;
+  border-bottom:1px solid #000;
+  box-shadow:
+    inset 1px 1px #dfdfdf,
+    inset -1px -1px #808080;
+  z-index:200;
+}
+
+#start-menu.show {
+  display:flex;
+}
+
+.start-side {
+  width:25px;
+  background:#808080;
+  color:#d8d8d8;
+  writing-mode:vertical-rl;
+  transform:rotate(180deg);
+  font-size:16px;
+  font-weight:bold;
+  padding:5px 3px;
+}
+
+.start-list {
+  flex:1;
+  padding:3px 2px;
+}
+
+.start-item {
+  min-height:30px;
+  display:flex;
+  align-items:center;
+  padding:2px 6px;
+  gap:7px;
   font-size:12px;
+  user-select:none;
+  cursor:default;
 }
-#dial-status{min-height:30px;margin:10px 0 4px;line-height:14px}
-.connect-actions{display:flex;justify-content:flex-end;gap:8px}
 
-/* connected internet home */
-.internet-home{
-  height:100%;
-  padding:22px 28px;
-  background:#fff;
-  font-family:"Times New Roman",serif;
+.start-item:hover {
+  background:#000080;
+  color:#fff;
 }
-.internet-home h1{margin:0 0 8px;font-size:28px;font-weight:normal}
-.internet-home p{font-family:Arial,sans-serif;font-size:12px;line-height:17px}
-.internet-home .tiny{color:#555;font-size:11px}
 
-/* taskbar */
-.taskbar{
+.start-menu-icon {
+  width:22px;
+  height:22px;
+  object-fit:contain;
+  flex:0 0 22px;
+}
+
+.separator {
+  height:2px;
+  background:#808080;
+  border-bottom:1px solid #fff;
+  margin:2px 3px;
+}
+
+/* =========================================================
+   TASKBAR + CONNECTION TRAY
+   ========================================================= */
+
+.taskbar {
   position:absolute;
   left:0;
   right:0;
@@ -367,7 +939,8 @@ button,input{font:inherit}
   box-shadow:inset 0 1px #dfdfdf;
   z-index:100;
 }
-.start-button{
+
+.start-button {
   height:20px;
   min-width:52px;
   padding:0 5px;
@@ -377,7 +950,8 @@ button,input{font:inherit}
   font-size:12px;
   font-weight:bold;
 }
-.start-glyph{
+
+.start-glyph {
   width:14px;
   height:14px;
   display:grid;
@@ -386,12 +960,20 @@ button,input{font:inherit}
   gap:1px;
   transform:skew(-8deg);
 }
-.start-glyph i:nth-child(1){background:#e33}
-.start-glyph i:nth-child(2){background:#2a3}
-.start-glyph i:nth-child(3){background:#26c}
-.start-glyph i:nth-child(4){background:#ec3}
-.task-buttons{display:flex;gap:3px;min-width:0;overflow:hidden}
-.task-button{
+
+.start-glyph i:nth-child(1) { background:#e33; }
+.start-glyph i:nth-child(2) { background:#2a3; }
+.start-glyph i:nth-child(3) { background:#26c; }
+.start-glyph i:nth-child(4) { background:#ec3; }
+
+.task-buttons {
+  display:flex;
+  gap:3px;
+  min-width:0;
+  overflow:hidden;
+}
+
+.task-button {
   width:125px;
   height:20px;
   padding:0 6px;
@@ -404,781 +986,2964 @@ button,input{font:inherit}
   border-left:1px solid #fff;
   border-right:1px solid #000;
   border-bottom:1px solid #000;
-  box-shadow:inset 1px 1px #dfdfdf,inset -1px -1px #808080;
+  box-shadow:
+    inset 1px 1px #dfdfdf,
+    inset -1px -1px #808080;
   font-size:11px;
 }
-.task-button.active{
+
+.task-button.active {
   border-top-color:#000;
   border-left-color:#000;
   border-right-color:#fff;
   border-bottom-color:#fff;
   box-shadow:inset 1px 1px #808080;
-  background:repeating-linear-gradient(45deg,#d8d8d8 0 1px,#c0c0c0 1px 2px);
+  background:
+    repeating-linear-gradient(
+      45deg,
+      #d8d8d8 0 1px,
+      #c0c0c0 1px 2px
+    );
   font-weight:bold;
 }
-.task-spacer{flex:1}
-.clock{
-  flex:0 0 62px;
+
+.task-spacer {
+  flex:1;
+}
+
+.tray {
   height:20px;
   display:flex;
   align-items:center;
-  justify-content:center;
+  gap:5px;
+  padding:0 5px;
   border-top:1px solid #808080;
   border-left:1px solid #808080;
   border-right:1px solid #fff;
   border-bottom:1px solid #fff;
+}
+
+.connection-tray {
+  width:22px;
+  height:16px;
+  position:relative;
+  display:none;
+}
+
+.connection-tray.on {
+  display:block;
+}
+
+.tray-monitor {
+  position:absolute;
+  width:9px;
+  height:7px;
+  border:1px solid #333;
+  background:#dcdcdc;
+}
+
+.tray-monitor.one {
+  left:1px;
+  top:1px;
+}
+
+.tray-monitor.two {
+  right:1px;
+  bottom:1px;
+}
+
+.tray-monitor::after {
+  content:"";
+  position:absolute;
+  left:2px;
+  right:2px;
+  bottom:-3px;
+  height:2px;
+  border-top:1px solid #333;
+}
+
+.tray-wire {
+  position:absolute;
+  left:9px;
+  top:7px;
+  width:7px;
+  height:2px;
+  background:#7030a0;
+  transform:rotate(20deg);
+}
+
+.clock {
+  min-width:58px;
+  text-align:center;
   font-size:11px;
 }
 
-/* start menu */
-#start-menu{
-  position:absolute;
-  left:2px;
-  bottom:24px;
-  width:180px;
-  display:none;
-  background:var(--gray);
-  border-top:1px solid #fff;
-  border-left:1px solid #fff;
-  border-right:1px solid #000;
-  border-bottom:1px solid #000;
-  box-shadow:inset 1px 1px #dfdfdf,inset -1px -1px #808080;
-  z-index:200;
-}
-#start-menu.show{display:flex}
-.start-side{
-  width:25px;
-  background:#808080;
-  color:#d8d8d8;
-  writing-mode:vertical-rl;
-  transform:rotate(180deg);
-  font-size:16px;
-  font-weight:bold;
-  padding:5px 3px;
-}
-.start-list{flex:1;padding:3px 2px}
-.start-item{
-  height:28px;
-  display:flex;
-  align-items:center;
-  padding:0 6px;
-  gap:7px;
-  font-size:12px;
-}
-.start-item:hover{background:#000080;color:#fff}
-.mini{width:18px;height:18px;display:grid;place-items:center;border:1px solid #808080;background:#fff}
-.separator{height:2px;background:#808080;border-bottom:1px solid #fff;margin:2px 3px}
+/* =========================================================
+   SHUT DOWN
+   ========================================================= */
 
+#shutdown-window {
+  left:175px;
+  top:145px;
+  width:300px;
+}
+
+#shutdown-screen {
+  position:absolute;
+  inset:0;
+  display:none;
+  background:#000;
+  z-index:9999;
+}
+
+#shutdown-screen.on {
+  display:block;
+}
 </style>
 </head>
+
 <body>
 
 <div id="screen">
-  <div id="desktop">
+<div id="desktop">
 
-    <div class="desktop-icons">
-      <div class="desktop-icon" id="computer-icon">
-        <img src="assets/computer.png" alt="">
-        <span class="label">My Computer</span>
+<!-- ======================================================
+     DESKTOP ICONS
+     ====================================================== -->
+
+<div class="desktop-icons">
+
+  <div class="desktop-icon" id="computer-icon">
+    <img src="assets/computer.png" alt="">
+    <span class="label">My Computer</span>
+  </div>
+
+  <div class="desktop-icon" id="inbox-icon">
+    <img src="assets/inbox.png" alt="">
+    <span class="label">Inbox</span>
+  </div>
+
+  <div class="desktop-icon" id="diary-icon">
+    <img src="assets/diary.png" alt="">
+    <span class="label">my diary</span>
+  </div>
+
+  <div class="desktop-icon" id="internet-icon">
+    <img src="assets/internet.png" alt="">
+    <span class="label">Internet</span>
+  </div>
+
+  <div class="desktop-icon" id="recycle-icon">
+    <img src="assets/recycle.png" alt="">
+    <span class="label">Recycle Bin</span>
+  </div>
+
+</div>
+
+<!-- ======================================================
+     MY COMPUTER
+     ====================================================== -->
+
+<div class="window" id="computer-window" data-task="My Computer">
+
+  <div class="titlebar">
+    <span>My Computer</span>
+
+    <div class="title-buttons">
+      <button class="win-btn minimize">_</button>
+      <button class="win-btn close">×</button>
+    </div>
+  </div>
+
+  <div class="menu">
+    <span>File</span>
+    <span>Edit</span>
+    <span>View</span>
+    <span>Help</span>
+  </div>
+
+  <div class="client">
+
+    <div class="icon-grid">
+
+      <div class="file-item" id="floppy-drive">
+        <img src="assets/floppy.png" alt="">
+        <span class="file-label">3½ Floppy (A:)</span>
       </div>
 
-      <div class="desktop-icon" id="inbox-icon">
-        <img src="assets/inbox.png" alt="">
-        <span class="label">Inbox</span>
+      <div class="file-item" id="c-drive">
+        <img src="assets/harddrive.png" alt="">
+        <span class="file-label">Ms-dos_5 (C:)</span>
       </div>
 
-      <div class="desktop-icon" id="diary-icon">
-        <img src="assets/diary.png" alt="">
-        <span class="label">my diary</span>
-      </div>
-
-      <div class="desktop-icon" id="internet-icon">
+      <div class="file-item" id="dialup-folder">
         <img src="assets/internet.png" alt="">
-        <span class="label">Internet</span>
+        <span class="file-label">Dial-Up Networking</span>
       </div>
 
-      <div class="desktop-icon" id="recycle-icon">
-        <img src="assets/recycle.png" alt="">
-        <span class="label">Recycle Bin</span>
-      </div>
     </div>
 
-    <!-- My Computer -->
-    <div class="window" id="computer-window" data-task="My Computer">
-      <div class="titlebar">
-        <span>My Computer</span>
-        <div class="title-buttons">
-          <button class="win-btn minimize">_</button>
-          <button class="win-btn close">×</button>
-        </div>
-      </div>
-      <div class="menu"><span>File</span><span>Edit</span><span>View</span><span>Help</span></div>
-      <div class="client">
-        <div class="icon-grid">
-          <div class="file-item">
-            <img src="assets/floppy.png" alt="">
-            <span class="file-label">3½ Floppy (A:)</span>
-          </div>
+  </div>
 
-          <div class="file-item" id="c-drive">
-            <img src="assets/harddrive.png" alt="">
-            <span class="file-label">Ms-dos_5 (C:)</span>
-          </div>
+  <div class="statusbar">
+    <div class="statusbox">3 object(s)</div>
+    <div class="statusbox" style="max-width:120px">My Computer</div>
+  </div>
 
-          <div class="file-item" id="dialup-folder">
-            <img src="assets/internet.png" alt="">
-            <span class="file-label">Dial-Up Networking</span>
-          </div>
-        </div>
-      </div>
-      <div class="statusbar">
-        <div class="statusbox">3 object(s)</div>
-        <div class="statusbox" style="max-width:120px">My Computer</div>
-      </div>
+</div>
+
+<!-- ======================================================
+     FLOPPY ERROR
+     ====================================================== -->
+
+<div class="window" id="floppy-error-window" data-task="A:\">
+
+  <div class="titlebar">
+    <span>3½ Floppy (A:)</span>
+
+    <div class="title-buttons">
+      <button class="win-btn close">×</button>
+    </div>
+  </div>
+
+  <div class="dialog-body">
+
+    <div class="floppy-error-row">
+      <div class="error-symbol">×</div>
+      <div>No disk in drive A:</div>
     </div>
 
-    <!-- C Drive -->
-    <div class="window" id="drive-window" data-task="Ms-dos_5 (C:)">
-      <div class="titlebar">
-        <span>Ms-dos_5 (C:)</span>
-        <div class="title-buttons">
-          <button class="win-btn minimize">_</button>
-          <button class="win-btn close">×</button>
-        </div>
-      </div>
-      <div class="menu"><span>File</span><span>Edit</span><span>View</span><span>Help</span></div>
-      <div class="client">
-        <div class="drive-grid">
-          <div class="file-item"><img src="assets/folder.png" alt=""><span class="file-label">DOS</span></div>
-          <div class="file-item"><img src="assets/folder.png" alt=""><span class="file-label">Program Files</span></div>
-          <div class="file-item"><img src="assets/folder.png" alt=""><span class="file-label">Windows</span></div>
-
-          <div class="file-item" id="documents-folder">
-            <img src="assets/folder.png" alt="">
-            <span class="file-label">Documents</span>
-          </div>
-
-          <div class="file-item"><img src="assets/doc.png" alt=""><span class="file-label">AUTOEXEC.BAT</span></div>
-          <div class="file-item"><img src="assets/doc.png" alt=""><span class="file-label">CONFIG.SYS</span></div>
-          <div class="file-item"><img src="assets/doc.png" alt=""><span class="file-label">COMMAND.COM</span></div>
-          <div class="file-item"><img src="assets/doc.png" alt=""><span class="file-label">MSDOS.SYS</span></div>
-        </div>
-      </div>
-      <div class="statusbar">
-        <div class="statusbox">8 object(s)</div>
-        <div class="statusbox" style="max-width:105px">953KB</div>
-      </div>
+    <div class="dialog-actions">
+      <button class="button close">OK</button>
     </div>
 
-    <!-- Documents -->
-    <div class="window" id="documents-window" data-task="Documents">
-      <div class="titlebar">
-        <span>Documents</span>
-        <div class="title-buttons">
-          <button class="win-btn minimize">_</button>
-          <button class="win-btn close">×</button>
-        </div>
+  </div>
+
+</div>
+
+<!-- ======================================================
+     C DRIVE
+     ====================================================== -->
+
+<div class="window" id="drive-window" data-task="Ms-dos_5 (C:)">
+
+  <div class="titlebar">
+    <span>Ms-dos_5 (C:)</span>
+
+    <div class="title-buttons">
+      <button class="win-btn minimize">_</button>
+      <button class="win-btn close">×</button>
+    </div>
+  </div>
+
+  <div class="menu">
+    <span>File</span>
+    <span>Edit</span>
+    <span>View</span>
+    <span>Help</span>
+  </div>
+
+  <div class="client">
+
+    <div class="drive-grid">
+
+      <div class="file-item" id="programs-folder">
+        <img src="assets/folder.png" alt="">
+        <span class="file-label">Programs</span>
       </div>
-      <div class="menu"><span>File</span><span>Edit</span><span>View</span><span>Help</span></div>
-      <div class="client">
-        <div class="documents-grid">
-          <div class="file-item" id="todo-file">
-            <img src="assets/doc.png" alt="">
-            <span class="file-label">to do.txt</span>
-          </div>
-        </div>
+
+      <div class="file-item" id="documents-folder">
+        <img src="assets/folder.png" alt="">
+        <span class="file-label">Documents</span>
       </div>
-      <div class="statusbar"><div class="statusbox">1 object(s)</div></div>
+
+      <div class="file-item" id="settings-folder">
+        <img src="assets/folder.png" alt="">
+        <span class="file-label">Settings</span>
+      </div>
+
     </div>
 
-    <!-- To Do -->
-    <div class="window" id="todo-window" data-task="to do.txt - Notepad">
-      <div class="titlebar">
-        <span>to do.txt - Notepad</span>
-        <div class="title-buttons">
-          <button class="win-btn minimize">_</button>
-          <button class="win-btn close">×</button>
-        </div>
+  </div>
+
+  <div class="statusbar">
+    <div class="statusbox">3 object(s)</div>
+  </div>
+
+</div>
+
+<!-- ======================================================
+     PROGRAMS
+     ====================================================== -->
+
+<div class="window" id="programs-window" data-task="Programs">
+
+  <div class="titlebar">
+    <span>Programs</span>
+
+    <div class="title-buttons">
+      <button class="win-btn minimize">_</button>
+      <button class="win-btn close">×</button>
+    </div>
+  </div>
+
+  <div class="menu">
+    <span>File</span>
+    <span>Edit</span>
+    <span>View</span>
+    <span>Help</span>
+  </div>
+
+  <div class="client">
+    <div class="empty-folder">This folder is empty.</div>
+  </div>
+
+  <div class="statusbar">
+    <div class="statusbox">0 object(s)</div>
+  </div>
+
+</div>
+
+<!-- ======================================================
+     SETTINGS
+     ====================================================== -->
+
+<div class="window" id="settings-window" data-task="Settings">
+
+  <div class="titlebar">
+    <span>Settings</span>
+
+    <div class="title-buttons">
+      <button class="win-btn minimize">_</button>
+      <button class="win-btn close">×</button>
+    </div>
+  </div>
+
+  <div class="menu">
+    <span>File</span>
+    <span>Edit</span>
+    <span>View</span>
+    <span>Help</span>
+  </div>
+
+  <div class="client">
+    <div class="empty-folder">Nothing here yet.</div>
+  </div>
+
+  <div class="statusbar">
+    <div class="statusbox">0 object(s)</div>
+  </div>
+
+</div>
+
+<!-- ======================================================
+     DOCUMENTS
+     ====================================================== -->
+
+<div class="window" id="documents-window" data-task="Documents">
+
+  <div class="titlebar">
+    <span>Documents</span>
+
+    <div class="title-buttons">
+      <button class="win-btn minimize">_</button>
+      <button class="win-btn close">×</button>
+    </div>
+  </div>
+
+  <div class="menu">
+    <span>File</span>
+    <span>Edit</span>
+    <span>View</span>
+    <span>Help</span>
+  </div>
+
+  <div class="client">
+
+    <div class="documents-grid">
+
+      <div class="file-item" id="todo-file">
+        <img src="assets/doc.png" alt="">
+        <span class="file-label">to do.txt</span>
       </div>
-      <div class="menu"><span>File</span><span>Edit</span><span>Search</span><span>Help</span></div>
-      <div class="client notepad-body">change the password</div>
+
     </div>
 
-    <!-- Inbox -->
-    <div class="window" id="inbox-window" data-task="Inbox Setup Wizard">
-      <div class="titlebar">
-        <span>Inbox Setup Wizard</span>
-        <div class="title-buttons"><button class="win-btn close">×</button></div>
+  </div>
+
+  <div class="statusbar">
+    <div class="statusbox">1 object(s)</div>
+  </div>
+
+</div>
+
+<!-- ======================================================
+     TO DO
+     ====================================================== -->
+
+<div class="window" id="todo-window" data-task="to do.txt - Notepad">
+
+  <div class="titlebar">
+    <span>to do.txt - Notepad</span>
+
+    <div class="title-buttons">
+      <button class="win-btn minimize">_</button>
+      <button class="win-btn close">×</button>
+    </div>
+  </div>
+
+  <div class="menu">
+    <span>File</span>
+    <span>Edit</span>
+    <span>Search</span>
+    <span>Help</span>
+  </div>
+
+  <div class="client notepad-body">change the password</div>
+
+</div>
+
+<!-- ======================================================
+     DIARY PASSWORD
+     ====================================================== -->
+
+<div class="window" id="diary-window" data-task="my diary">
+
+  <div class="titlebar">
+    <span>Password Required</span>
+
+    <div class="title-buttons">
+      <button class="win-btn close">×</button>
+    </div>
+  </div>
+
+  <div class="diary-body">
+
+    <div class="diary-top">
+
+      <img src="assets/diary.png" alt="">
+
+      <div>
+        <strong>my diary</strong>
+        <br><br>
+        Enter password to open this folder.
       </div>
-      <div class="wizard">
-        <h1>Get Connected</h1>
-        <p><strong>No mail service has been configured.</strong></p>
-        <p>Windows comes with E-mail, fax tools, and access to online information services. Select a service below to continue.</p>
 
-        <div class="service">
-          <img src="assets/internet.png" alt="">
-          <div class="fake-check"></div>
-          <div>Internet Mail</div>
-          <div class="service-desc">Offers access to E-mail and Internet mail.</div>
-          <div>1.3 MB</div>
-        </div>
-
-        <div class="service">
-          <img src="assets/inbox.png" alt="">
-          <div class="fake-check"></div>
-          <div>Microsoft Mail</div>
-          <div class="service-desc">Connects to mail servers and post offices.</div>
-          <div>0.1 MB</div>
-        </div>
-
-        <div class="service">
-          <img src="assets/fax.png" alt="">
-          <div class="fake-check"></div>
-          <div>Microsoft Fax</div>
-          <div class="service-desc">Allows your computer to send and receive faxes.</div>
-          <div>1.3 MB</div>
-        </div>
-
-        <hr>
-        <div class="wizard-actions">
-          <button class="button" disabled>OK</button>
-          <button class="button close">Cancel</button>
-        </div>
-      </div>
     </div>
 
-    <!-- Internet -->
-    <div class="window" id="internet-window" data-task="Internet">
-      <div class="titlebar">
-        <span>Internet</span>
-        <div class="title-buttons">
-          <button class="win-btn minimize">_</button>
-          <button class="win-btn close">×</button>
-        </div>
-      </div>
-      <div class="menu"><span>File</span><span>Edit</span><span>View</span><span>Favorites</span><span>Help</span></div>
-      <div class="browser-toolbar">
-        <button class="button">←</button>
-        <button class="button">→</button>
-        <button class="button">×</button>
-        <button class="button">⌂</button>
-      </div>
-      <div class="addressbar">
-        <span>Address</span>
-        <input id="address-input" value="http://" readonly>
-        <button class="button">Go</button>
-      </div>
-      <div class="client" id="internet-content"></div>
+    <div class="password-row">
+
+      <label for="password">
+        Password:
+      </label>
+
+      <input
+        id="password"
+        type="password"
+        autocomplete="off"
+      >
+
     </div>
 
-    <!-- Recycle Bin -->
-    <div class="window" id="recycle-window" data-task="Recycle Bin">
-      <div class="titlebar">
-        <span>Recycle Bin</span>
-        <div class="title-buttons">
-          <button class="win-btn minimize">_</button>
-          <button class="win-btn close">×</button>
-        </div>
-      </div>
-      <div class="menu"><span>File</span><span>Edit</span><span>View</span><span>Help</span></div>
-      <div class="client">This folder is empty.</div>
-      <div class="statusbar"><div class="statusbox">0 object(s)</div></div>
+    <div id="password-status"></div>
+
+    <div class="diary-actions">
+
+      <button class="button" id="unlock">
+        OK
+      </button>
+
+      <button class="button close">
+        Cancel
+      </button>
+
     </div>
 
-    <!-- Diary password -->
-    <div class="window" id="diary-window" data-task="my diary">
-      <div class="titlebar">
-        <span>Password Required</span>
-        <div class="title-buttons"><button class="win-btn close">×</button></div>
+  </div>
+
+</div>
+
+<!-- ======================================================
+     UNLOCKED DIARY
+     ====================================================== -->
+
+<div class="window" id="diary-folder-window" data-task="my diary">
+
+  <div class="titlebar">
+    <span>my diary</span>
+
+    <div class="title-buttons">
+      <button class="win-btn minimize">_</button>
+      <button class="win-btn close">×</button>
+    </div>
+  </div>
+
+  <div class="menu">
+    <span>File</span>
+    <span>Edit</span>
+    <span>View</span>
+    <span>Help</span>
+  </div>
+
+  <div class="client">
+
+    <div class="documents-grid">
+
+      <div class="file-item" id="passwords-file">
+
+        <img src="assets/doc.png" alt="">
+
+        <span class="file-label">
+          passwords.txt
+        </span>
+
       </div>
-      <div class="diary-body">
-        <div class="diary-top">
-          <img src="assets/diary.png" alt="">
-          <div><strong>my diary</strong><br><br>Enter password to open this folder.</div>
-        </div>
-        <div class="password-row">
-          <label for="password">Password:</label>
-          <input id="password" type="password" autocomplete="off">
-        </div>
-        <div id="password-status"></div>
-        <div class="diary-actions">
-          <button class="button" id="unlock">OK</button>
-          <button class="button close">Cancel</button>
-        </div>
-      </div>
+
     </div>
 
-    <!-- Unlocked diary folder -->
-    <div class="window" id="diary-folder-window" data-task="my diary">
-      <div class="titlebar">
-        <span>my diary</span>
-        <div class="title-buttons">
-          <button class="win-btn minimize">_</button>
-          <button class="win-btn close">×</button>
-        </div>
-      </div>
-      <div class="menu"><span>File</span><span>Edit</span><span>View</span><span>Help</span></div>
-      <div class="client">
-        <div class="documents-grid">
-          <div class="file-item" id="passwords-file">
-            <img src="assets/doc.png" alt="">
-            <span class="file-label">passwords.txt</span>
-          </div>
-        </div>
-      </div>
-      <div class="statusbar"><div class="statusbox">1 object(s)</div></div>
-    </div>
+  </div>
 
-    <!-- passwords.txt -->
-    <div class="window" id="passwords-window" data-task="passwords.txt - Notepad">
-      <div class="titlebar">
-        <span>passwords.txt - Notepad</span>
-        <div class="title-buttons">
-          <button class="win-btn minimize">_</button>
-          <button class="win-btn close">×</button>
-        </div>
-      </div>
-      <div class="menu"><span>File</span><span>Edit</span><span>Search</span><span>Help</span></div>
-      <div class="client passwords-body">internet
+  <div class="statusbar">
+    <div class="statusbox">1 object(s)</div>
+  </div>
+
+</div>
+
+<!-- ======================================================
+     PASSWORDS.TXT
+     ====================================================== -->
+
+<div class="window" id="passwords-window" data-task="passwords.txt - Notepad">
+
+  <div class="titlebar">
+    <span>passwords.txt - Notepad</span>
+
+    <div class="title-buttons">
+      <button class="win-btn minimize">_</button>
+      <button class="win-btn close">×</button>
+    </div>
+  </div>
+
+  <div class="menu">
+    <span>File</span>
+    <span>Edit</span>
+    <span>Search</span>
+    <span>Help</span>
+  </div>
+
+  <div class="client notepad-body">internet
 
 number: 555-0630
 user: treehouse
 pass: firefly</div>
+
+</div>
+
+<!-- ======================================================
+     DIAL-UP NETWORKING
+     ====================================================== -->
+
+<div class="window" id="dialup-window" data-task="Dial-Up Networking">
+
+  <div class="titlebar">
+    <span>Dial-Up Networking</span>
+
+    <div class="title-buttons">
+      <button class="win-btn minimize">_</button>
+      <button class="win-btn close">×</button>
     </div>
+  </div>
 
-    <!-- Dial-Up Networking -->
-    <div class="window" id="dialup-window" data-task="Dial-Up Networking">
-      <div class="titlebar">
-        <span>Dial-Up Networking</span>
-        <div class="title-buttons">
-          <button class="win-btn minimize">_</button>
-          <button class="win-btn close">×</button>
-        </div>
+  <div class="menu">
+    <span>File</span>
+    <span>Edit</span>
+    <span>View</span>
+    <span>Help</span>
+  </div>
+
+  <div class="client">
+
+    <div class="documents-grid">
+
+      <div class="file-item" id="lilac-connection">
+
+        <img src="assets/internet.png" alt="">
+
+        <span class="file-label">
+          Lilac Internet
+        </span>
+
       </div>
-      <div class="menu"><span>File</span><span>Edit</span><span>View</span><span>Help</span></div>
-      <div class="client">
-        <div class="documents-grid">
-          <div class="file-item" id="lilac-connection">
-            <img src="assets/internet.png" alt="">
-            <span class="file-label">Lilac Internet</span>
-          </div>
-        </div>
-      </div>
-      <div class="statusbar"><div class="statusbox">1 object(s)</div></div>
-    </div>
 
-    <!-- Dial-up login -->
-    <div class="window" id="connect-window" data-task="Connect To">
-      <div class="titlebar">
-        <span>Connect To</span>
-        <div class="title-buttons"><button class="win-btn close">×</button></div>
-      </div>
-      <div class="connect-body">
-        <div class="connect-heading">
-          <img src="assets/internet.png" alt="">
-          <div><strong>Lilac Internet</strong><br>Standard 28,800 bps Modem</div>
-        </div>
-        <div class="connect-grid">
-          <label for="dial-number">Phone number:</label>
-          <input id="dial-number" autocomplete="off">
-
-          <label for="dial-user">User name:</label>
-          <input id="dial-user" autocomplete="off">
-
-          <label for="dial-pass">Password:</label>
-          <input id="dial-pass" type="password" autocomplete="off">
-        </div>
-        <div id="dial-status"></div>
-        <div class="connect-actions">
-          <button class="button" id="dial-connect">Connect</button>
-          <button class="button close">Cancel</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Start Menu -->
-    <div id="start-menu">
-      <div class="start-side">Windows 95</div>
-      <div class="start-list">
-        <div class="start-item"><div class="mini">▦</div>Programs <span style="margin-left:auto">▶</span></div>
-        <div class="start-item"><div class="mini">▤</div>Documents <span style="margin-left:auto">▶</span></div>
-        <div class="start-item"><div class="mini">⚙</div>Settings <span style="margin-left:auto">▶</span></div>
-        <div class="start-item"><div class="mini">⌕</div>Find <span style="margin-left:auto">▶</span></div>
-        <div class="start-item"><div class="mini">?</div>Help</div>
-        <div class="start-item"><div class="mini">▣</div>Run...</div>
-        <div class="separator"></div>
-        <div class="start-item"><div class="mini">▤</div>Shut Down...</div>
-      </div>
-    </div>
-
-    <!-- Taskbar -->
-    <div class="taskbar">
-      <button class="button start-button" id="start-button">
-        <span class="start-glyph"><i></i><i></i><i></i><i></i></span>
-        Start
-      </button>
-      <div class="task-buttons" id="task-buttons"></div>
-      <div class="task-spacer"></div>
-      <div class="clock" id="clock">8:45 PM</div>
     </div>
 
   </div>
+
+  <div class="statusbar">
+    <div class="statusbox">1 object(s)</div>
+  </div>
+
+</div>
+
+<!-- ======================================================
+     CONNECT TO
+     ====================================================== -->
+
+<div class="window" id="connect-window" data-task="Connect To">
+
+  <div class="titlebar">
+    <span>Connect To</span>
+
+    <div class="title-buttons">
+      <button class="win-btn close">×</button>
+    </div>
+  </div>
+
+  <div class="connect-body">
+
+    <div class="connect-heading">
+
+      <img src="assets/internet.png" alt="">
+
+      <div>
+        <strong>Lilac Internet</strong>
+      </div>
+
+    </div>
+
+    <div class="connect-grid">
+
+      <label for="dial-user">
+        User name:
+      </label>
+
+      <input
+        id="dial-user"
+        autocomplete="off"
+      >
+
+      <label for="dial-pass">
+        Password:
+      </label>
+
+      <input
+        id="dial-pass"
+        type="password"
+        autocomplete="off"
+      >
+
+    </div>
+
+    <label class="save-password">
+      <input
+        id="save-dial-password"
+        type="checkbox"
+        checked
+      >
+      Save password
+    </label>
+
+    <div class="connect-lower">
+
+      <div class="connect-grid">
+
+        <label for="dial-number">
+          Phone number:
+        </label>
+
+        <input
+          id="dial-number"
+          autocomplete="off"
+        >
+
+      </div>
+
+      <div class="dialog-actions">
+
+        <button class="button" id="dial-connect">
+          Connect
+        </button>
+
+        <button class="button close">
+          Cancel
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ======================================================
+     CONNECTING
+     ====================================================== -->
+
+<div class="window" id="connecting-window" data-task="Connecting to Lilac Internet">
+
+  <div class="titlebar">
+    <span>Connecting to Lilac Internet</span>
+
+    <div class="title-buttons">
+      <button class="win-btn close" id="cancel-connecting">×</button>
+    </div>
+  </div>
+
+  <div class="dialog-body">
+
+    <div class="connecting-row">
+
+      <div class="modem-symbol">
+        <span class="modem-wire"></span>
+      </div>
+
+      <div>
+        Status:
+        <span id="connecting-status">
+          Dialing...
+        </span>
+      </div>
+
+    </div>
+
+    <div class="dialog-actions">
+
+      <button class="button close">
+        Cancel
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ======================================================
+     CONNECTION ESTABLISHED
+     ====================================================== -->
+
+<div
+  class="window"
+  id="connection-established-window"
+  data-task="Connection Established"
+>
+
+  <div class="titlebar">
+    <span>Connection Established</span>
+
+    <div class="title-buttons">
+      <button class="win-btn close">×</button>
+    </div>
+  </div>
+
+  <div class="dialog-body">
+
+    <div class="established-title">
+      You are connected to Lilac Internet.
+    </div>
+
+    <div class="established-row">
+
+      <div class="modem-symbol">
+        <span class="modem-wire"></span>
+      </div>
+
+      <div class="established-copy">
+
+        To disconnect or view status information,
+        double-click the connection icon in the status
+        area of the taskbar.
+
+        <br><br>
+
+        You can also double-click the connection icon
+        in the Dial-Up Networking folder.
+
+      </div>
+
+    </div>
+
+    <div class="dialog-actions">
+
+      <button class="button" id="connection-close">
+        Close
+      </button>
+
+      <button class="button" disabled>
+        More Information...
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ======================================================
+     INTERNET
+     ====================================================== -->
+
+<div class="window" id="internet-window" data-task="Internet">
+
+  <div class="titlebar">
+    <span>Internet</span>
+
+    <div class="title-buttons">
+      <button class="win-btn minimize">_</button>
+      <button class="win-btn close">×</button>
+    </div>
+  </div>
+
+  <div class="menu">
+    <span>File</span>
+    <span>Edit</span>
+    <span>View</span>
+    <span>Favorites</span>
+    <span>Help</span>
+  </div>
+
+  <div class="browser-toolbar">
+    <button class="button">←</button>
+    <button class="button">→</button>
+    <button class="button">×</button>
+    <button class="button">⌂</button>
+  </div>
+
+  <div class="addressbar">
+
+    <span>
+      Address
+    </span>
+
+    <input
+      id="address-input"
+      value="http://"
+      readonly
+    >
+
+    <button class="button">
+      Go
+    </button>
+
+  </div>
+
+  <div class="client" id="internet-content"></div>
+
+</div>
+
+<!-- ======================================================
+     INBOX SETUP
+     ====================================================== -->
+
+<div class="window" id="inbox-setup-window" data-task="Inbox Setup Wizard">
+
+  <div class="titlebar">
+    <span>Inbox Setup Wizard</span>
+
+    <div class="title-buttons">
+      <button class="win-btn close">×</button>
+    </div>
+  </div>
+
+  <div class="wizard">
+
+    <h1>
+      Get Connected
+    </h1>
+
+    <p>
+      <strong>
+        No mail service has been configured.
+      </strong>
+    </p>
+
+    <p>
+      Select the services you want to install.
+    </p>
+
+    <div class="service">
+
+      <img src="assets/internet.png" alt="">
+
+      <input
+        class="mail-service-check"
+        id="mail-check-internet"
+        type="checkbox"
+      >
+
+      <label for="mail-check-internet">
+        Internet Mail
+      </label>
+
+      <div class="service-desc">
+        Offers access to E-mail and Internet mail.
+      </div>
+
+      <div>
+        1.3 MB
+      </div>
+
+    </div>
+
+    <div class="service">
+
+      <img src="assets/inbox.png" alt="">
+
+      <input
+        class="mail-service-check"
+        id="mail-check-microsoft"
+        type="checkbox"
+      >
+
+      <label for="mail-check-microsoft">
+        Microsoft Mail
+      </label>
+
+      <div class="service-desc">
+        Connects to mail servers and post offices.
+      </div>
+
+      <div>
+        0.1 MB
+      </div>
+
+    </div>
+
+    <div class="service">
+
+      <img src="assets/fax.png" alt="">
+
+      <input
+        class="mail-service-check"
+        id="mail-check-fax"
+        type="checkbox"
+      >
+
+      <label for="mail-check-fax">
+        Microsoft Fax
+      </label>
+
+      <div class="service-desc">
+        Allows your computer to send and receive faxes.
+      </div>
+
+      <div>
+        1.3 MB
+      </div>
+
+    </div>
+
+    <hr>
+
+    <div class="wizard-actions">
+
+      <button
+        class="button"
+        id="mail-setup-ok"
+        disabled
+      >
+        OK
+      </button>
+
+      <button class="button close">
+        Cancel
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ======================================================
+     MAIL LOGIN
+     ====================================================== -->
+
+<div class="window" id="mail-login-window" data-task="Internet Mail">
+
+  <div class="titlebar">
+    <span>Internet Mail</span>
+
+    <div class="title-buttons">
+      <button class="win-btn close">×</button>
+    </div>
+  </div>
+
+  <div class="dialog-body">
+
+    Enter your mail account information.
+
+    <div class="login-grid">
+
+      <label for="mail-user">
+        User name:
+      </label>
+
+      <input
+        id="mail-user"
+        autocomplete="off"
+      >
+
+      <label for="mail-pass">
+        Password:
+      </label>
+
+      <input
+        id="mail-pass"
+        type="password"
+        autocomplete="off"
+      >
+
+    </div>
+
+    <div id="mail-status"></div>
+
+    <div class="dialog-actions">
+
+      <button class="button" id="mail-login-ok">
+        OK
+      </button>
+
+      <button class="button close">
+        Cancel
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ======================================================
+     EMPTY INBOX
+     ====================================================== -->
+
+<div class="window" id="inbox-window" data-task="Inbox">
+
+  <div class="titlebar">
+    <span>Inbox</span>
+
+    <div class="title-buttons">
+      <button class="win-btn minimize">_</button>
+      <button class="win-btn close">×</button>
+    </div>
+  </div>
+
+  <div class="menu">
+    <span>File</span>
+    <span>Edit</span>
+    <span>View</span>
+    <span>Compose</span>
+    <span>Help</span>
+  </div>
+
+  <div class="client">
+
+    <div class="mail-toolbar">
+      Inbox
+    </div>
+
+    <div class="mail-list-head">
+      <div>From</div>
+      <div>Subject</div>
+      <div>Received</div>
+    </div>
+
+    <div class="mail-empty">
+      No messages.
+    </div>
+
+  </div>
+
+  <div class="statusbar">
+    <div class="statusbox">0 message(s)</div>
+  </div>
+
+</div>
+
+<!-- ======================================================
+     RECYCLE BIN
+     ====================================================== -->
+
+<div class="window" id="recycle-window" data-task="Recycle Bin">
+
+  <div class="titlebar">
+    <span>Recycle Bin</span>
+
+    <div class="title-buttons">
+      <button class="win-btn minimize">_</button>
+      <button class="win-btn close">×</button>
+    </div>
+  </div>
+
+  <div class="menu">
+    <span>File</span>
+    <span>Edit</span>
+    <span>View</span>
+    <span>Help</span>
+  </div>
+
+  <div class="client">
+    This folder is empty.
+  </div>
+
+  <div class="statusbar">
+    <div class="statusbox">0 object(s)</div>
+  </div>
+
+</div>
+
+<!-- ======================================================
+     START MENU
+     ====================================================== -->
+
+<div id="start-menu">
+
+  <div class="start-side">
+    Windows 95
+  </div>
+
+  <div class="start-list">
+
+    <div class="start-item" id="start-programs">
+
+      <img
+        class="start-menu-icon"
+        src="assets/programs.png"
+        alt=""
+        onerror="this.style.visibility='hidden'"
+      >
+
+      Programs
+
+      <span style="margin-left:auto">
+        ▶
+      </span>
+
+    </div>
+
+    <div class="start-item" id="start-documents">
+
+      <img
+        class="start-menu-icon"
+        src="assets/documents.png"
+        alt=""
+        onerror="this.style.visibility='hidden'"
+      >
+
+      Documents
+
+      <span style="margin-left:auto">
+        ▶
+      </span>
+
+    </div>
+
+    <div class="start-item" id="start-settings">
+
+      <img
+        class="start-menu-icon"
+        src="assets/settings.png"
+        alt=""
+        onerror="this.style.visibility='hidden'"
+      >
+
+      Settings
+
+      <span style="margin-left:auto">
+        ▶
+      </span>
+
+    </div>
+
+    <div class="start-item">
+
+      <img
+        class="start-menu-icon"
+        src="assets/find.png"
+        alt=""
+        onerror="this.style.visibility='hidden'"
+      >
+
+      Find
+
+      <span style="margin-left:auto">
+        ▶
+      </span>
+
+    </div>
+
+    <div class="start-item">
+
+      <img
+        class="start-menu-icon"
+        src="assets/help.png"
+        alt=""
+        onerror="this.style.visibility='hidden'"
+      >
+
+      Help
+
+    </div>
+
+    <div class="start-item">
+
+      <img
+        class="start-menu-icon"
+        src="assets/run.png"
+        alt=""
+        onerror="this.style.visibility='hidden'"
+      >
+
+      Run...
+
+    </div>
+
+    <div class="separator"></div>
+
+    <div class="start-item" id="start-shutdown">
+
+      <img
+        class="start-menu-icon"
+        src="assets/shutdown.png"
+        alt=""
+        onerror="this.style.visibility='hidden'"
+      >
+
+      Shut Down...
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ======================================================
+     SHUT DOWN DIALOG
+     ====================================================== -->
+
+<div class="window" id="shutdown-window" data-task="Shut Down Windows">
+
+  <div class="titlebar">
+    <span>Shut Down Windows</span>
+
+    <div class="title-buttons">
+      <button class="win-btn close">×</button>
+    </div>
+  </div>
+
+  <div class="dialog-body">
+
+    Are you sure you want to shut down your computer?
+
+    <div class="dialog-actions">
+
+      <button class="button" id="shutdown-yes">
+        Yes
+      </button>
+
+      <button class="button close">
+        No
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ======================================================
+     TASKBAR
+     ====================================================== -->
+
+<div class="taskbar">
+
+  <button
+    class="button start-button"
+    id="start-button"
+  >
+
+    <span class="start-glyph">
+      <i></i>
+      <i></i>
+      <i></i>
+      <i></i>
+    </span>
+
+    Start
+
+  </button>
+
+  <div
+    class="task-buttons"
+    id="task-buttons"
+  ></div>
+
+  <div class="task-spacer"></div>
+
+  <div class="tray">
+
+    <div
+      class="connection-tray"
+      id="connection-tray"
+      title="Lilac Internet - Connected at 28,800 bps"
+      aria-label="Internet connected"
+    >
+      <span class="tray-monitor one"></span>
+      <span class="tray-monitor two"></span>
+      <span class="tray-wire"></span>
+    </div>
+
+    <div
+      class="clock"
+      id="clock"
+    >
+      8:45 PM
+    </div>
+
+  </div>
+
+</div>
+
+<!-- ======================================================
+     BLACK SHUTDOWN SCREEN
+     ====================================================== -->
+
+<div id="shutdown-screen"></div>
+
+</div>
 </div>
 
 <script>
-const screen = document.getElementById("screen");
-let currentScale = 1;
-let topZ = 20;
 
-function fitScreen(){
-  currentScale = Math.min(window.innerWidth / 640, window.innerHeight / 480);
-  screen.style.transform = `translate(-50%, -50%) scale(${currentScale})`;
+/* =========================================================
+   SCREEN SCALE
+   ========================================================= */
+
+const screen =
+  document.getElementById(
+    "screen"
+  );
+
+let currentScale =
+  1;
+
+let topZ =
+  20;
+
+function fitScreen() {
+
+  currentScale =
+    Math.min(
+      window.innerWidth / 640,
+      window.innerHeight / 480
+    );
+
+  screen.style.transform =
+    `translate(-50%, -50%) scale(${currentScale})`;
+
 }
+
 fitScreen();
-window.addEventListener("resize", fitScreen);
 
-function activate(win){
-  document.querySelectorAll(".window").forEach(w => w.classList.add("inactive"));
-  win.classList.remove("inactive");
-  win.style.zIndex = ++topZ;
+window.addEventListener(
+  "resize",
+  fitScreen
+);
+
+/* =========================================================
+   WINDOWS
+   ========================================================= */
+
+function activate(win) {
+
+  document
+    .querySelectorAll(
+      ".window"
+    )
+    .forEach(
+      w =>
+        w.classList.add(
+          "inactive"
+        )
+    );
+
+  win.classList.remove(
+    "inactive"
+  );
+
+  win.style.zIndex =
+    ++topZ;
+
   syncTaskbar();
+
 }
 
-function openWindow(id){
-  const win = document.getElementById(id);
-  win.classList.add("show");
-  win.style.display = "";
-  activate(win);
-}
+function openWindow(id) {
 
-function closeWindow(win){
-  win.classList.remove("show");
-  win.style.display = "";
-  syncTaskbar();
-}
+  const win =
+    document.getElementById(
+      id
+    );
 
-function minimizeWindow(win){
-  win.style.display = "none";
-  syncTaskbar();
-}
-
-function syncTaskbar(){
-  const box = document.getElementById("task-buttons");
-  box.innerHTML = "";
-
-  const visibleWindows = [...document.querySelectorAll(".window.show")];
-
-  visibleWindows.forEach(win => {
-    const btn = document.createElement("button");
-    btn.className = "task-button";
-
-    if(!win.classList.contains("inactive") && win.style.display !== "none"){
-      btn.classList.add("active");
-    }
-
-    btn.textContent = win.dataset.task || win.id;
-
-    btn.addEventListener("click", () => {
-      if(win.style.display === "none"){
-        win.style.display = "";
-        activate(win);
-      } else if(!win.classList.contains("inactive")){
-        minimizeWindow(win);
-      } else {
-        activate(win);
-      }
-    });
-
-    box.appendChild(btn);
-  });
-}
-
-const desktopIcons = [...document.querySelectorAll(".desktop-icon")];
-
-function clearIconSelection(){
-  desktopIcons.forEach(icon => icon.classList.remove("selected"));
-}
-
-function wireIcon(iconId, windowId){
-  const icon = document.getElementById(iconId);
-
-  icon.addEventListener("click", () => {
-    clearIconSelection();
-    icon.classList.add("selected");
-
-    if(window.matchMedia("(pointer: coarse)").matches){
-      openWindow(windowId);
-    }
-  });
-
-  icon.addEventListener("dblclick", () => openWindow(windowId));
-}
-
-wireIcon("computer-icon", "computer-window");
-wireIcon("inbox-icon", "inbox-window");
-wireIcon("internet-icon", "internet-window");
-wireIcon("recycle-icon", "recycle-window");
-
-
-const diaryIcon = document.getElementById("diary-icon");
-
-function diaryIsUnlocked(){
-  return localStorage.getItem("lilacDiaryUnlocked") === "true";
-}
-
-function openDiary(){
-  if(diaryIsUnlocked()){
-    openWindow("diary-folder-window");
-  } else {
-    openWindow("diary-window");
-  }
-}
-
-diaryIcon.addEventListener("click", () => {
-  clearIconSelection();
-  diaryIcon.classList.add("selected");
-  if(window.matchMedia("(pointer: coarse)").matches){
-    openDiary();
-  }
-});
-
-diaryIcon.addEventListener("dblclick", openDiary);
-
-function wireFile(itemId, windowId){
-  const item = document.getElementById(itemId);
-
-  item.addEventListener("dblclick", () => openWindow(windowId));
-
-  item.addEventListener("click", () => {
-    if(window.matchMedia("(pointer: coarse)").matches){
-      openWindow(windowId);
-    }
-  });
-}
-
-wireFile("c-drive", "drive-window");
-wireFile("documents-folder", "documents-window");
-wireFile("todo-file", "todo-window");
-wireFile("dialup-folder", "dialup-window");
-wireFile("passwords-file", "passwords-window");
-wireFile("lilac-connection", "connect-window");
-
-document.querySelectorAll(".window").forEach(win => {
-  win.addEventListener("pointerdown", () => activate(win));
-
-  win.querySelectorAll(".close").forEach(btn => {
-    btn.addEventListener("click", event => {
-      event.stopPropagation();
-      closeWindow(win);
-    });
-  });
-
-  win.querySelectorAll(".minimize").forEach(btn => {
-    btn.addEventListener("click", event => {
-      event.stopPropagation();
-      minimizeWindow(win);
-    });
-  });
-
-  const bar = win.querySelector(".titlebar");
-  let dragging = false;
-  let offsetX = 0;
-  let offsetY = 0;
-
-  bar.addEventListener("pointerdown", event => {
-    if(event.target.closest("button")) return;
-
-    dragging = true;
-    activate(win);
-
-    const rect = screen.getBoundingClientRect();
-    const pointerX = (event.clientX - rect.left) / currentScale;
-    const pointerY = (event.clientY - rect.top) / currentScale;
-
-    offsetX = pointerX - win.offsetLeft;
-    offsetY = pointerY - win.offsetTop;
-
-    bar.setPointerCapture(event.pointerId);
-  });
-
-  bar.addEventListener("pointermove", event => {
-    if(!dragging) return;
-
-    const rect = screen.getBoundingClientRect();
-
-    let x = (event.clientX - rect.left) / currentScale - offsetX;
-    let y = (event.clientY - rect.top) / currentScale - offsetY;
-
-    x = Math.max(0, Math.min(640 - win.offsetWidth, x));
-    y = Math.max(0, Math.min(456 - win.offsetHeight, y));
-
-    win.style.left = x + "px";
-    win.style.top = y + "px";
-  });
-
-  bar.addEventListener("pointerup", () => {
-    dragging = false;
-  });
-});
-
-const startButton = document.getElementById("start-button");
-const startMenu = document.getElementById("start-menu");
-
-startButton.addEventListener("click", event => {
-  event.stopPropagation();
-  startMenu.classList.toggle("show");
-});
-
-document.addEventListener("click", event => {
-  if(!startMenu.contains(event.target) && !startButton.contains(event.target)){
-    startMenu.classList.remove("show");
-  }
-});
-
-const password = document.getElementById("password");
-const passwordStatus = document.getElementById("password-status");
-const unlock = document.getElementById("unlock");
-
-function tryPassword(){
-  if(password.value.trim() === "0630"){
-    passwordStatus.style.color = "#006000";
-    passwordStatus.textContent = "Opening...";
-
-    localStorage.setItem("lilacDiaryUnlocked", "true");
-
-    setTimeout(() => {
-      closeWindow(document.getElementById("diary-window"));
-      openWindow("diary-folder-window");
-      passwordStatus.textContent = "";
-      password.value = "";
-    }, 500);
-  } else {
-    passwordStatus.style.color = "#800000";
-    passwordStatus.textContent = "The password is incorrect.";
-  }
-}
-
-unlock.addEventListener("click", tryPassword);
-password.addEventListener("keydown", event => {
-  if(event.key === "Enter"){
-    tryPassword();
-  }
-});
-
-/* internet connection state */
-const internetContent = document.getElementById("internet-content");
-const addressInput = document.getElementById("address-input");
-const dialNumber = document.getElementById("dial-number");
-const dialUser = document.getElementById("dial-user");
-const dialPass = document.getElementById("dial-pass");
-const dialStatus = document.getElementById("dial-status");
-const dialConnect = document.getElementById("dial-connect");
-
-function internetIsConnected(){
-  return localStorage.getItem("lilacInternetConnected") === "true";
-}
-
-function renderInternet(){
-  if(internetIsConnected()){
-    addressInput.value = "http://home/";
-    internetContent.innerHTML = `
-      <div class="internet-home">
-        <h1>Welcome to the Internet</h1>
-        <hr>
-        <p>You are connected.</p>
-        <p class="tiny">Connected at 28,800 bps</p>
-      </div>
-    `;
-  } else {
-    addressInput.value = "http://";
-    internetContent.innerHTML = `
-      <div class="internet-error">
-        <h2>Unable to connect</h2>
-        <p>A connection to the Internet could not be established.</p>
-        <p>Check your connection settings and try again.</p>
-        <p><button class="button" id="connect-internet-button">Connect...</button></p>
-      </div>
-    `;
-
-    document.getElementById("connect-internet-button").addEventListener("click", () => {
-      prepareConnectionDialog();
-      openWindow("connect-window");
-    });
-  }
-}
-
-function prepareConnectionDialog(){
-  if(internetIsConnected()){
-    dialStatus.style.color = "#006000";
-    dialStatus.textContent = "Connected at 28,800 bps";
-    dialConnect.disabled = true;
-  } else {
-    dialStatus.style.color = "#000";
-    dialStatus.textContent = "";
-    dialConnect.disabled = false;
-  }
-}
-
-document.getElementById("lilac-connection").addEventListener("click", prepareConnectionDialog);
-document.getElementById("lilac-connection").addEventListener("dblclick", prepareConnectionDialog);
-
-function attemptConnection(){
-  if(internetIsConnected()){
-    prepareConnectionDialog();
+  if (!win) {
     return;
   }
 
-  const number = dialNumber.value.replace(/[^0-9]/g, "");
-  const user = dialUser.value.trim().toLowerCase();
-  const pass = dialPass.value;
+  win.classList.add(
+    "show"
+  );
 
-  dialConnect.disabled = true;
-  dialStatus.style.color = "#000";
-  dialStatus.textContent = "Dialing 555-0630...";
+  win.style.display =
+    "";
 
-  setTimeout(() => {
-    if(number !== "5550630" || user !== "treehouse" || pass !== "firefly"){
-      dialStatus.style.color = "#800000";
-      dialStatus.textContent = "Unable to establish a connection. Check the phone number, user name, and password.";
-      dialConnect.disabled = false;
-      return;
-    }
+  activate(
+    win
+  );
 
-    dialStatus.textContent = "Verifying user name and password...";
-
-    setTimeout(() => {
-      localStorage.setItem("lilacInternetConnected", "true");
-      dialStatus.style.color = "#006000";
-      dialStatus.textContent = "Connected at 28,800 bps";
-      renderInternet();
-
-      setTimeout(() => {
-        closeWindow(document.getElementById("connect-window"));
-        openWindow("internet-window");
-      }, 900);
-    }, 1000);
-  }, 900);
 }
 
-dialConnect.addEventListener("click", attemptConnection);
+function closeWindow(win) {
 
-[dialNumber, dialUser, dialPass].forEach(input => {
-  input.addEventListener("keydown", event => {
-    if(event.key === "Enter"){
-      attemptConnection();
+  if (!win) {
+    return;
+  }
+
+  win.classList.remove(
+    "show"
+  );
+
+  win.style.display =
+    "";
+
+  syncTaskbar();
+
+}
+
+function minimizeWindow(win) {
+
+  win.style.display =
+    "none";
+
+  syncTaskbar();
+
+}
+
+/* =========================================================
+   TASKBAR
+   ========================================================= */
+
+function syncTaskbar() {
+
+  const box =
+    document.getElementById(
+      "task-buttons"
+    );
+
+  box.innerHTML =
+    "";
+
+  const visibleWindows = [
+
+    ...document.querySelectorAll(
+      ".window.show"
+    )
+
+  ];
+
+  visibleWindows.forEach(
+    win => {
+
+      const btn =
+        document.createElement(
+          "button"
+        );
+
+      btn.className =
+        "task-button";
+
+      if (
+        !win.classList.contains(
+          "inactive"
+        )
+        &&
+        win.style.display !==
+        "none"
+      ) {
+
+        btn.classList.add(
+          "active"
+        );
+
+      }
+
+      btn.textContent =
+        win.dataset.task ||
+        win.id;
+
+      btn.addEventListener(
+        "click",
+        () => {
+
+          if (
+            win.style.display ===
+            "none"
+          ) {
+
+            win.style.display =
+              "";
+
+            activate(
+              win
+            );
+
+          }
+
+          else if (
+            !win.classList.contains(
+              "inactive"
+            )
+          ) {
+
+            minimizeWindow(
+              win
+            );
+
+          }
+
+          else {
+
+            activate(
+              win
+            );
+
+          }
+
+        }
+      );
+
+      box.appendChild(
+        btn
+      );
+
     }
-  });
-});
+  );
 
-renderInternet();
+}
 
-function updateClock(){
-  document.getElementById("clock").textContent =
-    new Date().toLocaleTimeString([], {hour:"numeric", minute:"2-digit"});
+/* =========================================================
+   DESKTOP ICONS
+   ========================================================= */
+
+const desktopIcons = [
+
+  ...document.querySelectorAll(
+    ".desktop-icon"
+  )
+
+];
+
+function clearIconSelection() {
+
+  desktopIcons.forEach(
+    icon => {
+
+      icon.classList.remove(
+        "selected"
+      );
+
+    }
+  );
+
+}
+
+function wireIcon(
+  iconId,
+  action
+) {
+
+  const icon =
+    document.getElementById(
+      iconId
+    );
+
+  icon.addEventListener(
+    "click",
+    () => {
+
+      clearIconSelection();
+
+      icon.classList.add(
+        "selected"
+      );
+
+      if (
+        window.matchMedia(
+          "(pointer: coarse)"
+        ).matches
+      ) {
+
+        action();
+
+      }
+
+    }
+  );
+
+  icon.addEventListener(
+    "dblclick",
+    action
+  );
+
+}
+
+/* =========================================================
+   GENERIC FILE / FOLDER ACTION
+   ========================================================= */
+
+function wireItem(
+  itemId,
+  action
+) {
+
+  const item =
+    document.getElementById(
+      itemId
+    );
+
+  item.addEventListener(
+    "dblclick",
+    action
+  );
+
+  item.addEventListener(
+    "click",
+    () => {
+
+      if (
+        window.matchMedia(
+          "(pointer: coarse)"
+        ).matches
+      ) {
+
+        action();
+
+      }
+
+    }
+  );
+
+}
+
+/* =========================================================
+   SAVE STATES
+   ========================================================= */
+
+function diaryIsUnlocked() {
+
+  return (
+    localStorage.getItem(
+      "lilacDiaryUnlocked"
+    )
+    ===
+    "true"
+  );
+
+}
+
+function internetIsConnected() {
+
+  return (
+    localStorage.getItem(
+      "lilacInternetConnected"
+    )
+    ===
+    "true"
+  );
+
+}
+
+function mailIsConfigured() {
+
+  return (
+    localStorage.getItem(
+      "lilacMailConfigured"
+    )
+    ===
+    "true"
+  );
+
+}
+
+/* =========================================================
+   DESKTOP ACTIONS
+   ========================================================= */
+
+wireIcon(
+  "computer-icon",
+  () => openWindow(
+    "computer-window"
+  )
+);
+
+wireIcon(
+  "internet-icon",
+  () => {
+
+    renderInternet();
+
+    openWindow(
+      "internet-window"
+    );
+
+  }
+);
+
+wireIcon(
+  "recycle-icon",
+  () => openWindow(
+    "recycle-window"
+  )
+);
+
+wireIcon(
+  "diary-icon",
+  () => {
+
+    if (
+      diaryIsUnlocked()
+    ) {
+
+      openWindow(
+        "diary-folder-window"
+      );
+
+    }
+
+    else {
+
+      openWindow(
+        "diary-window"
+      );
+
+    }
+
+  }
+);
+
+wireIcon(
+  "inbox-icon",
+  openInbox
+);
+
+/* =========================================================
+   FILE / FOLDER ACTIONS
+   ========================================================= */
+
+wireItem(
+  "floppy-drive",
+  () => openWindow(
+    "floppy-error-window"
+  )
+);
+
+wireItem(
+  "c-drive",
+  () => openWindow(
+    "drive-window"
+  )
+);
+
+wireItem(
+  "dialup-folder",
+  () => openWindow(
+    "dialup-window"
+  )
+);
+
+wireItem(
+  "programs-folder",
+  () => openWindow(
+    "programs-window"
+  )
+);
+
+wireItem(
+  "documents-folder",
+  () => openWindow(
+    "documents-window"
+  )
+);
+
+wireItem(
+  "settings-folder",
+  () => openWindow(
+    "settings-window"
+  )
+);
+
+wireItem(
+  "todo-file",
+  () => openWindow(
+    "todo-window"
+  )
+);
+
+wireItem(
+  "passwords-file",
+  () => openWindow(
+    "passwords-window"
+  )
+);
+
+wireItem(
+  "lilac-connection",
+  openConnectDialog
+);
+
+/* =========================================================
+   WINDOW CONTROLS + DRAGGING
+   ========================================================= */
+
+document
+  .querySelectorAll(
+    ".window"
+  )
+  .forEach(
+    win => {
+
+      win.addEventListener(
+        "pointerdown",
+        () => {
+
+          activate(
+            win
+          );
+
+        }
+      );
+
+      win
+        .querySelectorAll(
+          ".close"
+        )
+        .forEach(
+          btn => {
+
+            btn.addEventListener(
+              "click",
+              event => {
+
+                event.stopPropagation();
+
+                closeWindow(
+                  win
+                );
+
+              }
+            );
+
+          }
+        );
+
+      win
+        .querySelectorAll(
+          ".minimize"
+        )
+        .forEach(
+          btn => {
+
+            btn.addEventListener(
+              "click",
+              event => {
+
+                event.stopPropagation();
+
+                minimizeWindow(
+                  win
+                );
+
+              }
+            );
+
+          }
+        );
+
+      const bar =
+        win.querySelector(
+          ".titlebar"
+        );
+
+      let dragging =
+        false;
+
+      let offsetX =
+        0;
+
+      let offsetY =
+        0;
+
+      bar.addEventListener(
+        "pointerdown",
+        event => {
+
+          if (
+            event.target.closest(
+              "button"
+            )
+          ) {
+
+            return;
+
+          }
+
+          dragging =
+            true;
+
+          activate(
+            win
+          );
+
+          const rect =
+            screen.getBoundingClientRect();
+
+          const pointerX =
+            (
+              event.clientX -
+              rect.left
+            )
+            /
+            currentScale;
+
+          const pointerY =
+            (
+              event.clientY -
+              rect.top
+            )
+            /
+            currentScale;
+
+          offsetX =
+            pointerX -
+            win.offsetLeft;
+
+          offsetY =
+            pointerY -
+            win.offsetTop;
+
+          bar.setPointerCapture(
+            event.pointerId
+          );
+
+        }
+      );
+
+      bar.addEventListener(
+        "pointermove",
+        event => {
+
+          if (
+            !dragging
+          ) {
+
+            return;
+
+          }
+
+          const rect =
+            screen.getBoundingClientRect();
+
+          let x =
+            (
+              event.clientX -
+              rect.left
+            )
+            /
+            currentScale
+            -
+            offsetX;
+
+          let y =
+            (
+              event.clientY -
+              rect.top
+            )
+            /
+            currentScale
+            -
+            offsetY;
+
+          x =
+            Math.max(
+              0,
+              Math.min(
+                640 -
+                win.offsetWidth,
+                x
+              )
+            );
+
+          y =
+            Math.max(
+              0,
+              Math.min(
+                456 -
+                win.offsetHeight,
+                y
+              )
+            );
+
+          win.style.left =
+            x + "px";
+
+          win.style.top =
+            y + "px";
+
+        }
+      );
+
+      bar.addEventListener(
+        "pointerup",
+        () => {
+
+          dragging =
+            false;
+
+        }
+      );
+
+    }
+  );
+
+/* =========================================================
+   DIARY PASSWORD
+   ========================================================= */
+
+const password =
+  document.getElementById(
+    "password"
+  );
+
+const passwordStatus =
+  document.getElementById(
+    "password-status"
+  );
+
+const unlock =
+  document.getElementById(
+    "unlock"
+  );
+
+function tryPassword() {
+
+  if (
+    password.value.trim() ===
+    "0630"
+  ) {
+
+    passwordStatus.style.color =
+      "#006000";
+
+    passwordStatus.textContent =
+      "Opening...";
+
+    localStorage.setItem(
+      "lilacDiaryUnlocked",
+      "true"
+    );
+
+    setTimeout(
+      () => {
+
+        closeWindow(
+          document.getElementById(
+            "diary-window"
+          )
+        );
+
+        openWindow(
+          "diary-folder-window"
+        );
+
+        passwordStatus.textContent =
+          "";
+
+        password.value =
+          "";
+
+      },
+      500
+    );
+
+  }
+
+  else {
+
+    passwordStatus.style.color =
+      "#800000";
+
+    passwordStatus.textContent =
+      "The password is incorrect.";
+
+  }
+
+}
+
+unlock.addEventListener(
+  "click",
+  tryPassword
+);
+
+password.addEventListener(
+  "keydown",
+  event => {
+
+    if (
+      event.key ===
+      "Enter"
+    ) {
+
+      tryPassword();
+
+    }
+
+  }
+);
+
+/* =========================================================
+   INTERNET PAGE
+   ========================================================= */
+
+const internetContent =
+  document.getElementById(
+    "internet-content"
+  );
+
+const addressInput =
+  document.getElementById(
+    "address-input"
+  );
+
+function renderInternet() {
+
+  if (
+    internetIsConnected()
+  ) {
+
+    addressInput.value =
+      "http://home/";
+
+    internetContent.innerHTML =
+      `
+        <div class="internet-home">
+
+          <h1>
+            Welcome to the Internet
+          </h1>
+
+          <hr>
+
+          <p>
+            You are connected.
+          </p>
+
+          <p class="tiny">
+            Connected at 28,800 bps
+          </p>
+
+        </div>
+      `;
+
+  }
+
+  else {
+
+    addressInput.value =
+      "http://";
+
+    internetContent.innerHTML =
+      `
+        <div class="internet-error">
+
+          <h2>
+            Unable to connect
+          </h2>
+
+          <p>
+            A connection to the Internet could not be established.
+          </p>
+
+          <p>
+            Check your connection settings and try again.
+          </p>
+
+          <p>
+            <button
+              class="button"
+              id="connect-internet-button"
+            >
+              Connect...
+            </button>
+          </p>
+
+        </div>
+      `;
+
+    document
+      .getElementById(
+        "connect-internet-button"
+      )
+      .addEventListener(
+        "click",
+        openConnectDialog
+      );
+
+  }
+
+}
+
+/* =========================================================
+   CONNECT DIALOG
+   ========================================================= */
+
+const dialNumber =
+  document.getElementById(
+    "dial-number"
+  );
+
+const dialUser =
+  document.getElementById(
+    "dial-user"
+  );
+
+const dialPass =
+  document.getElementById(
+    "dial-pass"
+  );
+
+const dialConnect =
+  document.getElementById(
+    "dial-connect"
+  );
+
+const connectingStatus =
+  document.getElementById(
+    "connecting-status"
+  );
+
+let connectionAttemptToken =
+  0;
+
+function openConnectDialog() {
+
+  if (
+    internetIsConnected()
+  ) {
+
+    openWindow(
+      "connection-established-window"
+    );
+
+    return;
+
+  }
+
+  openWindow(
+    "connect-window"
+  );
+
+}
+
+function attemptConnection() {
+
+  const number =
+    dialNumber
+      .value
+      .replace(
+        /[^0-9]/g,
+        ""
+      );
+
+  const user =
+    dialUser
+      .value
+      .trim()
+      .toLowerCase();
+
+  const pass =
+    dialPass.value;
+
+  closeWindow(
+    document.getElementById(
+      "connect-window"
+    )
+  );
+
+  connectingStatus.textContent =
+    "Dialing...";
+
+  openWindow(
+    "connecting-window"
+  );
+
+  const thisAttempt =
+    ++connectionAttemptToken;
+
+  setTimeout(
+    () => {
+
+      if (
+        thisAttempt !==
+        connectionAttemptToken
+      ) {
+
+        return;
+
+      }
+
+      connectingStatus.textContent =
+        "Verifying user name and password...";
+
+      setTimeout(
+        () => {
+
+          if (
+            thisAttempt !==
+            connectionAttemptToken
+          ) {
+
+            return;
+
+          }
+
+          const correct =
+            (
+              number ===
+              "5550630"
+              &&
+              user ===
+              "treehouse"
+              &&
+              pass ===
+              "firefly"
+            );
+
+          if (
+            !correct
+          ) {
+
+            connectingStatus.textContent =
+              "Unable to establish a connection.";
+
+            setTimeout(
+              () => {
+
+                if (
+                  thisAttempt !==
+                  connectionAttemptToken
+                ) {
+
+                  return;
+
+                }
+
+                closeWindow(
+                  document.getElementById(
+                    "connecting-window"
+                  )
+                );
+
+                openWindow(
+                  "connect-window"
+                );
+
+              },
+              1200
+            );
+
+            return;
+
+          }
+
+          localStorage.setItem(
+            "lilacInternetConnected",
+            "true"
+          );
+
+          closeWindow(
+            document.getElementById(
+              "connecting-window"
+            )
+          );
+
+          updateConnectionTray();
+
+          renderInternet();
+
+          openWindow(
+            "connection-established-window"
+          );
+
+        },
+        1100
+      );
+
+    },
+    900
+  );
+
+}
+
+dialConnect.addEventListener(
+  "click",
+  attemptConnection
+);
+
+[
+  dialNumber,
+  dialUser,
+  dialPass
+]
+.forEach(
+  input => {
+
+    input.addEventListener(
+      "keydown",
+      event => {
+
+        if (
+          event.key ===
+          "Enter"
+        ) {
+
+          attemptConnection();
+
+        }
+
+      }
+    );
+
+  }
+);
+
+document
+  .getElementById(
+    "cancel-connecting"
+  )
+  .addEventListener(
+    "click",
+    () => {
+
+      connectionAttemptToken++;
+
+    }
+  );
+
+document
+  .querySelectorAll(
+    "#connecting-window .close"
+  )
+  .forEach(
+    button => {
+
+      button.addEventListener(
+        "click",
+        () => {
+
+          connectionAttemptToken++;
+
+        }
+      );
+
+    }
+  );
+
+document
+  .getElementById(
+    "connection-close"
+  )
+  .addEventListener(
+    "click",
+    () => {
+
+      closeWindow(
+        document.getElementById(
+          "connection-established-window"
+        )
+      );
+
+      renderInternet();
+
+      openWindow(
+        "internet-window"
+      );
+
+    }
+  );
+
+/* =========================================================
+   CONNECTION TRAY
+   ========================================================= */
+
+function updateConnectionTray() {
+
+  const tray =
+    document.getElementById(
+      "connection-tray"
+    );
+
+  tray.classList.toggle(
+    "on",
+    internetIsConnected()
+  );
+
+}
+
+document
+  .getElementById(
+    "connection-tray"
+  )
+  .addEventListener(
+    "dblclick",
+    () => {
+
+      if (
+        internetIsConnected()
+      ) {
+
+        openWindow(
+          "connection-established-window"
+        );
+
+      }
+
+    }
+  );
+
+/* =========================================================
+   INBOX
+   ========================================================= */
+
+function openInbox() {
+
+  if (
+    mailIsConfigured()
+  ) {
+
+    openWindow(
+      "inbox-window"
+    );
+
+  }
+
+  else {
+
+    openWindow(
+      "inbox-setup-window"
+    );
+
+  }
+
+}
+
+const mailChecks = [
+
+  ...document.querySelectorAll(
+    ".mail-service-check"
+  )
+
+];
+
+const mailSetupOK =
+  document.getElementById(
+    "mail-setup-ok"
+  );
+
+function updateMailSetupButton() {
+
+  mailSetupOK.disabled =
+    !mailChecks.every(
+      box => box.checked
+    );
+
+}
+
+mailChecks.forEach(
+  box => {
+
+    box.addEventListener(
+      "change",
+      updateMailSetupButton
+    );
+
+  }
+);
+
+updateMailSetupButton();
+
+mailSetupOK.addEventListener(
+  "click",
+  () => {
+
+    if (
+      mailSetupOK.disabled
+    ) {
+
+      return;
+
+    }
+
+    closeWindow(
+      document.getElementById(
+        "inbox-setup-window"
+      )
+    );
+
+    openWindow(
+      "mail-login-window"
+    );
+
+  }
+);
+
+const mailUser =
+  document.getElementById(
+    "mail-user"
+  );
+
+const mailPass =
+  document.getElementById(
+    "mail-pass"
+  );
+
+const mailStatus =
+  document.getElementById(
+    "mail-status"
+  );
+
+function attemptMailLogin() {
+
+  if (
+    !internetIsConnected()
+  ) {
+
+    mailStatus.style.color =
+      "#800000";
+
+    mailStatus.textContent =
+      "Unable to connect to the mail server. Connect to the Internet and try again.";
+
+    return;
+
+  }
+
+  const user =
+    mailUser
+      .value
+      .trim()
+      .toLowerCase();
+
+  const pass =
+    mailPass.value;
+
+  if (
+    user !==
+    "treehouse"
+    ||
+    pass !==
+    "firefly"
+  ) {
+
+    mailStatus.style.color =
+      "#800000";
+
+    mailStatus.textContent =
+      "The user name or password is incorrect.";
+
+    return;
+
+  }
+
+  localStorage.setItem(
+    "lilacMailConfigured",
+    "true"
+  );
+
+  mailStatus.style.color =
+    "#006000";
+
+  mailStatus.textContent =
+    "Opening Inbox...";
+
+  setTimeout(
+    () => {
+
+      closeWindow(
+        document.getElementById(
+          "mail-login-window"
+        )
+      );
+
+      mailStatus.textContent =
+        "";
+
+      mailUser.value =
+        "";
+
+      mailPass.value =
+        "";
+
+      openWindow(
+        "inbox-window"
+      );
+
+    },
+    500
+  );
+
+}
+
+document
+  .getElementById(
+    "mail-login-ok"
+  )
+  .addEventListener(
+    "click",
+    attemptMailLogin
+  );
+
+[
+  mailUser,
+  mailPass
+]
+.forEach(
+  input => {
+
+    input.addEventListener(
+      "keydown",
+      event => {
+
+        if (
+          event.key ===
+          "Enter"
+        ) {
+
+          attemptMailLogin();
+
+        }
+
+      }
+    );
+
+  }
+);
+
+/* =========================================================
+   START MENU
+   ========================================================= */
+
+const startButton =
+  document.getElementById(
+    "start-button"
+  );
+
+const startMenu =
+  document.getElementById(
+    "start-menu"
+  );
+
+startButton.addEventListener(
+  "click",
+  event => {
+
+    event.stopPropagation();
+
+    startMenu.classList.toggle(
+      "show"
+    );
+
+  }
+);
+
+document.addEventListener(
+  "click",
+  event => {
+
+    if (
+      !startMenu.contains(
+        event.target
+      )
+      &&
+      !startButton.contains(
+        event.target
+      )
+    ) {
+
+      startMenu.classList.remove(
+        "show"
+      );
+
+    }
+
+  }
+);
+
+document
+  .getElementById(
+    "start-programs"
+  )
+  .addEventListener(
+    "click",
+    () => {
+
+      startMenu.classList.remove(
+        "show"
+      );
+
+      openWindow(
+        "programs-window"
+      );
+
+    }
+  );
+
+document
+  .getElementById(
+    "start-documents"
+  )
+  .addEventListener(
+    "click",
+    () => {
+
+      startMenu.classList.remove(
+        "show"
+      );
+
+      openWindow(
+        "documents-window"
+      );
+
+    }
+  );
+
+document
+  .getElementById(
+    "start-settings"
+  )
+  .addEventListener(
+    "click",
+    () => {
+
+      startMenu.classList.remove(
+        "show"
+      );
+
+      openWindow(
+        "settings-window"
+      );
+
+    }
+  );
+
+document
+  .getElementById(
+    "start-shutdown"
+  )
+  .addEventListener(
+    "click",
+    () => {
+
+      startMenu.classList.remove(
+        "show"
+      );
+
+      openWindow(
+        "shutdown-window"
+      );
+
+    }
+  );
+
+/* =========================================================
+   SHUT DOWN
+   ========================================================= */
+
+document
+  .getElementById(
+    "shutdown-yes"
+  )
+  .addEventListener(
+    "click",
+    shutDownComputer
+  );
+
+function shutDownComputer() {
+
+  localStorage.removeItem(
+    "lilacInternetConnected"
+  );
+
+  updateConnectionTray();
+
+  document
+    .getElementById(
+      "shutdown-screen"
+    )
+    .classList.add(
+      "on"
+    );
+
+  setTimeout(
+    () => {
+
+      window.location.replace(
+        "https://lilactreehats.com/"
+      );
+
+    },
+    1200
+  );
+
+}
+
+/* =========================================================
+   CLOCK
+   ========================================================= */
+
+function updateClock() {
+
+  document
+    .getElementById(
+      "clock"
+    )
+    .textContent =
+
+    new Date()
+      .toLocaleTimeString(
+        [],
+        {
+          hour:"numeric",
+          minute:"2-digit"
+        }
+      );
+
 }
 
 updateClock();
-setInterval(updateClock, 1000);
+
+setInterval(
+  updateClock,
+  1000
+);
+
+/* =========================================================
+   INITIAL STATE
+   ========================================================= */
+
+renderInternet();
+updateConnectionTray();
+
 </script>
 
 </body>
