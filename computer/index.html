@@ -58,6 +58,30 @@ input[type="checkbox"] {
   background:var(--desktop);
 }
 
+document
+  .querySelectorAll(
+    ".maximize"
+  )
+  .forEach(
+    button => {
+
+      button.addEventListener(
+        "click",
+        event => {
+
+          event.stopPropagation();
+
+          toggleMaximize(
+            button.closest(".window"),
+            button
+          );
+
+        }
+      );
+
+    }
+  );
+
 /* =========================================================
    DESKTOP ICONS
    ========================================================= */
@@ -101,6 +125,17 @@ input[type="checkbox"] {
 .desktop-icon.selected .label {
   background:#0000a8;
   outline:1px dotted #fff;
+}
+
+.inbox-notice {
+  display:none;
+  color:#ff4040;
+  font-weight:bold;
+  text-shadow:1px 1px #000;
+}
+
+.inbox-notice.on {
+  display:inline;
 }
 
 /* =========================================================
@@ -1042,52 +1077,21 @@ input[type="checkbox"] {
 }
 
 .connection-tray {
-  width:22px;
-  height:16px;
-  position:relative;
+  width:20px;
+  height:18px;
   display:none;
+  align-items:center;
+  justify-content:center;
 }
 
 .connection-tray.on {
-  display:block;
+  display:flex;
 }
 
-.tray-monitor {
-  position:absolute;
-  width:9px;
-  height:7px;
-  border:1px solid #333;
-  background:#dcdcdc;
-}
-
-.tray-monitor.one {
-  left:1px;
-  top:1px;
-}
-
-.tray-monitor.two {
-  right:1px;
-  bottom:1px;
-}
-
-.tray-monitor::after {
-  content:"";
-  position:absolute;
-  left:2px;
-  right:2px;
-  bottom:-3px;
-  height:2px;
-  border-top:1px solid #333;
-}
-
-.tray-wire {
-  position:absolute;
-  left:9px;
-  top:7px;
-  width:7px;
-  height:2px;
-  background:#7030a0;
-  transform:rotate(20deg);
+.connection-tray img {
+  width:16px;
+  height:16px;
+  object-fit:contain;
 }
 
 .clock {
@@ -1117,6 +1121,26 @@ input[type="checkbox"] {
 #shutdown-screen.on {
   display:block;
 }
+
+.window.maximized {
+  left:0 !important;
+  top:0 !important;
+  width:640px !important;
+  height:456px !important;
+  display:flex;
+  flex-direction:column;
+}
+
+.window.maximized > .client {
+  flex:1 1 auto !important;
+  height:auto !important;
+  min-height:0;
+}
+
+.window.maximized .site-frame {
+  width:100%;
+  height:100%;
+}
 </style>
 </head>
 
@@ -1138,7 +1162,7 @@ input[type="checkbox"] {
 
   <div class="desktop-icon" id="inbox-icon">
     <img src="assets/inbox.png" alt="">
-    <span class="label">Inbox</span>
+    <span class="label">Inbox <span class="inbox-notice" id="inbox-notice">(1)</span></span>
   </div>
 
   <div class="desktop-icon" id="diary-icon">
@@ -1169,6 +1193,7 @@ input[type="checkbox"] {
 
     <div class="title-buttons">
       <button class="win-btn minimize">_</button>
+      <button class="win-btn maximize" title="Maximize">□</button>
       <button class="win-btn close">×</button>
     </div>
   </div>
@@ -1200,7 +1225,7 @@ input[type="checkbox"] {
       </div>
 
       <div class="file-item" id="dialup-folder">
-        <img src="assets/internet.png" alt="">
+        <img src="assets/dialup-network.png" alt="" onerror="this.onerror=null;this.src='assets/internet.png';">
         <span class="file-label">Dial-Up Networking</span>
       </div>
 
@@ -1255,6 +1280,7 @@ input[type="checkbox"] {
 
     <div class="title-buttons">
       <button class="win-btn minimize">_</button>
+      <button class="win-btn maximize" title="Maximize">□</button>
       <button class="win-btn close">×</button>
     </div>
   </div>
@@ -1304,6 +1330,7 @@ input[type="checkbox"] {
     <span>CD-ROM (D:)</span>
     <div class="title-buttons">
       <button class="win-btn minimize">_</button>
+      <button class="win-btn maximize" title="Maximize">□</button>
       <button class="win-btn close">×</button>
     </div>
   </div>
@@ -1323,6 +1350,7 @@ input[type="checkbox"] {
 
     <div class="title-buttons">
       <button class="win-btn minimize">_</button>
+      <button class="win-btn maximize" title="Maximize">□</button>
       <button class="win-btn close">×</button>
     </div>
   </div>
@@ -1355,6 +1383,7 @@ input[type="checkbox"] {
 
     <div class="title-buttons">
       <button class="win-btn minimize">_</button>
+      <button class="win-btn maximize" title="Maximize">□</button>
       <button class="win-btn close">×</button>
     </div>
   </div>
@@ -1387,6 +1416,7 @@ input[type="checkbox"] {
 
     <div class="title-buttons">
       <button class="win-btn minimize">_</button>
+      <button class="win-btn maximize" title="Maximize">□</button>
       <button class="win-btn close">×</button>
     </div>
   </div>
@@ -1428,6 +1458,7 @@ input[type="checkbox"] {
 
     <div class="title-buttons">
       <button class="win-btn minimize">_</button>
+      <button class="win-btn maximize" title="Maximize">□</button>
       <button class="win-btn close">×</button>
     </div>
   </div>
@@ -1514,6 +1545,7 @@ input[type="checkbox"] {
 
     <div class="title-buttons">
       <button class="win-btn minimize">_</button>
+      <button class="win-btn maximize" title="Maximize">□</button>
       <button class="win-btn close">×</button>
     </div>
   </div>
@@ -1560,6 +1592,7 @@ input[type="checkbox"] {
 
     <div class="title-buttons">
       <button class="win-btn minimize">_</button>
+      <button class="win-btn maximize" title="Maximize">□</button>
       <button class="win-btn close">×</button>
     </div>
   </div>
@@ -1590,6 +1623,7 @@ pass: firefly</div>
 
     <div class="title-buttons">
       <button class="win-btn minimize">_</button>
+      <button class="win-btn maximize" title="Maximize">□</button>
       <button class="win-btn close">×</button>
     </div>
   </div>
@@ -1610,7 +1644,7 @@ pass: firefly</div>
         <img src="assets/internet.png" alt="">
 
         <span class="file-label">
-          Lilac Internet
+          Internet
         </span>
 
       </div>
@@ -1643,10 +1677,10 @@ pass: firefly</div>
 
     <div class="connect-heading">
 
-      <img src="assets/internet.png" alt="">
+      <img src="assets/dialup-network.png" alt="" onerror="this.onerror=null;this.src='assets/internet.png';">
 
       <div>
-        <strong>Lilac Internet</strong>
+        <strong>Internet</strong>
       </div>
 
     </div>
@@ -1720,10 +1754,10 @@ pass: firefly</div>
      CONNECTING
      ====================================================== -->
 
-<div class="window" id="connecting-window" data-task="Connecting to Lilac Internet">
+<div class="window" id="connecting-window" data-task="Connecting to Internet">
 
   <div class="titlebar">
-    <span>Connecting to Lilac Internet</span>
+    <span>Connecting to Internet</span>
 
     <div class="title-buttons">
       <button class="win-btn close" id="cancel-connecting">×</button>
@@ -1782,7 +1816,7 @@ pass: firefly</div>
   <div class="dialog-body">
 
     <div class="established-title">
-      You are connected to Lilac Internet.
+      You are connected to Internet.
     </div>
 
     <div class="established-row">
@@ -1835,6 +1869,7 @@ pass: firefly</div>
 
     <div class="title-buttons">
       <button class="win-btn minimize">_</button>
+      <button class="win-btn maximize" title="Maximize">□</button>
       <button class="win-btn close">×</button>
     </div>
   </div>
@@ -2065,7 +2100,8 @@ pass: firefly</div>
      ====================================================== -->
 
 <div class="window" id="inbox-window" data-task="Inbox - Microsoft Exchange">
-  <div class="titlebar"><span>Inbox - Microsoft Exchange</span><div class="title-buttons"><button class="win-btn minimize">_</button><button class="win-btn close">×</button></div></div>
+  <div class="titlebar"><span>Inbox - Microsoft Exchange</span><div class="title-buttons"><button class="win-btn minimize">_</button>
+      <button class="win-btn maximize" title="Maximize">□</button><button class="win-btn close">×</button></div></div>
   <div class="menu"><span>File</span><span>Edit</span><span>View</span><span>Tools</span><span>Compose</span><span>Help</span></div>
   <div class="client">
     <div class="exchange-toolbar">
@@ -2094,7 +2130,8 @@ pass: firefly</div>
 </div>
 
 <div class="window" id="mail-message-window" data-task="plant site - Microsoft Exchange">
-  <div class="titlebar"><span>plant site - Microsoft Exchange</span><div class="title-buttons"><button class="win-btn minimize">_</button><button class="win-btn close">×</button></div></div>
+  <div class="titlebar"><span>plant site - Microsoft Exchange</span><div class="title-buttons"><button class="win-btn minimize">_</button>
+      <button class="win-btn maximize" title="Maximize">□</button><button class="win-btn close">×</button></div></div>
   <div class="menu"><span>File</span><span>Edit</span><span>View</span><span>Insert</span><span>Format</span><span>Tools</span><span>Compose</span><span>Help</span></div>
   <div class="client">
     <div class="mail-message-toolbar">
@@ -2132,6 +2169,7 @@ pass: firefly</div>
 
     <div class="title-buttons">
       <button class="win-btn minimize">_</button>
+      <button class="win-btn maximize" title="Maximize">□</button>
       <button class="win-btn close">×</button>
     </div>
   </div>
@@ -2346,12 +2384,10 @@ pass: firefly</div>
     <div
       class="connection-tray"
       id="connection-tray"
-      title="Lilac Internet - Connected at 28,800 bps"
+      title="Internet - Connected at 28,800 bps"
       aria-label="Internet connected"
     >
-      <span class="tray-monitor one"></span>
-      <span class="tray-monitor two"></span>
-      <span class="tray-wire"></span>
+      <img src="assets/dialup.png" alt="" onerror="this.onerror=null;this.src='assets/internet.png';">
     </div>
 
     <div
@@ -2493,6 +2529,30 @@ function minimizeWindow(win) {
   syncTaskbar();
 
 }
+
+function toggleMaximize(win, button) {
+
+  if (!win) return;
+
+  const nowMaximized =
+    !win.classList.contains("maximized");
+
+  win.classList.toggle(
+    "maximized",
+    nowMaximized
+  );
+
+  if (button) {
+    button.textContent =
+      nowMaximized ? "❐" : "□";
+    button.title =
+      nowMaximized ? "Restore" : "Maximize";
+  }
+
+  activate(win);
+
+}
+
 
 /* =========================================================
    TASKBAR
@@ -3825,16 +3885,13 @@ function openConnectDialog() {
 function attemptConnection() {
 
   const number =
-    dialNumber
-      .value
-      .replace(
-        /[^0-9]/g,
-        ""
-      );
+    dialNumber.value.replace(
+      /[^0-9]/g,
+      ""
+    );
 
   const user =
-    dialUser
-      .value
+    dialUser.value
       .trim()
       .toLowerCase();
 
@@ -3859,111 +3916,87 @@ function attemptConnection() {
   const thisAttempt =
     ++connectionAttemptToken;
 
+  const correct =
+    number === "5550630"
+    && user === "treehouse"
+    && pass === "firefly";
+
   setTimeout(
     () => {
 
       if (
         thisAttempt !==
         connectionAttemptToken
-      ) {
+      ) return;
+
+      connectingStatus.textContent =
+        "Verifying user name and password...";
+
+    },
+    10500
+  );
+
+  setTimeout(
+    () => {
+
+      if (
+        thisAttempt !==
+        connectionAttemptToken
+      ) return;
+
+      stopDialupAudio();
+
+      if (!correct) {
+
+        connectingStatus.textContent =
+          "Unable to establish a connection.";
+
+        setTimeout(
+          () => {
+
+            if (
+              thisAttempt !==
+              connectionAttemptToken
+            ) return;
+
+            closeWindow(
+              document.getElementById(
+                "connecting-window"
+              )
+            );
+
+            openWindow(
+              "connect-window"
+            );
+
+          },
+          1200
+        );
 
         return;
 
       }
 
-      connectingStatus.textContent =
-        "Verifying user name and password...";
+      localStorage.setItem(
+        "lilacInternetConnected",
+        "true"
+      );
 
-      setTimeout(
-        () => {
+      closeWindow(
+        document.getElementById(
+          "connecting-window"
+        )
+      );
 
-          if (
-            thisAttempt !==
-            connectionAttemptToken
-          ) {
+      updateConnectionTray();
+      renderInternet();
 
-            return;
-
-          }
-
-          const correct =
-            (
-              number ===
-              "5550630"
-              &&
-              user ===
-              "treehouse"
-              &&
-              pass ===
-              "firefly"
-            );
-
-          if (
-            !correct
-          ) {
-
-            stopDialupAudio();
-
-            connectingStatus.textContent =
-              "Unable to establish a connection.";
-
-            setTimeout(
-              () => {
-
-                if (
-                  thisAttempt !==
-                  connectionAttemptToken
-                ) {
-
-                  return;
-
-                }
-
-                closeWindow(
-                  document.getElementById(
-                    "connecting-window"
-                  )
-                );
-
-                openWindow(
-                  "connect-window"
-                );
-
-              },
-              1200
-            );
-
-            return;
-
-          }
-
-          stopDialupAudio();
-
-          localStorage.setItem(
-            "lilacInternetConnected",
-            "true"
-          );
-
-          closeWindow(
-            document.getElementById(
-              "connecting-window"
-            )
-          );
-
-          updateConnectionTray();
-
-          renderInternet();
-
-          openWindow(
-            "connection-established-window"
-          );
-
-        },
-        1100
+      openWindow(
+        "connection-established-window"
       );
 
     },
-    900
+    14500
   );
 
 }
@@ -4103,105 +4136,344 @@ document
 const FRIEND_NAME = "Hollis";
 const FRIEND_SUBJECT = "plant site";
 const FRIEND_RECEIVED = "6/14/06 9:42 PM";
-const mailListBody = document.getElementById("mail-list-body");
-const mailInboxStatus = document.getElementById("mail-inbox-status");
+const MAIL_DELAY_MS = 30000;
 
-function renderInbox() {
-  if (!firstMailIsReceived()) {
-    mailListBody.innerHTML = `<div class="mail-empty">No messages.</div>`;
-    mailInboxStatus.textContent = "0 Item(s)";
+const mailListBody =
+  document.getElementById("mail-list-body");
+
+const mailInboxStatus =
+  document.getElementById("mail-inbox-status");
+
+const inboxNotice =
+  document.getElementById("inbox-notice");
+
+let mailArrivalTimer = null;
+
+function updateInboxNotice() {
+
+  if (!inboxNotice) return;
+
+  inboxNotice.classList.toggle(
+    "on",
+    firstMailIsReceived()
+    && !firstMailIsRead()
+  );
+
+}
+
+function deliverFirstMail() {
+
+  if (firstMailIsReceived()) {
+    updateInboxNotice();
     return;
   }
-  const unread = !firstMailIsRead();
-  mailListBody.innerHTML = `<div class="mail-row ${unread ? "unread" : ""}" id="hollis-mail-row"><div>${FRIEND_NAME}</div><div>${FRIEND_SUBJECT}</div><div>${FRIEND_RECEIVED}</div></div>`;
-  mailInboxStatus.textContent = unread ? "1 Item, 1 Unread" : "1 Item";
-  const row = document.getElementById("hollis-mail-row");
-  row.addEventListener("click", () => {
-    row.classList.add("selected");
-    if (window.matchMedia("(pointer: coarse)").matches) openHollisMail();
-  });
-  row.addEventListener("dblclick", openHollisMail);
+
+  localStorage.setItem(
+    "lilacHollisMailReceived",
+    "true"
+  );
+
+  localStorage.removeItem(
+    "lilacHollisMailDue"
+  );
+
+  renderInbox();
+  updateInboxNotice();
+
+}
+
+function ensureMailArrivalScheduled() {
+
+  if (
+    !mailIsConfigured()
+    || firstMailIsReceived()
+  ) {
+    updateInboxNotice();
+    return;
+  }
+
+  let due = Number(
+    localStorage.getItem(
+      "lilacHollisMailDue"
+    )
+  );
+
+  if (!due) {
+    due = Date.now() + MAIL_DELAY_MS;
+    localStorage.setItem(
+      "lilacHollisMailDue",
+      String(due)
+    );
+  }
+
+  const remaining =
+    Math.max(0, due - Date.now());
+
+  if (mailArrivalTimer) {
+    clearTimeout(mailArrivalTimer);
+  }
+
+  mailArrivalTimer = setTimeout(
+    deliverFirstMail,
+    remaining
+  );
+
+}
+
+function renderInbox() {
+
+  if (!mailIsConfigured()) return;
+
+  if (!firstMailIsReceived()) {
+    mailListBody.innerHTML =
+      `<div class="mail-empty">No messages.</div>`;
+    mailInboxStatus.textContent =
+      "0 Item(s)";
+    updateInboxNotice();
+    return;
+  }
+
+  const unread =
+    !firstMailIsRead();
+
+  mailListBody.innerHTML =
+    `<div class="mail-row ${unread ? "unread" : ""}" id="hollis-mail-row"><div>${FRIEND_NAME}</div><div>${FRIEND_SUBJECT}</div><div>${FRIEND_RECEIVED}</div></div>`;
+
+  mailInboxStatus.textContent =
+    unread ? "1 Item, 1 Unread" : "1 Item";
+
+  updateInboxNotice();
+
+  const row =
+    document.getElementById(
+      "hollis-mail-row"
+    );
+
+  row.addEventListener(
+    "click",
+    () => {
+
+      row.classList.add(
+        "selected"
+      );
+
+      if (
+        window.matchMedia(
+          "(pointer: coarse)"
+        ).matches
+      ) {
+        openHollisMail();
+      }
+
+    }
+  );
+
+  row.addEventListener(
+    "dblclick",
+    openHollisMail
+  );
+
 }
 
 function openHollisMail() {
-  localStorage.setItem("lilacHollisMailRead", "true");
+
+  localStorage.setItem(
+    "lilacHollisMailRead",
+    "true"
+  );
+
   renderInbox();
-  openWindow("mail-message-window");
+  updateInboxNotice();
+
+  openWindow(
+    "mail-message-window"
+  );
+
 }
 
 function openInbox() {
+
   if (mailIsConfigured()) {
     renderInbox();
+    ensureMailArrivalScheduled();
     openWindow("inbox-window");
   } else {
     openWindow("inbox-setup-window");
   }
+
 }
 
-const mailChecks = [...document.querySelectorAll(".mail-service-check")];
-const mailSetupOK = document.getElementById("mail-setup-ok");
-function updateMailSetupButton() { mailSetupOK.disabled = !mailChecks.every(box => box.checked); }
-mailChecks.forEach(box => box.addEventListener("change", updateMailSetupButton));
-updateMailSetupButton();
-mailSetupOK.addEventListener("click", () => {
-  if (mailSetupOK.disabled) return;
-  closeWindow(document.getElementById("inbox-setup-window"));
-  openWindow("mail-login-window");
-});
+const mailChecks = [
+  ...document.querySelectorAll(
+    ".mail-service-check"
+  )
+];
 
-const mailUser = document.getElementById("mail-user");
-const mailPass = document.getElementById("mail-pass");
-const mailStatus = document.getElementById("mail-status");
+const mailSetupOK =
+  document.getElementById(
+    "mail-setup-ok"
+  );
+
+function updateMailSetupButton() {
+  mailSetupOK.disabled =
+    !mailChecks.every(
+      box => box.checked
+    );
+}
+
+mailChecks.forEach(
+  box =>
+    box.addEventListener(
+      "change",
+      updateMailSetupButton
+    )
+);
+
+updateMailSetupButton();
+
+mailSetupOK.addEventListener(
+  "click",
+  () => {
+    if (mailSetupOK.disabled) return;
+    closeWindow(
+      document.getElementById(
+        "inbox-setup-window"
+      )
+    );
+    openWindow(
+      "mail-login-window"
+    );
+  }
+);
+
+const mailUser =
+  document.getElementById("mail-user");
+const mailPass =
+  document.getElementById("mail-pass");
+const mailStatus =
+  document.getElementById("mail-status");
 
 function attemptMailLogin() {
+
   if (!internetIsConnected()) {
     mailStatus.style.color = "#800000";
-    mailStatus.textContent = "Unable to connect to the mail server. Connect to the Internet and try again.";
+    mailStatus.textContent =
+      "Unable to connect to the mail server. Connect to the Internet and try again.";
     return;
   }
-  const user = mailUser.value.trim().toLowerCase();
+
+  const user =
+    mailUser.value.trim().toLowerCase();
   const pass = mailPass.value;
-  if (user !== "treehouse" || pass !== "firefly") {
+
+  if (
+    user !== "treehouse"
+    || pass !== "firefly"
+  ) {
     mailStatus.style.color = "#800000";
-    mailStatus.textContent = "The user name or password is incorrect.";
+    mailStatus.textContent =
+      "The user name or password is incorrect.";
     return;
   }
-  localStorage.setItem("lilacMailConfigured", "true");
+
+  localStorage.setItem(
+    "lilacMailConfigured",
+    "true"
+  );
+
+  if (
+    !firstMailIsReceived()
+    && !localStorage.getItem(
+      "lilacHollisMailDue"
+    )
+  ) {
+    localStorage.setItem(
+      "lilacHollisMailDue",
+      String(Date.now() + MAIL_DELAY_MS)
+    );
+  }
+
   mailStatus.style.color = "#006000";
   mailStatus.textContent = "Opening Inbox...";
-  setTimeout(() => {
-    closeWindow(document.getElementById("mail-login-window"));
-    mailStatus.textContent = "";
-    mailUser.value = "";
-    mailPass.value = "";
-    renderInbox();
-    openWindow("inbox-window");
-  }, 500);
+
+  setTimeout(
+    () => {
+      closeWindow(
+        document.getElementById(
+          "mail-login-window"
+        )
+      );
+      mailStatus.textContent = "";
+      mailUser.value = "";
+      mailPass.value = "";
+      renderInbox();
+      openWindow("inbox-window");
+      ensureMailArrivalScheduled();
+    },
+    500
+  );
+
 }
 
-document.getElementById("mail-login-ok").addEventListener("click", attemptMailLogin);
-[mailUser, mailPass].forEach(input => input.addEventListener("keydown", event => {
-  if (event.key === "Enter") attemptMailLogin();
-}));
+document.getElementById(
+  "mail-login-ok"
+).addEventListener(
+  "click",
+  attemptMailLogin
+);
 
-document.getElementById("mail-send-receive").addEventListener("click", () => {
-  if (!internetIsConnected()) {
-    mailInboxStatus.textContent = "Unable to connect.";
-    return;
+[mailUser, mailPass].forEach(
+  input =>
+    input.addEventListener(
+      "keydown",
+      event => {
+        if (event.key === "Enter") {
+          attemptMailLogin();
+        }
+      }
+    )
+);
+
+document.getElementById(
+  "mail-send-receive"
+).addEventListener(
+  "click",
+  () => {
+
+    if (!internetIsConnected()) {
+      mailInboxStatus.textContent =
+        "Unable to connect.";
+      return;
+    }
+
+    mailInboxStatus.textContent =
+      "Checking for new mail...";
+
+    setTimeout(
+      () => {
+        renderInbox();
+        if (!firstMailIsReceived()) {
+          mailInboxStatus.textContent =
+            "0 Item(s)";
+        }
+      },
+      700
+    );
+
   }
-  mailInboxStatus.textContent = "Receiving mail...";
-  setTimeout(() => {
-    localStorage.setItem("lilacHollisMailReceived", "true");
-    renderInbox();
-  }, 700);
-});
+);
 
-document.getElementById("dave-mail-link").addEventListener("click", event => {
-  event.preventDefault();
-  if (!internetIsConnected()) return;
-  showDaveSite("index.html");
-  openWindow("internet-window");
-});
+document.getElementById(
+  "dave-mail-link"
+).addEventListener(
+  "click",
+  event => {
+    event.preventDefault();
+    if (!internetIsConnected()) return;
+    showDaveSite("index.html");
+    openWindow("internet-window");
+  }
+);
 
 /* =========================================================
    START MENU
@@ -4407,6 +4679,13 @@ setInterval(
 
 renderInternet();
 updateConnectionTray();
+
+if (mailIsConfigured()) {
+  renderInbox();
+  ensureMailArrivalScheduled();
+}
+
+updateInboxNotice();
 
 </script>
 
