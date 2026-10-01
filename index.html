@@ -102,6 +102,80 @@
 
 
         /* =====================================================
+           PICREW POLAROID
+           ===================================================== */
+
+        .picrew-polaroid {
+            position: absolute;
+            left: 54.2%;
+            top: 29.8%;
+            width: 3.6%;
+            z-index: 8;
+
+            display: block;
+            box-sizing: border-box;
+
+            padding:
+                clamp(2px, 0.20vw, 4px)
+                clamp(2px, 0.20vw, 4px)
+                clamp(5px, 0.50vw, 9px);
+
+            background: #fffdf7;
+            border: 1px solid rgba(43, 34, 56, 0.35);
+            box-shadow: 1px 2px 2px rgba(43, 34, 56, 0.18);
+
+            transform: rotate(-6deg);
+            transform-origin: center;
+
+            cursor: pointer;
+            text-decoration: none;
+
+            transition:
+                transform 0.15s ease,
+                filter 0.15s ease;
+        }
+
+        .picrew-polaroid img {
+            display: block;
+            width: 100%;
+            height: auto;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+        }
+
+        .picrew-polaroid::before {
+            content: "";
+            position: absolute;
+
+            left: 50%;
+            top: 0;
+
+            width: clamp(4px, 0.42vw, 8px);
+            aspect-ratio: 1 / 1;
+
+            border-radius: 50%;
+            border: 1px solid rgba(43, 34, 56, 0.55);
+
+            background: #b9a3d6;
+
+            transform: translate(-50%, -55%);
+            box-shadow: 0 1px 1px rgba(43, 34, 56, 0.25);
+
+            z-index: 2;
+        }
+
+        .picrew-polaroid:hover {
+            transform: rotate(-4deg) scale(1.06);
+            filter: brightness(1.04);
+        }
+
+        .picrew-polaroid:focus-visible {
+            outline: 2px dashed #7e6aa8;
+            outline-offset: 4px;
+        }
+
+
+        /* =====================================================
            TREE / STICKER HOTSPOT
            ===================================================== */
 
@@ -442,6 +516,23 @@
             src="corkboard.png"
             alt="A corkboard with one note"
         >
+
+
+        <!-- Picrew Polaroid -->
+
+        <a
+            class="picrew-polaroid"
+            href="https://picrew.me/en/image_maker/2922254/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Open the Picrew used to make this portrait"
+            title="Picrew"
+        >
+            <img
+                src="picrew.png"
+                alt="A small Polaroid portrait pinned to the corkboard"
+            >
+        </a>
 
 
         <img
