@@ -58,26 +58,6 @@ input[type="checkbox"] {
   background:var(--desktop);
 }
 
-document
-  .querySelectorAll(
-    ".maximize"
-  )
-  .forEach(
-    button => {
-
-      button.addEventListener(
-        "click",
-        event => {
-
-          event.stopPropagation();
-
-          toggleMaximize(
-            button.closest(".window"),
-            button
-          );
-
-        }
-      );
 
     }
   );
@@ -3009,6 +2989,30 @@ document
           }
         );
 
+      win
+        .querySelectorAll(
+          ".maximize"
+        )
+        .forEach(
+          btn => {
+
+            btn.addEventListener(
+              "click",
+              event => {
+
+                event.stopPropagation();
+
+                toggleMaximize(
+                  win,
+                  btn
+                );
+
+              }
+            );
+
+          }
+        );
+
       const bar =
         win.querySelector(
           ".titlebar"
@@ -3030,6 +3034,10 @@ document
           if (
             event.target.closest(
               "button"
+            )
+            ||
+            win.classList.contains(
+              "maximized"
             )
           ) {
 
