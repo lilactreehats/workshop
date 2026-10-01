@@ -645,7 +645,19 @@ input[type="checkbox"] {
 
 #internet-window .client {
   height:232px;
+  overflow:hidden;
+  position:relative;
 }
+
+
+.site-frame {
+  width:100%;
+  height:100%;
+  border:0;
+  display:block;
+  background:#fff;
+}
+
 
 .internet-error {
   padding:35px 40px;
@@ -1804,10 +1816,10 @@ pass: firefly</div>
   </div>
 
   <div class="browser-toolbar">
-    <button class="button">←</button>
-    <button class="button">→</button>
-    <button class="button">×</button>
-    <button class="button">⌂</button>
+    <button class="button" id="browser-back" title="Back">←</button>
+    <button class="button" id="browser-forward" title="Forward">→</button>
+    <button class="button" id="browser-stop" title="Stop">×</button>
+    <button class="button" id="browser-home" title="Home">⌂</button>
   </div>
 
   <div class="addressbar">
@@ -1819,10 +1831,11 @@ pass: firefly</div>
     <input
       id="address-input"
       value="http://"
-      readonly
+      autocomplete="off"
+      spellcheck="false"
     >
 
-    <button class="button">
+    <button class="button" id="browser-go">
       Go
     </button>
 
@@ -3125,39 +3138,375 @@ const addressInput =
     "address-input"
   );
 
+const browserGo =
+  document.getElementById(
+    "browser-go"
+  );
+
+const browserHome =
+  document.getElementById(
+    "browser-home"
+  );
+
+const browserBack =
+  document.getElementById(
+    "browser-back"
+  );
+
+const browserForward =
+  document.getElementById(
+    "browser-forward"
+  );
+
+const browserStop =
+  document.getElementById(
+    "browser-stop"
+  );
+
+let currentInternetPage =
+  "home";
+
+function showInternetHome() {
+
+  currentInternetPage =
+    "home";
+
+  addressInput.value =
+    "http://home/";
+
+  internetContent.innerHTML =
+    `
+      <div class="internet-home">
+
+        <h1>
+          Welcome to the Internet
+        </h1>
+
+        <hr>
+
+        <p>
+          You are connected.
+        </p>
+
+        <p>
+          Type a web address in the Address bar above.
+        </p>
+
+        <p class="tiny">
+          Connected at 28,800 bps
+        </p>
+
+      </div>
+    `;
+
+}
+
+function showDaveSite(page = "index.html") {
+
+  currentInternetPage =
+    "daves";
+
+  let safePage =
+    page;
+
+  if (
+    ![
+      "index.html",
+      "catalogue.html",
+      "about.html"
+    ].includes(
+      safePage
+    )
+  ) {
+
+    safePage =
+      "index.html";
+
+  }
+
+  const fakePath =
+    safePage ===
+    "index.html"
+      ?
+      ""
+      :
+      safePage;
+
+  addressInput.value =
+    "http://www.davesplantcatalogue.net/" +
+    fakePath;
+
+  internetContent.innerHTML =
+    `
+      <iframe
+        class="site-frame"
+        id="internet-frame"
+        src="../web/davesplantcatalogue/${safePage}"
+        title="Dave's Plant Catalogue"
+      ></iframe>
+    `;
+
+  const frame =
+    document.getElementById(
+      "internet-frame"
+    );
+
+  frame.addEventListener(
+    "load",
+    syncBrowserAddressFromFrame
+  );
+
+}
+
+function showPageNotFound(
+  requested
+) {
+
+  currentInternetPage =
+    "error";
+
+  addressInput.value =
+    requested;
+
+  internetContent.innerHTML =
+    `
+      <div class="internet-error">
+
+        <h2>
+          The page cannot be displayed
+        </h2>
+
+        <p>
+          The page you are looking for is currently unavailable.
+        </p>
+
+        <p>
+          Check the address and try again.
+        </p>
+
+      </div>
+    `;
+
+}
+
+function syncBrowserAddressFromFrame() {
+
+  const frame =
+    document.getElementById(
+      "internet-frame"
+    );
+
+  if (
+    !frame
+  ) {
+
+    return;
+
+  }
+
+  try {
+
+    const path =
+      frame.contentWindow
+        .location
+        .pathname
+        .split("/")
+        .pop();
+
+    if (
+      path ===
+      "catalogue.html"
+    ) {
+
+      addressInput.value =
+        "http://www.davesplantcatalogue.net/catalogue.html";
+
+    }
+
+    else if (
+      path ===
+      "about.html"
+    ) {
+
+      addressInput.value =
+        "http://www.davesplantcatalogue.net/about.html";
+
+    }
+
+    else {
+
+      addressInput.value =
+        "http://www.davesplantcatalogue.net/";
+
+    }
+
+  }
+
+  catch (
+    error
+  ) {
+
+    /* Local file previews can block iframe location access.
+       The website still works; the address simply stays as-is. */
+
+  }
+
+}
+
+function navigateInternet(
+  rawAddress
+) {
+
+  if (
+    !internetIsConnected()
+  ) {
+
+    renderInternet();
+
+    return;
+
+  }
+
+  let address =
+    rawAddress
+      .trim();
+
+  if (
+    !address
+  ) {
+
+    showInternetHome();
+
+    return;
+
+  }
+
+  let normalized =
+    address
+      .toLowerCase()
+      .replace(
+        /^https?:\/\//,
+        ""
+      )
+      .replace(
+        /^www\./,
+        ""
+      );
+
+  normalized =
+    normalized.split(
+      "?"
+    )[0];
+
+  if (
+    normalized ===
+    "home"
+    ||
+    normalized ===
+    "home/"
+  ) {
+
+    showInternetHome();
+
+    return;
+
+  }
+
+  if (
+    normalized.startsWith(
+      "davesplantcatalogue.net"
+    )
+  ) {
+
+    const path =
+      normalized
+        .replace(
+          "davesplantcatalogue.net",
+          ""
+        )
+        .replace(
+          /^\/+/,
+          ""
+        )
+        .split(
+          "#"
+        )[0];
+
+    if (
+      path ===
+      "catalogue.html"
+    ) {
+
+      showDaveSite(
+        "catalogue.html"
+      );
+
+    }
+
+    else if (
+      path ===
+      "about.html"
+    ) {
+
+      showDaveSite(
+        "about.html"
+      );
+
+    }
+
+    else {
+
+      showDaveSite(
+        "index.html"
+      );
+
+    }
+
+    return;
+
+  }
+
+  showPageNotFound(
+    address
+  );
+
+}
+
 function renderInternet() {
 
   if (
     internetIsConnected()
   ) {
 
-    addressInput.value =
-      "http://home/";
+    addressInput.readOnly =
+      false;
 
-    internetContent.innerHTML =
-      `
-        <div class="internet-home">
+    if (
+      currentInternetPage ===
+      "daves"
+    ) {
 
-          <h1>
-            Welcome to the Internet
-          </h1>
+      showDaveSite(
+        "index.html"
+      );
 
-          <hr>
+    }
 
-          <p>
-            You are connected.
-          </p>
+    else {
 
-          <p class="tiny">
-            Connected at 28,800 bps
-          </p>
+      showInternetHome();
 
-        </div>
-      `;
+    }
 
   }
 
   else {
+
+    currentInternetPage =
+      "home";
+
+    addressInput.readOnly =
+      true;
 
     addressInput.value =
       "http://";
@@ -3202,6 +3551,142 @@ function renderInternet() {
   }
 
 }
+
+browserGo.addEventListener(
+  "click",
+  () => {
+
+    navigateInternet(
+      addressInput.value
+    );
+
+  }
+);
+
+addressInput.addEventListener(
+  "keydown",
+  event => {
+
+    if (
+      event.key ===
+      "Enter"
+    ) {
+
+      navigateInternet(
+        addressInput.value
+      );
+
+    }
+
+  }
+);
+
+browserHome.addEventListener(
+  "click",
+  () => {
+
+    if (
+      internetIsConnected()
+    ) {
+
+      showInternetHome();
+
+    }
+
+  }
+);
+
+browserBack.addEventListener(
+  "click",
+  () => {
+
+    const frame =
+      document.getElementById(
+        "internet-frame"
+      );
+
+    if (
+      frame
+    ) {
+
+      try {
+
+        frame
+          .contentWindow
+          .history
+          .back();
+
+      }
+
+      catch (
+        error
+      ) {}
+
+    }
+
+  }
+);
+
+browserForward.addEventListener(
+  "click",
+  () => {
+
+    const frame =
+      document.getElementById(
+        "internet-frame"
+      );
+
+    if (
+      frame
+    ) {
+
+      try {
+
+        frame
+          .contentWindow
+          .history
+          .forward();
+
+      }
+
+      catch (
+        error
+      ) {}
+
+    }
+
+  }
+);
+
+browserStop.addEventListener(
+  "click",
+  () => {
+
+    const frame =
+      document.getElementById(
+        "internet-frame"
+      );
+
+    if (
+      frame
+    ) {
+
+      try {
+
+        frame
+          .contentWindow
+          .stop();
+
+      }
+
+      catch (
+        error
+      ) {}
+
+    }
+
+  }
+);
 
 /* =========================================================
    CONNECT DIALOG
