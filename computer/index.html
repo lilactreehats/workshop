@@ -2490,6 +2490,38 @@ function closeWindow(win) {
     return;
   }
 
+  /*
+    If a window is maximized, restore its normal state before
+    hiding it. Otherwise the .window.maximized CSS rule can
+    keep it visible even after the "show" class is removed.
+  */
+  if (
+    win.classList.contains(
+      "maximized"
+    )
+  ) {
+
+    win.classList.remove(
+      "maximized"
+    );
+
+    const maximizeButton =
+      win.querySelector(
+        ".maximize"
+      );
+
+    if (maximizeButton) {
+
+      maximizeButton.textContent =
+        "□";
+
+      maximizeButton.title =
+        "Maximize";
+
+    }
+
+  }
+
   win.classList.remove(
     "show"
   );
