@@ -108,7 +108,7 @@
         .picrew-polaroid {
             position: absolute;
             left: 54.2%;
-            top: 29.8%;
+            top: 31.1%;
             width: 3.6%;
             z-index: 8;
 
@@ -150,13 +150,13 @@
             left: 50%;
             top: 0;
 
-            width: clamp(4px, 0.42vw, 8px);
+            width: clamp(3px, 0.34vw, 6px);
             aspect-ratio: 1 / 1;
 
             border-radius: 50%;
             border: 1px solid rgba(43, 34, 56, 0.55);
 
-            background: #b9a3d6;
+            background: #8a3d4f;
 
             transform: translate(-50%, -55%);
             box-shadow: 0 1px 1px rgba(43, 34, 56, 0.25);
@@ -273,6 +273,27 @@
 
             transform: rotate(2deg);
             box-shadow: 1px 1px 0 rgba(0, 0, 0, 0.10);
+        }
+
+        .growth-postit::before {
+            content: "";
+            position: absolute;
+
+            left: 50%;
+            top: 0;
+
+            width: clamp(3px, 0.34vw, 6px);
+            aspect-ratio: 1 / 1;
+
+            border-radius: 50%;
+            border: 1px solid rgba(43, 34, 56, 0.45);
+
+            background: #8a3d4f;
+
+            transform: translate(-50%, -55%);
+            box-shadow: 0 1px 1px rgba(43, 34, 56, 0.18);
+
+            z-index: 2;
         }
 
         .growth-postit .label {
