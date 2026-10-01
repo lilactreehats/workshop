@@ -314,6 +314,18 @@ input[type="checkbox"] {
   padding:14px 10px;
 }
 
+#cdrom-window {
+  left:220px;
+  top:72px;
+  width:340px;
+  height:225px;
+}
+
+#cdrom-window .client {
+  height:157px;
+  padding:15px 10px;
+}
+
 /* =========================================================
    SIMPLE FOLDERS
    ========================================================= */
@@ -542,58 +554,49 @@ input[type="checkbox"] {
 }
 
 /* =========================================================
-   MAIL LOGIN + EMPTY INBOX
+   MAIL LOGIN + MICROSOFT EXCHANGE
    ========================================================= */
 
-#mail-login-window {
-  left:172px;
-  top:120px;
-  width:315px;
-}
+#mail-login-window { left:172px; top:120px; width:315px; }
+.login-grid { display:grid; grid-template-columns:76px 1fr; gap:8px; align-items:center; margin-top:10px; }
 
-.login-grid {
-  display:grid;
-  grid-template-columns:76px 1fr;
-  gap:8px;
-  align-items:center;
-  margin-top:10px;
-}
+#inbox-window { left:70px; top:48px; width:500px; height:336px; }
+#inbox-window .client { height:268px; overflow:hidden; background:var(--gray); }
+.exchange-toolbar { height:47px; display:flex; align-items:stretch; gap:2px; padding:2px 4px; background:var(--gray); border-bottom:1px solid #808080; }
+.exchange-tool { min-width:52px; padding:2px 4px; background:var(--gray); border:1px solid transparent; text-align:center; font-size:9px; line-height:10px; color:#000; }
+.exchange-tool:hover { border-top-color:#fff; border-left-color:#fff; border-right-color:#808080; border-bottom-color:#808080; }
+.exchange-tool img { width:20px; height:20px; display:block; margin:0 auto 1px; object-fit:contain; image-rendering:pixelated; }
+.exchange-location { height:24px; display:flex; align-items:center; gap:5px; padding:2px 5px; background:var(--gray); border-top:1px solid #fff; border-bottom:1px solid #808080; font-size:11px; }
+.exchange-location-label { width:46px; }
+.exchange-location-box { flex:1; height:18px; display:flex; align-items:center; gap:5px; padding:1px 5px; background:#fff; border-top:1px solid #808080; border-left:1px solid #808080; border-right:1px solid #fff; border-bottom:1px solid #fff; box-shadow:inset 1px 1px #000; }
+.exchange-location-box img { width:15px; height:15px; object-fit:contain; }
+.exchange-body { height:197px; display:grid; grid-template-columns:145px 1fr; background:#fff; }
+.exchange-folders { padding:5px; border-right:1px solid #808080; font-size:11px; overflow:hidden; }
+.exchange-root,.exchange-folder { height:20px; display:flex; align-items:center; gap:4px; white-space:nowrap; }
+.exchange-folder { margin-left:18px; }
+.exchange-folder.active { font-weight:bold; }
+.exchange-root img,.exchange-folder img { width:16px; height:16px; object-fit:contain; image-rendering:pixelated; }
+.exchange-list { overflow:hidden; }
+.mail-list-head { display:grid; grid-template-columns:105px 1fr 92px; height:21px; background:#dfdfdf; border-bottom:1px solid #808080; font-size:10px; }
+.mail-list-head div { padding:3px 5px; border-right:1px solid #808080; }
+#mail-list-body { height:176px; background:#fff; }
+.mail-empty { height:100%; display:flex; align-items:center; justify-content:center; color:#666; font-size:11px; }
+.mail-row { display:grid; grid-template-columns:105px 1fr 92px; min-height:21px; border-bottom:1px dotted #c0c0c0; font-size:10px; cursor:default; }
+.mail-row > div { padding:4px 5px; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; }
+.mail-row.unread { font-weight:bold; }
+.mail-row.selected { background:#000080; color:#fff; }
 
-#inbox-window {
-  left:110px;
-  top:65px;
-  width:430px;
-  height:300px;
-}
-
-#inbox-window .client {
-  height:232px;
-}
-
-.mail-toolbar {
-  height:27px;
-  padding:3px 5px;
-  border-bottom:1px solid #808080;
-  font-size:11px;
-}
-
-.mail-list-head {
-  display:grid;
-  grid-template-columns:100px 1fr 95px;
-  padding:4px 7px;
-  background:#dfdfdf;
-  border-bottom:1px solid #808080;
-  font-size:11px;
-}
-
-.mail-empty {
-  height:175px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:#666;
-  font-size:12px;
-}
+#mail-message-window { left:112px; top:72px; width:465px; height:310px; }
+#mail-message-window .client { height:242px; display:flex; flex-direction:column; }
+.mail-message-toolbar { height:36px; display:flex; gap:2px; padding:2px 4px; background:var(--gray); border-bottom:1px solid #808080; }
+.mail-message-toolbar .exchange-tool { min-width:48px; }
+.mail-message-head { padding:6px 8px; background:var(--gray); border-bottom:1px solid #808080; font-size:10px; line-height:15px; }
+.mail-message-grid { display:grid; grid-template-columns:48px 1fr; }
+.mail-subject-row { margin-top:3px; display:grid; grid-template-columns:48px 1fr; align-items:center; }
+.mail-subject-box { min-height:18px; padding:2px 4px; background:#fff; border-top:1px solid #808080; border-left:1px solid #808080; border-right:1px solid #fff; border-bottom:1px solid #fff; box-shadow:inset 1px 1px #000; }
+.mail-message-body { flex:1; padding:10px 12px; overflow:auto; background:#fff; font-family:Arial,sans-serif; font-size:11px; line-height:16px; }
+.mail-message-body p { margin:0 0 10px; }
+.mail-message-link { color:#0000ee; text-decoration:underline; cursor:pointer; }
 
 /* =========================================================
    INTERNET BROWSER
@@ -719,6 +722,9 @@ input[type="checkbox"] {
   color:#666;
   font-size:12px;
 }
+
+.dialup-visual { width:42px; height:42px; object-fit:contain; }
+.dialup-visual-fallback { display:none; }
 
 /* =========================================================
    DIAL-UP NETWORKING FOLDER
@@ -1188,6 +1194,11 @@ input[type="checkbox"] {
         <span class="file-label">Ms-dos_5 (C:)</span>
       </div>
 
+      <div class="file-item" id="d-drive">
+        <img src="assets/cdrom.png" alt="" onerror="this.onerror=null;this.src='assets/harddrive.png';">
+        <span class="file-label">CD-ROM (D:)</span>
+      </div>
+
       <div class="file-item" id="dialup-folder">
         <img src="assets/internet.png" alt="">
         <span class="file-label">Dial-Up Networking</span>
@@ -1198,7 +1209,7 @@ input[type="checkbox"] {
   </div>
 
   <div class="statusbar">
-    <div class="statusbox">3 object(s)</div>
+    <div class="statusbox">4 object(s)</div>
     <div class="statusbox" style="max-width:120px">My Computer</div>
   </div>
 
@@ -1282,6 +1293,23 @@ input[type="checkbox"] {
     <div class="statusbox">3 object(s)</div>
   </div>
 
+</div>
+
+<!-- ======================================================
+     D: CD-ROM
+     ====================================================== -->
+
+<div class="window" id="cdrom-window" data-task="CD-ROM (D:)">
+  <div class="titlebar">
+    <span>CD-ROM (D:)</span>
+    <div class="title-buttons">
+      <button class="win-btn minimize">_</button>
+      <button class="win-btn close">×</button>
+    </div>
+  </div>
+  <div class="menu"><span>File</span><span>Edit</span><span>View</span><span>Help</span></div>
+  <div class="client"><div class="empty-folder">This folder is empty.</div></div>
+  <div class="statusbar"><div class="statusbox">0 object(s)</div></div>
 </div>
 
 <!-- ======================================================
@@ -1706,8 +1734,10 @@ pass: firefly</div>
 
     <div class="connecting-row">
 
-      <div class="modem-symbol">
-        <span class="modem-wire"></span>
+      <div>
+        <img class="dialup-visual" id="dialup-connecting-image" src="assets/dialup.gif" alt=""
+          onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+        <div class="modem-symbol dialup-visual-fallback"><span class="modem-wire"></span></div>
       </div>
 
       <div>
@@ -1757,8 +1787,10 @@ pass: firefly</div>
 
     <div class="established-row">
 
-      <div class="modem-symbol">
-        <span class="modem-wire"></span>
+      <div>
+        <img class="dialup-visual" src="assets/dialup.png" alt=""
+          onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+        <div class="modem-symbol dialup-visual-fallback"><span class="modem-wire"></span></div>
       </div>
 
       <div class="established-copy">
@@ -2029,50 +2061,64 @@ pass: firefly</div>
 </div>
 
 <!-- ======================================================
-     EMPTY INBOX
+     MICROSOFT EXCHANGE INBOX
      ====================================================== -->
 
-<div class="window" id="inbox-window" data-task="Inbox">
-
-  <div class="titlebar">
-    <span>Inbox</span>
-
-    <div class="title-buttons">
-      <button class="win-btn minimize">_</button>
-      <button class="win-btn close">×</button>
-    </div>
-  </div>
-
-  <div class="menu">
-    <span>File</span>
-    <span>Edit</span>
-    <span>View</span>
-    <span>Compose</span>
-    <span>Help</span>
-  </div>
-
+<div class="window" id="inbox-window" data-task="Inbox - Microsoft Exchange">
+  <div class="titlebar"><span>Inbox - Microsoft Exchange</span><div class="title-buttons"><button class="win-btn minimize">_</button><button class="win-btn close">×</button></div></div>
+  <div class="menu"><span>File</span><span>Edit</span><span>View</span><span>Tools</span><span>Compose</span><span>Help</span></div>
   <div class="client">
-
-    <div class="mail-toolbar">
-      Inbox
+    <div class="exchange-toolbar">
+      <button class="exchange-tool" type="button"><img src="assets/inbox.png" alt="">New<br>Message</button>
+      <button class="exchange-tool" type="button"><img src="assets/doc.png" alt="">Reply</button>
+      <button class="exchange-tool" id="mail-send-receive" type="button"><img src="assets/internet.png" alt="">Send and<br>Receive</button>
+      <button class="exchange-tool" type="button"><img src="assets/recycle.png" alt="">Delete</button>
     </div>
-
-    <div class="mail-list-head">
-      <div>From</div>
-      <div>Subject</div>
-      <div>Received</div>
+    <div class="exchange-location"><div class="exchange-location-label">Folders</div><div class="exchange-location-box"><img src="assets/inbox.png" alt="">Inbox</div></div>
+    <div class="exchange-body">
+      <div class="exchange-folders">
+        <div class="exchange-root"><img src="assets/computer.png" alt="">Microsoft Exchange</div>
+        <div class="exchange-root"><img src="assets/folder.png" alt="">Personal Folders</div>
+        <div class="exchange-folder"><img src="assets/folder.png" alt="">Deleted Items</div>
+        <div class="exchange-folder active"><img src="assets/inbox.png" alt="">Inbox</div>
+        <div class="exchange-folder"><img src="assets/folder.png" alt="">Outbox</div>
+        <div class="exchange-folder"><img src="assets/folder.png" alt="">Sent Items</div>
+      </div>
+      <div class="exchange-list">
+        <div class="mail-list-head"><div>From</div><div>Subject</div><div>Received</div></div>
+        <div id="mail-list-body"></div>
+      </div>
     </div>
-
-    <div class="mail-empty">
-      No messages.
-    </div>
-
   </div>
+  <div class="statusbar"><div class="statusbox" id="mail-inbox-status">0 Item(s)</div></div>
+</div>
 
-  <div class="statusbar">
-    <div class="statusbox">0 message(s)</div>
+<div class="window" id="mail-message-window" data-task="plant site - Microsoft Exchange">
+  <div class="titlebar"><span>plant site - Microsoft Exchange</span><div class="title-buttons"><button class="win-btn minimize">_</button><button class="win-btn close">×</button></div></div>
+  <div class="menu"><span>File</span><span>Edit</span><span>View</span><span>Insert</span><span>Format</span><span>Tools</span><span>Compose</span><span>Help</span></div>
+  <div class="client">
+    <div class="mail-message-toolbar">
+      <button class="exchange-tool" type="button"><img src="assets/doc.png" alt="">Reply</button>
+      <button class="exchange-tool" type="button"><img src="assets/inbox.png" alt="">Forward</button>
+      <button class="exchange-tool" type="button"><img src="assets/recycle.png" alt="">Delete</button>
+    </div>
+    <div class="mail-message-head">
+      <div class="mail-message-grid">
+        <strong>From:</strong><span>Hollis</span>
+        <strong>Sent:</strong><span>Wednesday, June 14, 2006 9:42 PM</span>
+        <strong>To:</strong><span>treehouse</span>
+        <strong>Cc:</strong><span></span>
+      </div>
+      <div class="mail-subject-row"><strong>Subject:</strong><div class="mail-subject-box">plant site</div></div>
+    </div>
+    <div class="mail-message-body">
+      <p>hey</p>
+      <p>found this last night and thought you'd like it<br>this guy has been cataloguing plants around ontario forever lol</p>
+      <p><a href="#" class="mail-message-link" id="dave-mail-link">http://www.davesplantcatalogue.net/</a></p>
+      <p>anyway hope youre doing okay</p>
+      <p>- hollis</p>
+    </div>
   </div>
-
 </div>
 
 <!-- ======================================================
@@ -2322,6 +2368,11 @@ pass: firefly</div>
 <!-- ======================================================
      BLACK SHUTDOWN SCREEN
      ====================================================== -->
+
+<audio id="dialup-audio" preload="auto">
+  <source src="assets/dialup.mp3" type="audio/mpeg">
+  <source src="assets/dialup.wav" type="audio/wav">
+</audio>
 
 <div id="shutdown-screen"></div>
 
@@ -2689,6 +2740,14 @@ function mailIsConfigured() {
 
 }
 
+function firstMailIsReceived() {
+  return localStorage.getItem("lilacHollisMailReceived") === "true";
+}
+
+function firstMailIsRead() {
+  return localStorage.getItem("lilacHollisMailRead") === "true";
+}
+
 /* =========================================================
    DESKTOP ACTIONS
    ========================================================= */
@@ -2765,6 +2824,13 @@ wireItem(
   "c-drive",
   () => openWindow(
     "drive-window"
+  )
+);
+
+wireItem(
+  "d-drive",
+  () => openWindow(
+    "cdrom-window"
   )
 );
 
@@ -3688,6 +3754,22 @@ browserStop.addEventListener(
   }
 );
 
+function playDialupAudio() {
+  const audio = document.getElementById("dialup-audio");
+  if (!audio) return;
+  try {
+    audio.currentTime = 0;
+    const p = audio.play();
+    if (p && typeof p.catch === "function") p.catch(() => {});
+  } catch (error) {}
+}
+
+function stopDialupAudio() {
+  const audio = document.getElementById("dialup-audio");
+  if (!audio) return;
+  try { audio.pause(); audio.currentTime = 0; } catch (error) {}
+}
+
 /* =========================================================
    CONNECT DIALOG
    ========================================================= */
@@ -3772,6 +3854,8 @@ function attemptConnection() {
     "connecting-window"
   );
 
+  playDialupAudio();
+
   const thisAttempt =
     ++connectionAttemptToken;
 
@@ -3818,6 +3902,8 @@ function attemptConnection() {
             !correct
           ) {
 
+            stopDialupAudio();
+
             connectingStatus.textContent =
               "Unable to establish a connection.";
 
@@ -3850,6 +3936,8 @@ function attemptConnection() {
             return;
 
           }
+
+          stopDialupAudio();
 
           localStorage.setItem(
             "lilacInternetConnected",
@@ -3921,6 +4009,7 @@ document
     () => {
 
       connectionAttemptToken++;
+      stopDialupAudio();
 
     }
   );
@@ -3937,6 +4026,7 @@ document
         () => {
 
           connectionAttemptToken++;
+          stopDialupAudio();
 
         }
       );
@@ -4007,222 +4097,111 @@ document
   );
 
 /* =========================================================
-   INBOX
+   INBOX / MICROSOFT EXCHANGE
    ========================================================= */
 
+const FRIEND_NAME = "Hollis";
+const FRIEND_SUBJECT = "plant site";
+const FRIEND_RECEIVED = "6/14/06 9:42 PM";
+const mailListBody = document.getElementById("mail-list-body");
+const mailInboxStatus = document.getElementById("mail-inbox-status");
+
+function renderInbox() {
+  if (!firstMailIsReceived()) {
+    mailListBody.innerHTML = `<div class="mail-empty">No messages.</div>`;
+    mailInboxStatus.textContent = "0 Item(s)";
+    return;
+  }
+  const unread = !firstMailIsRead();
+  mailListBody.innerHTML = `<div class="mail-row ${unread ? "unread" : ""}" id="hollis-mail-row"><div>${FRIEND_NAME}</div><div>${FRIEND_SUBJECT}</div><div>${FRIEND_RECEIVED}</div></div>`;
+  mailInboxStatus.textContent = unread ? "1 Item, 1 Unread" : "1 Item";
+  const row = document.getElementById("hollis-mail-row");
+  row.addEventListener("click", () => {
+    row.classList.add("selected");
+    if (window.matchMedia("(pointer: coarse)").matches) openHollisMail();
+  });
+  row.addEventListener("dblclick", openHollisMail);
+}
+
+function openHollisMail() {
+  localStorage.setItem("lilacHollisMailRead", "true");
+  renderInbox();
+  openWindow("mail-message-window");
+}
+
 function openInbox() {
-
-  if (
-    mailIsConfigured()
-  ) {
-
-    openWindow(
-      "inbox-window"
-    );
-
+  if (mailIsConfigured()) {
+    renderInbox();
+    openWindow("inbox-window");
+  } else {
+    openWindow("inbox-setup-window");
   }
-
-  else {
-
-    openWindow(
-      "inbox-setup-window"
-    );
-
-  }
-
 }
 
-const mailChecks = [
-
-  ...document.querySelectorAll(
-    ".mail-service-check"
-  )
-
-];
-
-const mailSetupOK =
-  document.getElementById(
-    "mail-setup-ok"
-  );
-
-function updateMailSetupButton() {
-
-  mailSetupOK.disabled =
-    !mailChecks.every(
-      box => box.checked
-    );
-
-}
-
-mailChecks.forEach(
-  box => {
-
-    box.addEventListener(
-      "change",
-      updateMailSetupButton
-    );
-
-  }
-);
-
+const mailChecks = [...document.querySelectorAll(".mail-service-check")];
+const mailSetupOK = document.getElementById("mail-setup-ok");
+function updateMailSetupButton() { mailSetupOK.disabled = !mailChecks.every(box => box.checked); }
+mailChecks.forEach(box => box.addEventListener("change", updateMailSetupButton));
 updateMailSetupButton();
+mailSetupOK.addEventListener("click", () => {
+  if (mailSetupOK.disabled) return;
+  closeWindow(document.getElementById("inbox-setup-window"));
+  openWindow("mail-login-window");
+});
 
-mailSetupOK.addEventListener(
-  "click",
-  () => {
-
-    if (
-      mailSetupOK.disabled
-    ) {
-
-      return;
-
-    }
-
-    closeWindow(
-      document.getElementById(
-        "inbox-setup-window"
-      )
-    );
-
-    openWindow(
-      "mail-login-window"
-    );
-
-  }
-);
-
-const mailUser =
-  document.getElementById(
-    "mail-user"
-  );
-
-const mailPass =
-  document.getElementById(
-    "mail-pass"
-  );
-
-const mailStatus =
-  document.getElementById(
-    "mail-status"
-  );
+const mailUser = document.getElementById("mail-user");
+const mailPass = document.getElementById("mail-pass");
+const mailStatus = document.getElementById("mail-status");
 
 function attemptMailLogin() {
-
-  if (
-    !internetIsConnected()
-  ) {
-
-    mailStatus.style.color =
-      "#800000";
-
-    mailStatus.textContent =
-      "Unable to connect to the mail server. Connect to the Internet and try again.";
-
+  if (!internetIsConnected()) {
+    mailStatus.style.color = "#800000";
+    mailStatus.textContent = "Unable to connect to the mail server. Connect to the Internet and try again.";
     return;
-
   }
-
-  const user =
-    mailUser
-      .value
-      .trim()
-      .toLowerCase();
-
-  const pass =
-    mailPass.value;
-
-  if (
-    user !==
-    "treehouse"
-    ||
-    pass !==
-    "firefly"
-  ) {
-
-    mailStatus.style.color =
-      "#800000";
-
-    mailStatus.textContent =
-      "The user name or password is incorrect.";
-
+  const user = mailUser.value.trim().toLowerCase();
+  const pass = mailPass.value;
+  if (user !== "treehouse" || pass !== "firefly") {
+    mailStatus.style.color = "#800000";
+    mailStatus.textContent = "The user name or password is incorrect.";
     return;
-
   }
-
-  localStorage.setItem(
-    "lilacMailConfigured",
-    "true"
-  );
-
-  mailStatus.style.color =
-    "#006000";
-
-  mailStatus.textContent =
-    "Opening Inbox...";
-
-  setTimeout(
-    () => {
-
-      closeWindow(
-        document.getElementById(
-          "mail-login-window"
-        )
-      );
-
-      mailStatus.textContent =
-        "";
-
-      mailUser.value =
-        "";
-
-      mailPass.value =
-        "";
-
-      openWindow(
-        "inbox-window"
-      );
-
-    },
-    500
-  );
-
+  localStorage.setItem("lilacMailConfigured", "true");
+  mailStatus.style.color = "#006000";
+  mailStatus.textContent = "Opening Inbox...";
+  setTimeout(() => {
+    closeWindow(document.getElementById("mail-login-window"));
+    mailStatus.textContent = "";
+    mailUser.value = "";
+    mailPass.value = "";
+    renderInbox();
+    openWindow("inbox-window");
+  }, 500);
 }
 
-document
-  .getElementById(
-    "mail-login-ok"
-  )
-  .addEventListener(
-    "click",
-    attemptMailLogin
-  );
+document.getElementById("mail-login-ok").addEventListener("click", attemptMailLogin);
+[mailUser, mailPass].forEach(input => input.addEventListener("keydown", event => {
+  if (event.key === "Enter") attemptMailLogin();
+}));
 
-[
-  mailUser,
-  mailPass
-]
-.forEach(
-  input => {
-
-    input.addEventListener(
-      "keydown",
-      event => {
-
-        if (
-          event.key ===
-          "Enter"
-        ) {
-
-          attemptMailLogin();
-
-        }
-
-      }
-    );
-
+document.getElementById("mail-send-receive").addEventListener("click", () => {
+  if (!internetIsConnected()) {
+    mailInboxStatus.textContent = "Unable to connect.";
+    return;
   }
-);
+  mailInboxStatus.textContent = "Receiving mail...";
+  setTimeout(() => {
+    localStorage.setItem("lilacHollisMailReceived", "true");
+    renderInbox();
+  }, 700);
+});
+
+document.getElementById("dave-mail-link").addEventListener("click", event => {
+  event.preventDefault();
+  if (!internetIsConnected()) return;
+  showDaveSite("index.html");
+  openWindow("internet-window");
+});
 
 /* =========================================================
    START MENU
