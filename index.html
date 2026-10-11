@@ -65,23 +65,42 @@
             z-index: 5;
         }
 
-        .desk {
+        /* =====================================================
+           DESK GROUP
+           The mug lives INSIDE this group, so it stays attached
+           to the desk if the desk moves or scales.
+           ===================================================== */
+
+        .desk-group {
+            position: absolute;
             left: 28%;
             bottom: 19%;
             width: 30%;
             z-index: 4;
         }
 
+        .desk-group .desk {
+            position: relative;
+            display: block;
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+
 
         /* =====================================================
            MUG
+           Positioned relative to the desk, not the whole room.
            ===================================================== */
 
-        .mug {
-            left: 46.8%;
-            top: 47.8%;
-            width: 2.4%;
-            z-index: 7;
+        .desk-group .mug {
+            position: absolute;
+            left: 63%;
+            top: 5%;
+            width: 8%;
+            height: auto;
+            object-fit: contain;
+            z-index: 2;
             pointer-events: none;
         }
 
@@ -546,20 +565,23 @@
         >
 
 
-        <img
-            class="object desk"
-            src="desk.png"
-            alt="A desk with a laptop"
-        >
+        <!-- desk + mug grouped together -->
 
+        <div class="desk-group">
 
-        <!-- mug -->
+            <img
+                class="desk"
+                src="desk.png"
+                alt="A desk with a laptop"
+            >
 
-        <img
-            class="object mug"
-            src="mug.png"
-            alt="A small mug on the desk"
-        >
+            <img
+                class="mug"
+                src="mug.png"
+                alt="A small mug on the desk"
+            >
+
+        </div>
 
 
         <img
