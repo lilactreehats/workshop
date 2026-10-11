@@ -93,15 +93,37 @@
            Positioned relative to the desk, not the whole room.
            ===================================================== */
 
-        .desk-group .mug {
+        .desk-group .mug-link {
             position: absolute;
             left: 67.5%;
             top: 15%;
             width: 10.5%;
+            z-index: 4;
+
+            display: block;
+            cursor: pointer;
+            text-decoration: none;
+
+            transition:
+                transform 0.15s ease,
+                filter 0.15s ease;
+        }
+
+        .desk-group .mug-link img {
+            display: block;
+            width: 100%;
             height: auto;
             object-fit: contain;
-            z-index: 2;
-            pointer-events: none;
+        }
+
+        .desk-group .mug-link:hover {
+            transform: translateY(-2px) scale(1.04);
+            filter: brightness(1.05);
+        }
+
+        .desk-group .mug-link:focus-visible {
+            outline: 2px dashed #7e6aa8;
+            outline-offset: 3px;
         }
 
         .corkboard {
@@ -584,11 +606,21 @@
                 alt="A desk with a laptop"
             >
 
-            <img
-                class="mug"
-                src="mug.png"
-                alt="A small mug on the desk"
+            <!-- mug acts as a little Ko-fi tip jar -->
+
+            <a
+                class="mug-link"
+                href="https://ko-fi.com/lilactreehats"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Leave Lilac Tree Hats a tip on Ko-fi"
+                title="tip jar"
             >
+                <img
+                    src="mug.png"
+                    alt="A small mug on the desk"
+                >
+            </a>
 
             <!-- paper links to Cara -->
 
