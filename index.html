@@ -21,10 +21,13 @@
 
         .stage {
             position: relative;
-            width: 100vw;
-            max-width: 100vw;
-            max-height: 100vh;
+
+            /* Always preserve the original 16:9 room proportions */
+            width: min(100vw, calc(100vh * 16 / 9));
+            height: min(100vh, calc(100vw * 9 / 16));
             aspect-ratio: 16 / 9;
+
+            flex: 0 0 auto;
             overflow: hidden;
         }
 
@@ -33,7 +36,10 @@
             inset: 0;
             width: 100%;
             height: 100%;
-            object-fit: fill;
+
+            /* room.jpg is already 16:9, so do not distort it */
+            object-fit: contain;
+
             z-index: 1;
         }
 
