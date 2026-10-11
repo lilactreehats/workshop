@@ -96,7 +96,7 @@
         .desk-group .mug {
             position: absolute;
             left: 67.5%;
-            top: 12%;
+            top: 15%;
             width: 10.5%;
             height: auto;
             object-fit: contain;
@@ -128,16 +128,25 @@
 
         /* =====================================================
            CARA LINK
+           Anchored to the paper on the desk.
            ===================================================== */
 
-        .cara-link {
+        .desk-group .cara-link {
             position: absolute;
-            left: 50.2%;
-            top: 50.5%;
-            width: 6%;
-            height: 4%;
-            z-index: 12;
+            left: 74%;
+            top: 18.8%;
+            width: 20%;
+            height: 10.7%;
+            z-index: 3;
+
+            display: block;
+            background: transparent;
             cursor: pointer;
+        }
+
+        .desk-group .cara-link:focus-visible {
+            outline: 2px dashed #7e6aa8;
+            outline-offset: 2px;
         }
 
 
@@ -581,6 +590,17 @@
                 alt="A small mug on the desk"
             >
 
+            <!-- paper links to Cara -->
+
+            <a
+                class="cara-link"
+                href="https://cara.app/lilactreehats/all"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Open Lilac Tree Hats on Cara"
+                title="Cara"
+            ></a>
+
         </div>
 
 
@@ -658,18 +678,6 @@
             aria-label="Look closer at the laptop"
             title="laptop"
         ></button>
-
-
-        <!-- Cara -->
-
-        <a
-            class="cara-link"
-            href="https://cara.app/lilactreehats/all"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Open Lilac Tree Hats on Cara"
-            title="Cara"
-        ></a>
 
 
         <!-- live age counter -->
