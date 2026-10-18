@@ -610,6 +610,7 @@
 
             <a
                 class="mug-link"
+                id="mug-link"
                 href="https://ko-fi.com/lilactreehats"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -626,6 +627,7 @@
 
             <a
                 class="cara-link"
+                id="cara-link"
                 href="https://cara.app/lilactreehats/all"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -647,6 +649,7 @@
 
         <a
             class="picrew-polaroid"
+            id="picrew-polaroid"
             href="https://picrew.me/en/image_maker/2922254/"
             target="_blank"
             rel="noopener noreferrer"
@@ -817,6 +820,45 @@
     <script>
 
         /* =====================================================
+           SOUND EFFECTS
+           Put these MP3 files inside: /audio/
+           ===================================================== */
+
+        const sounds = {
+            plantSticker: new Audio("audio/plant-sticker.mp3"),
+            lightOff: new Audio("audio/light-off.mp3"),
+            lightOn: new Audio("audio/light-on.mp3"),
+            laptopOpen: new Audio("audio/laptop-open.mp3"),
+            computerEnter: new Audio("audio/computer-enter.mp3"),
+            polaroid: new Audio("audio/polaroid.mp3"),
+            paper: new Audio("audio/paper.mp3"),
+            mug: new Audio("audio/mug.mp3"),
+            stickerClose: new Audio("audio/sticker-close.mp3"),
+            laptopClose: new Audio("audio/laptop-close.mp3")
+        };
+
+        Object.values(sounds).forEach(function(sound) {
+            sound.preload = "auto";
+        });
+
+        function playSound(sound) {
+            if (!sound) return;
+            sound.currentTime = 0;
+            const playPromise = sound.play();
+            if (playPromise && typeof playPromise.catch === "function") {
+                playPromise.catch(function() {});
+            }
+        }
+
+        function playSoundThenGo(sound, url) {
+            playSound(sound);
+            setTimeout(function() {
+                window.location.href = url;
+            }, 220);
+        }
+
+
+        /* =====================================================
            GROWTH COUNTER
            ===================================================== */
 
@@ -915,6 +957,10 @@
 
         function openSticker() {
 
+            playSound(
+                sounds.plantSticker
+            );
+
             stickerModal.classList.add(
                 "open"
             );
@@ -927,7 +973,20 @@
         }
 
 
-        function closeStickerModal() {
+        function closeStickerModal(playCloseSound = false) {
+
+            if (
+                !stickerModal ||
+                !stickerModal.classList.contains("open")
+            ) {
+                return;
+            }
+
+            if (playCloseSound) {
+                playSound(
+                    sounds.stickerClose
+                );
+            }
 
             stickerModal.classList.remove(
                 "open"
@@ -955,7 +1014,9 @@
 
             closeSticker.addEventListener(
                 "click",
-                closeStickerModal
+                function() {
+                    closeStickerModal(true);
+                }
             );
 
         }
@@ -972,7 +1033,7 @@
                         stickerModal
                     ) {
 
-                        closeStickerModal();
+                        closeStickerModal(true);
 
                     }
 
@@ -1006,6 +1067,17 @@
             lightSwitch.addEventListener(
                 "click",
                 function() {
+
+                    const turningLightsOff =
+                        !stage.classList.contains(
+                            "lights-off"
+                        );
+
+                    playSound(
+                        turningLightsOff
+                            ? sounds.lightOff
+                            : sounds.lightOn
+                    );
 
                     stage.classList.toggle(
                         "lights-off"
@@ -1080,6 +1152,10 @@
 
         function openLaptop() {
 
+            playSound(
+                sounds.laptopOpen
+            );
+
             laptopModal.classList.add(
                 "open"
             );
@@ -1092,7 +1168,20 @@
         }
 
 
-        function closeLaptopView() {
+        function closeLaptopView(playCloseSound = false) {
+
+            if (
+                !laptopModal ||
+                !laptopModal.classList.contains("open")
+            ) {
+                return;
+            }
+
+            if (playCloseSound) {
+                playSound(
+                    sounds.laptopClose
+                );
+            }
 
             laptopModal.classList.remove(
                 "open"
@@ -1120,7 +1209,9 @@
 
             closeLaptop.addEventListener(
                 "click",
-                closeLaptopView
+                function() {
+                    closeLaptopView(true);
+                }
             );
 
         }
@@ -1132,14 +1223,64 @@
                 "click",
                 function() {
 
-                    window.location.href =
-                        "/computer/";
+                    playSoundThenGo(
+                        sounds.computerEnter,
+                        "/computer/"
+                    );
 
                 }
             );
 
         }
 
+
+
+
+        /* =====================================================
+           DESK + CORKBOARD LINK SOUNDS
+           ===================================================== */
+
+        const mugLink =
+            document.getElementById(
+                "mug-link"
+            );
+
+        const caraLink =
+            document.getElementById(
+                "cara-link"
+            );
+
+        const picrewPolaroid =
+            document.getElementById(
+                "picrew-polaroid"
+            );
+
+        if (mugLink) {
+            mugLink.addEventListener(
+                "click",
+                function() {
+                    playSound(sounds.mug);
+                }
+            );
+        }
+
+        if (caraLink) {
+            caraLink.addEventListener(
+                "click",
+                function() {
+                    playSound(sounds.paper);
+                }
+            );
+        }
+
+        if (picrewPolaroid) {
+            picrewPolaroid.addEventListener(
+                "click",
+                function() {
+                    playSound(sounds.polaroid);
+                }
+            );
+        }
 
         /* =====================================================
            ESCAPE KEY
@@ -1154,8 +1295,8 @@
                     "Escape"
                 ) {
 
-                    closeStickerModal();
-                    closeLaptopView();
+                    closeStickerModal(false);
+                    closeLaptopView(false);
 
                 }
 
