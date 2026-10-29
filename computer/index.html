@@ -2188,9 +2188,9 @@ pass: firefly</div>
         Status: Payment declined
       </p>
 
-      <p>Your hosting service will remain active for a limited time. Please sign in to your account to update your billing information.</p>
+      <p>Your hosting service will remain active for a limited time. Please <a href="#" class="mail-message-link" id="somninet-billing-link">update your billing information</a>.</p>
 
-      <p>SomniNet Web Hosting<br>
+      <p><a href="#" class="mail-message-link" id="somninet-home-link">SomniNet Web Hosting</a><br>
       <span style="color:#666">your dreams. online.</span></p>
     </div>
   </div>
@@ -3497,6 +3497,65 @@ function showDaveSite(page = "index.html") {
 
 }
 
+
+function showSomniNetSite(page = "index.html") {
+
+  currentInternetPage =
+    "somninet";
+
+  let safePage =
+    page;
+
+  if (
+    ![
+      "index.html",
+      "order.html",
+      "control-panel.html",
+      "billing.html"
+    ].includes(
+      safePage
+    )
+  ) {
+
+    safePage =
+      "index.html";
+
+  }
+
+  const fakePath =
+    safePage ===
+    "index.html"
+      ?
+      ""
+      :
+      safePage;
+
+  addressInput.value =
+    "http://www.somninet.com/" +
+    fakePath;
+
+  internetContent.innerHTML =
+    `
+      <iframe
+        class="site-frame"
+        id="internet-frame"
+        src="../web/somninet/${safePage}"
+        title="SomniNet Web Hosting"
+      ></iframe>
+    `;
+
+  const frame =
+    document.getElementById(
+      "internet-frame"
+    );
+
+  frame.addEventListener(
+    "load",
+    syncBrowserAddressFromFrame
+  );
+
+}
+
 function showPageNotFound(
   requested
 ) {
@@ -3551,6 +3610,52 @@ function syncBrowserAddressFromFrame() {
         .pathname
         .split("/")
         .pop();
+
+    if (
+      currentInternetPage ===
+      "somninet"
+    ) {
+
+      if (
+        path ===
+        "order.html"
+      ) {
+
+        addressInput.value =
+          "http://www.somninet.com/order.html";
+
+      }
+
+      else if (
+        path ===
+        "control-panel.html"
+      ) {
+
+        addressInput.value =
+          "http://www.somninet.com/control-panel.html";
+
+      }
+
+      else if (
+        path ===
+        "billing.html"
+      ) {
+
+        addressInput.value =
+          "http://www.somninet.com/billing.html";
+
+      }
+
+      else {
+
+        addressInput.value =
+          "http://www.somninet.com/";
+
+      }
+
+      return;
+
+    }
 
     if (
       path ===
@@ -3705,6 +3810,74 @@ function navigateInternet(
 
   }
 
+  if (
+    normalized.startsWith(
+      "somninet.com"
+    )
+  ) {
+
+    const afterDomain =
+      normalized
+        .replace(
+          "somninet.com",
+          ""
+        );
+
+    const path =
+      afterDomain
+        .replace(
+          /^\/+/,
+          ""
+        )
+        .split(
+          "#"
+        )[0];
+
+    if (
+      path ===
+      "order.html"
+    ) {
+
+      showSomniNetSite(
+        "order.html"
+      );
+
+    }
+
+    else if (
+      path ===
+      "control-panel.html"
+    ) {
+
+      showSomniNetSite(
+        "control-panel.html"
+      );
+
+    }
+
+    else if (
+      path ===
+      "billing.html"
+    ) {
+
+      showSomniNetSite(
+        "billing.html"
+      );
+
+    }
+
+    else {
+
+      showSomniNetSite(
+        "index.html"
+      );
+
+    }
+
+    return;
+
+  }
+
   showPageNotFound(
     address
   );
@@ -3726,6 +3899,17 @@ function renderInternet() {
     ) {
 
       showDaveSite(
+        "index.html"
+      );
+
+    }
+
+    else if (
+      currentInternetPage ===
+      "somninet"
+    ) {
+
+      showSomniNetSite(
         "index.html"
       );
 
@@ -4820,6 +5004,31 @@ document.getElementById(
     event.preventDefault();
     if (!internetIsConnected()) return;
     showDaveSite("index.html");
+    openWindow("internet-window");
+  }
+);
+
+
+document.getElementById(
+  "somninet-home-link"
+).addEventListener(
+  "click",
+  event => {
+    event.preventDefault();
+    if (!internetIsConnected()) return;
+    showSomniNetSite("index.html");
+    openWindow("internet-window");
+  }
+);
+
+document.getElementById(
+  "somninet-billing-link"
+).addEventListener(
+  "click",
+  event => {
+    event.preventDefault();
+    if (!internetIsConnected()) return;
+    showSomniNetSite("billing.html");
     openWindow("internet-window");
   }
 );
