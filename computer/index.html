@@ -2138,6 +2138,52 @@ pass: firefly</div>
   </div>
 </div>
 
+
+<!-- ======================================================
+     SOMNINET PAYMENT EMAIL
+     ====================================================== -->
+
+<div class="window" id="somninet-mail-message-window" data-task="Payment unsuccessful - Microsoft Exchange">
+  <div class="titlebar"><span>Payment unsuccessful - Microsoft Exchange</span><div class="title-buttons"><button class="win-btn minimize">_</button>
+      <button class="win-btn maximize" title="Maximize">□</button><button class="win-btn close">×</button></div></div>
+  <div class="menu"><span>File</span><span>Edit</span><span>View</span><span>Insert</span><span>Format</span><span>Tools</span><span>Compose</span><span>Help</span></div>
+  <div class="client">
+    <div class="mail-message-toolbar">
+      <button class="exchange-tool" type="button"><img src="assets/doc.png" alt="">Reply</button>
+      <button class="exchange-tool" type="button"><img src="assets/inbox.png" alt="">Forward</button>
+      <button class="exchange-tool" type="button"><img src="assets/recycle.png" alt="">Delete</button>
+    </div>
+    <div class="mail-message-head">
+      <div class="mail-message-grid">
+        <strong>From:</strong><span>SomniNet Billing</span>
+        <strong>Sent:</strong><span>Friday, June 16, 2006 1:17 AM</span>
+        <strong>To:</strong><span>treehouse</span>
+        <strong>Cc:</strong><span></span>
+      </div>
+      <div class="mail-subject-row"><strong>Subject:</strong><div class="mail-subject-box">Payment unsuccessful</div></div>
+    </div>
+    <div class="mail-message-body">
+      <p>Hello,</p>
+
+      <p>We were unable to process the most recent payment for your SomniNet Personal Web Hosting account.</p>
+
+      <p>
+        Account: treehouse<br>
+        Plan: Personal Web Hosting<br>
+        Hosted domains: 1<br>
+        Amount due: $12.95<br>
+        Card on file: Visa ending in 4821<br>
+        Status: Payment declined
+      </p>
+
+      <p>Your hosting service will remain active for a limited time. Please sign in to your account to update your billing information.</p>
+
+      <p>SomniNet Web Hosting<br>
+      <span style="color:#666">your dreams. online.</span></p>
+    </div>
+  </div>
+</div>
+
 <!-- ======================================================
      RECYCLE BIN
      ====================================================== -->
@@ -2818,6 +2864,21 @@ function firstMailIsReceived() {
 
 function firstMailIsRead() {
   return localStorage.getItem("lilacHollisMailRead") === "true";
+}
+
+
+function secondMailIsReceived() {
+  return localStorage.getItem("lilacSomniMailReceived") === "true";
+}
+
+function secondMailIsRead() {
+  return localStorage.getItem("lilacSomniMailRead") === "true";
+}
+
+function mailConfiguredAt() {
+  return Number(
+    localStorage.getItem("lilacMailConfiguredAt")
+  ) || 0;
 }
 
 /* =========================================================
@@ -4178,6 +4239,11 @@ const FRIEND_SUBJECT = "plant site";
 const FRIEND_RECEIVED = "6/14/06 9:42 PM";
 const MAIL_DELAY_MS = 30000;
 
+const SOMNINET_NAME = "SomniNet Billing";
+const SOMNINET_SUBJECT = "Payment unsuccessful";
+const SOMNINET_RECEIVED = "6/16/06 1:17 AM";
+const SOMNINET_MAIL_DELAY_MS = 2 * 60 * 60 * 1000;
+
 const mailListBody =
   document.getElementById("mail-list-body");
 
@@ -4188,15 +4254,34 @@ const inboxNotice =
   document.getElementById("inbox-notice");
 
 let mailArrivalTimer = null;
+let somninetMailArrivalTimer = null;
 
 function updateInboxNotice() {
 
   if (!inboxNotice) return;
 
-  inboxNotice.classList.toggle(
-    "on",
+  let unreadCount = 0;
+
+  if (
     firstMailIsReceived()
     && !firstMailIsRead()
+  ) {
+    unreadCount++;
+  }
+
+  if (
+    secondMailIsReceived()
+    && !secondMailIsRead()
+  ) {
+    unreadCount++;
+  }
+
+  inboxNotice.textContent =
+    `(${unreadCount})`;
+
+  inboxNotice.classList.toggle(
+    "on",
+    unreadCount > 0
   );
 
 }
@@ -4260,58 +4345,220 @@ function ensureMailArrivalScheduled() {
 
 }
 
-function renderInbox() {
+function deliverSecondMail() {
 
-  if (!mailIsConfigured()) return;
-
-  if (!firstMailIsReceived()) {
-    mailListBody.innerHTML =
-      `<div class="mail-empty">No messages.</div>`;
-    mailInboxStatus.textContent =
-      "0 Item(s)";
+  if (secondMailIsReceived()) {
     updateInboxNotice();
     return;
   }
 
-  const unread =
-    !firstMailIsRead();
+  localStorage.setItem(
+    "lilacSomniMailReceived",
+    "true"
+  );
+
+  localStorage.removeItem(
+    "lilacSomniMailDue"
+  );
+
+  renderInbox();
+  updateInboxNotice();
+
+}
+
+function ensureSecondMailArrivalScheduled() {
+
+  if (
+    !mailIsConfigured()
+    || secondMailIsReceived()
+  ) {
+    updateInboxNotice();
+    return;
+  }
+
+  let configuredAt =
+    mailConfiguredAt();
+
+  /*
+    Older saves made before this update do not have a setup timestamp.
+    Start their two-hour clock the first time this updated version loads.
+  */
+  if (!configuredAt) {
+    configuredAt = Date.now();
+
+    localStorage.setItem(
+      "lilacMailConfiguredAt",
+      String(configuredAt)
+    );
+  }
+
+  let due = Number(
+    localStorage.getItem(
+      "lilacSomniMailDue"
+    )
+  );
+
+  if (!due) {
+    due =
+      configuredAt
+      + SOMNINET_MAIL_DELAY_MS;
+
+    localStorage.setItem(
+      "lilacSomniMailDue",
+      String(due)
+    );
+  }
+
+  const remaining =
+    Math.max(
+      0,
+      due - Date.now()
+    );
+
+  if (somninetMailArrivalTimer) {
+    clearTimeout(
+      somninetMailArrivalTimer
+    );
+  }
+
+  somninetMailArrivalTimer =
+    setTimeout(
+      deliverSecondMail,
+      remaining
+    );
+
+}
+
+function renderInbox() {
+
+  if (!mailIsConfigured()) return;
+
+  const rows = [];
+
+  if (firstMailIsReceived()) {
+
+    rows.push(
+      `<div class="mail-row ${!firstMailIsRead() ? "unread" : ""}" id="hollis-mail-row"><div>${FRIEND_NAME}</div><div>${FRIEND_SUBJECT}</div><div>${FRIEND_RECEIVED}</div></div>`
+    );
+
+  }
+
+  if (secondMailIsReceived()) {
+
+    rows.push(
+      `<div class="mail-row ${!secondMailIsRead() ? "unread" : ""}" id="somninet-mail-row"><div>${SOMNINET_NAME}</div><div>${SOMNINET_SUBJECT}</div><div>${SOMNINET_RECEIVED}</div></div>`
+    );
+
+  }
+
+  if (rows.length === 0) {
+
+    mailListBody.innerHTML =
+      `<div class="mail-empty">No messages.</div>`;
+
+    mailInboxStatus.textContent =
+      "0 Item(s)";
+
+    updateInboxNotice();
+
+    return;
+
+  }
 
   mailListBody.innerHTML =
-    `<div class="mail-row ${unread ? "unread" : ""}" id="hollis-mail-row"><div>${FRIEND_NAME}</div><div>${FRIEND_SUBJECT}</div><div>${FRIEND_RECEIVED}</div></div>`;
+    rows.join("");
+
+  let unreadCount = 0;
+
+  if (
+    firstMailIsReceived()
+    && !firstMailIsRead()
+  ) {
+    unreadCount++;
+  }
+
+  if (
+    secondMailIsReceived()
+    && !secondMailIsRead()
+  ) {
+    unreadCount++;
+  }
 
   mailInboxStatus.textContent =
-    unread ? "1 Item, 1 Unread" : "1 Item";
+    `${rows.length} Item(s)`
+    + (
+      unreadCount
+        ? `, ${unreadCount} Unread`
+        : ""
+    );
 
   updateInboxNotice();
 
-  const row =
+  const hollisRow =
     document.getElementById(
       "hollis-mail-row"
     );
 
-  row.addEventListener(
-    "click",
-    () => {
+  if (hollisRow) {
 
-      row.classList.add(
-        "selected"
-      );
+    hollisRow.addEventListener(
+      "click",
+      () => {
 
-      if (
-        window.matchMedia(
-          "(pointer: coarse)"
-        ).matches
-      ) {
-        openHollisMail();
+        hollisRow.classList.add(
+          "selected"
+        );
+
+        if (
+          window.matchMedia(
+            "(pointer: coarse)"
+          ).matches
+        ) {
+          openHollisMail();
+        }
+
       }
+    );
 
-    }
-  );
+    hollisRow.addEventListener(
+      "dblclick",
+      openHollisMail
+    );
 
-  row.addEventListener(
-    "dblclick",
-    openHollisMail
-  );
+  }
+
+  const somninetRow =
+    document.getElementById(
+      "somninet-mail-row"
+    );
+
+  if (somninetRow) {
+
+    somninetRow.addEventListener(
+      "click",
+      () => {
+
+        somninetRow.classList.add(
+          "selected"
+        );
+
+        if (
+          window.matchMedia(
+            "(pointer: coarse)"
+          ).matches
+        ) {
+          openSomniNetMail();
+        }
+
+      }
+    );
+
+    somninetRow.addEventListener(
+      "dblclick",
+      openSomniNetMail
+    );
+
+  }
 
 }
 
@@ -4331,11 +4578,28 @@ function openHollisMail() {
 
 }
 
+function openSomniNetMail() {
+
+  localStorage.setItem(
+    "lilacSomniMailRead",
+    "true"
+  );
+
+  renderInbox();
+  updateInboxNotice();
+
+  openWindow(
+    "somninet-mail-message-window"
+  );
+
+}
+
 function openInbox() {
 
   if (mailIsConfigured()) {
     renderInbox();
     ensureMailArrivalScheduled();
+    ensureSecondMailArrivalScheduled();
     openWindow("inbox-window");
   } else {
     openWindow("inbox-setup-window");
@@ -4421,6 +4685,20 @@ function attemptMailLogin() {
     "true"
   );
 
+
+  if (
+    !localStorage.getItem(
+      "lilacMailConfiguredAt"
+    )
+  ) {
+
+    localStorage.setItem(
+      "lilacMailConfiguredAt",
+      String(Date.now())
+    );
+
+  }
+
   if (
     !firstMailIsReceived()
     && !localStorage.getItem(
@@ -4431,6 +4709,24 @@ function attemptMailLogin() {
       "lilacHollisMailDue",
       String(Date.now() + MAIL_DELAY_MS)
     );
+  }
+
+
+  if (
+    !secondMailIsReceived()
+    && !localStorage.getItem(
+      "lilacSomniMailDue"
+    )
+  ) {
+
+    localStorage.setItem(
+      "lilacSomniMailDue",
+      String(
+        mailConfiguredAt()
+        + SOMNINET_MAIL_DELAY_MS
+      )
+    );
+
   }
 
   mailStatus.style.color = "#006000";
@@ -4449,6 +4745,7 @@ function attemptMailLogin() {
       renderInbox();
       openWindow("inbox-window");
       ensureMailArrivalScheduled();
+      ensureSecondMailArrivalScheduled();
     },
     500
   );
@@ -4723,6 +5020,7 @@ updateConnectionTray();
 if (mailIsConfigured()) {
   renderInbox();
   ensureMailArrivalScheduled();
+  ensureSecondMailArrivalScheduled();
 }
 
 updateInboxNotice();
