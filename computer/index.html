@@ -601,8 +601,20 @@ input[type="checkbox"] {
 .mail-row.unread { font-weight:bold; }
 .mail-row.selected { background:#000080; color:#fff; }
 
-#mail-message-window { left:112px; top:72px; width:465px; height:310px; }
-#mail-message-window .client { height:242px; display:flex; flex-direction:column; }
+#mail-message-window,
+#somninet-mail-message-window {
+  left:112px;
+  top:72px;
+  width:465px;
+  height:310px;
+}
+
+#mail-message-window .client,
+#somninet-mail-message-window .client {
+  height:242px;
+  display:flex;
+  flex-direction:column;
+}
 .mail-message-toolbar { height:36px; display:flex; gap:2px; padding:2px 4px; background:var(--gray); border-bottom:1px solid #808080; }
 .mail-message-toolbar .exchange-tool { min-width:48px; }
 .mail-message-head { padding:6px 8px; background:var(--gray); border-bottom:1px solid #808080; font-size:10px; line-height:15px; }
