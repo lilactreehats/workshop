@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Billing - SomniNet</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="page control-page">
+
+  <div class="utility">
+    logged in as <b>treehouse</b> &nbsp; | &nbsp;
+    <a href="index.html">log out</a>
+  </div>
+
+  <div class="header">
+    <div class="logo"><span class="moon">☾</span> SomniNet</div>
+    <div class="tagline">customer control panel</div>
+  </div>
+
+  <div class="nav">
+    <a href="control-panel.html">ACCOUNT</a>
+    <a href="billing.html">BILLING</a>
+    <a href="index.html#support">SUPPORT</a>
+  </div>
+
+  <div class="content">
+
+    <h1>Billing Information</h1>
+
+    <table class="account-table">
+      <tr>
+        <th>Account</th>
+        <td>treehouse</td>
+      </tr>
+      <tr>
+        <th>Plan</th>
+        <td>Personal Web Hosting</td>
+      </tr>
+      <tr>
+        <th>Amount due</th>
+        <td>$12.95</td>
+      </tr>
+      <tr>
+        <th>Card on file</th>
+        <td>Visa ending in 4821</td>
+      </tr>
+      <tr>
+        <th>Status</th>
+        <td><b>Payment declined</b></td>
+      </tr>
+    </table>
+
+    <div class="billing-box">
+      <div class="panel-title">UPDATE CREDIT CARD</div>
+
+      <form id="billing-form" class="billing-form" autocomplete="off">
+        <label>Card number</label>
+        <input id="card-number" class="wide-input" type="text" inputmode="numeric" autocomplete="off" required>
+
+        <label>Expiration (MM/YY)</label>
+        <input id="card-expiry" class="wide-input billing-short" type="text" autocomplete="off" required>
+
+        <label>Billing ZIP / Postal Code</label>
+        <input id="card-postal" class="wide-input billing-short" type="text" autocomplete="off" required>
+
+        <button type="submit">UPDATE BILLING</button>
+      </form>
+
+      <div id="billing-result" class="form-result error"></div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <a href="index.html">SomniNet Web Hosting</a><br>
+    © 2005 SomniNet Internet Services
+  </div>
+
+</div>
+
+<script>
+document.getElementById("billing-form").addEventListener("submit", function (event) {
+  event.preventDefault();
+
+  const result = document.getElementById("billing-result");
+  result.classList.add("error");
+  result.textContent = "The card information could not be verified.";
+});
+</script>
+
+</body>
+</html>
