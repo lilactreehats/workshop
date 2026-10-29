@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>SomniNet Web Hosting</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="page">
+
+  <div class="utility">
+    SomniNet Internet Services &nbsp; | &nbsp;
+    <a href="#support">support</a> &nbsp; | &nbsp;
+    <a href="#login">customer login</a>
+  </div>
+
+  <div class="header">
+    <div class="logo"><span class="moon">☾</span> SomniNet</div>
+    <div class="tagline">your dreams. online.</div>
+  </div>
+
+  <div class="nav">
+    <a href="index.html">HOME</a>
+    <a href="#hosting">WEB HOSTING</a>
+    <a href="#domains">DOMAINS</a>
+    <a href="#support">SUPPORT</a>
+  </div>
+
+  <div class="content">
+
+    <div class="welcome">
+      <div>
+        <h1>Welcome to SomniNet.</h1>
+        <p>
+          Simple web hosting for personal sites, journals, portfolios,
+          fan pages and other late-night ideas.
+        </p>
+        <p class="tiny">Online since 1999.</p>
+      </div>
+
+      <div class="sleep-box">
+        <div class="sleep-stars">* . * . ☾</div>
+        <b>Still awake?</b>
+        <div>So are your websites.</div>
+      </div>
+    </div>
+
+    <table class="layout-table" cellspacing="8">
+      <tr>
+        <td class="panel" id="hosting">
+          <div class="panel-title">PERSONAL WEB HOSTING</div>
+          <div class="panel-body">
+            <div class="price">$12.95 <span>/ month</span></div>
+            <p>
+              250 MB web space<br>
+              5 e-mail accounts<br>
+              FTP access<br>
+              1 hosted domain
+            </p>
+            <a class="old-button" href="order.html">VIEW PLAN</a>
+          </div>
+        </td>
+
+        <td class="panel" id="domains">
+          <div class="panel-title">DOMAIN NAMES</div>
+          <div class="panel-body">
+            <p>Want to own your own little corner of the internet?</p>
+
+            <form action="order.html" method="get">
+              <div class="domain-row">
+                <input type="text" name="domain" placeholder="yourname.com">
+                <button type="submit">GO</button>
+              </div>
+            </form>
+
+            <p class="tiny">
+              Domain requests
+            </p>
+          </div>
+        </td>
+      </tr>
+
+      <tr>
+        <td class="panel" id="support">
+          <div class="panel-title">NIGHT OWL SUPPORT</div>
+          <div class="panel-body">
+            <p>Having trouble with FTP, e-mail or your account?</p>
+
+            <form id="support-form" action="https://submit-form.com/0NrePqpxj" method="POST">
+              <input type="hidden" name="_subject" value="SomniNet Night Owl Support">
+              <label>Your e-mail</label>
+              <input class="text-input" type="email" name="email" required>
+
+              <label>Message</label>
+              <textarea class="message-input" name="message" required></textarea>
+
+              <button type="submit">SEND MESSAGE</button>
+            </form>
+
+            <div id="support-result" class="form-result"></div>
+          </div>
+        </td>
+
+        <td class="panel" id="login">
+          <div class="panel-title">CUSTOMER LOGIN</div>
+          <div class="panel-body">
+            <form id="login-form">
+              <label>Username</label>
+              <input id="login-user" class="text-input" type="text" autocomplete="off">
+
+              <label>Password</label>
+              <input id="login-pass" class="text-input" type="password">
+
+              <button type="submit">LOG IN</button>
+            </form>
+
+            <div id="login-result" class="form-result error"></div>
+          </div>
+        </td>
+      </tr>
+    </table>
+</div>
+
+  <div class="footer">
+    SomniNet Web Hosting &nbsp; | &nbsp; Hosting · Domains · E-Mail<br>
+    © 2005 SomniNet Internet Services<br>
+    <span>best viewed at 800 × 600</span>
+  </div>
+
+</div>
+
+<script>
+document.getElementById("login-form").addEventListener("submit", function (event) {
+  event.preventDefault();
+
+  const user = document.getElementById("login-user").value.trim();
+  const pass = document.getElementById("login-pass").value;
+  const result = document.getElementById("login-result");
+
+  if (user === "treehouse" && pass === "firefly") {
+    window.location.href = "control-panel.html";
+    return;
+  }
+
+  result.textContent = "Wrong login or no account.";
+});
+
+document.getElementById("support-form").addEventListener("submit", async function (event) {
+  event.preventDefault();
+
+  const form = this;
+  const result = document.getElementById("support-result");
+  const submitButton = form.querySelector('button[type="submit"]');
+
+  const emailField = form.querySelector('[name="email"]');
+  const messageField = form.querySelector('[name="message"]');
+
+  result.classList.remove("error");
+  result.textContent = "Sending...";
+
+  submitButton.disabled = true;
+
+  try {
+    const response = await fetch("https://submit-form.com/0NrePqpxj", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify({
+        email: emailField.value,
+        message: messageField.value,
+        _email: {
+          from: "SomniNet Night Owl Support",
+          subject: "New SomniNet Night Owl message"
+        }
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error("Submission failed");
+    }
+
+    result.classList.remove("error");
+    result.textContent = "Thanks. Your message was sent to the night crew.";
+    form.reset();
+  } catch (error) {
+    result.classList.add("error");
+    result.textContent = "Message could not be sent. Please try again.";
+  } finally {
+    submitButton.disabled = false;
+  }
+});
+</script>
+
+</body>
+</html>

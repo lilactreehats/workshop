@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Order Hosting - SomniNet</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="page">
+
+  <div class="utility">
+    SomniNet Internet Services &nbsp; | &nbsp;
+    <a href="index.html#support">support</a> &nbsp; | &nbsp;
+    <a href="index.html#login">customer login</a>
+  </div>
+
+  <div class="header">
+    <div class="logo"><span class="moon">☾</span> SomniNet</div>
+    <div class="tagline">your dreams. online.</div>
+  </div>
+
+  <div class="nav">
+    <a href="index.html">HOME</a>
+    <a href="index.html#hosting">WEB HOSTING</a>
+    <a href="index.html#domains">DOMAINS</a>
+    <a href="index.html#support">SUPPORT</a>
+  </div>
+
+  <div class="content">
+
+    <h1>Order Personal Web Hosting</h1>
+
+    <div class="order-box">
+      <div class="order-plan">
+        <b>PERSONAL WEB HOSTING</b>
+        <div class="price">$12.95 <span>/ month</span></div>
+        <p>
+          250 MB web space<br>
+          5 e-mail accounts<br>
+          FTP access<br>
+          1 hosted domain
+        </p>
+      </div>
+
+      <div class="order-form">
+        <form id="order-form">
+          <label>Requested domain</label>
+          <input id="requested-domain" class="wide-input" type="text" placeholder="yourname.com" required>
+
+          <label>Your e-mail</label>
+          <input class="wide-input" type="email" required>
+
+          <label>Preferred account name</label>
+          <input class="wide-input" type="text" required>
+
+          <button type="submit">SUBMIT ORDER REQUEST</button>
+        </form>
+
+        <div id="order-result" class="order-result"></div>
+      </div>
+    </div>
+</div>
+
+  <div class="footer">
+    © 2005 SomniNet Internet Services<br>
+    
+  </div>
+
+</div>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+const domain = params.get("domain");
+
+if (domain) {
+  document.getElementById("requested-domain").value = domain;
+}
+
+document.getElementById("order-form").addEventListener("submit", function (event) {
+  event.preventDefault();
+
+  const domainField = document.getElementById("requested-domain");
+  const result = document.getElementById("order-result");
+
+  result.innerHTML =
+    "<b>Thank you!</b><br>" +
+    "We'll check <b>" + domainField.value.replace(/[<>]/g, "") + "</b> " +
+    "and get back to you in the next 2-10 business days to let you know if it is available.";
+
+  this.style.display = "none";
+});
+</script>
+
+</body>
+</html>
